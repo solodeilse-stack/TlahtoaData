@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    @project   Tlahtoa Data 2026 — Lotería de la Vida
+    @dashboard Zabdiel Taboada Vera
+    @data      Jesús Rafael Loggen Gonzalez <loggibooy@gmail.com>
+    @copyright © 2026 Tlahtoa Data Team · CC BY-NC-SA 4.0
+    @hackods   HackODS UNAM 2026
+  -->
+  <title>Lotería de la Vida — Tlahtoa Data</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+/* ═══════════════════════════════════════════════════
+   Lotería de la Vida — Tlahtoa Data
+   Hack ODS UNAM 2026
+   ═══════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Work+Sans:wght@400;600;700&display=swap');
+
+:root {
+  --crema: #EBE4D1;
+  --terracota: #B8432A;
+  --verde: #367A4F;
+  --negro: #141414;
+  --dorado: #E8C547;
+  --azul-luna: #4A6FA5;
+
+  --fuente-titulo: 'Abril Fatface', serif;
+  --fuente-cuerpo: 'Work Sans', sans-serif;
+
+  --sombra-offset: 4px 4px 0 var(--negro);
+  --borde-grueso: 2px solid var(--negro);
+  --radio-boton: 50px;
+}
+
+/* ── Base ─────────────────────────────────────────── */
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--crema) !important;
+  background-image:
+    /* Capa 1 — sombras grandes de arrugas (baja frecuencia, escala grande) */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.009' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='800' height='800' filter='url(%23c)' opacity='0.07'/%3E%3C/svg%3E"),
+    /* Capa 2 — pliegues medianos */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23m)' opacity='0.05'/%3E%3C/svg%3E"),
+    /* Capa 3 — grano fino de fibras de papel */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 800px 800px, 400px 400px, 200px 200px;
+  background-blend-mode: multiply, multiply, multiply;
+  font-family: var(--fuente-cuerpo) !important;
+  color: var(--negro) !important;
+  min-height: 100vh;
+}
+
+#title-block-header { display: none; }
+
+main.content,
+#quarto-document-content,
+.quarto-container,
+#quarto-content {
+  max-width: 100% !important;
+  padding: 0 !important;
+  grid-column: screen-start / screen-end !important;
+}
+
+.page-layout-full .content { max-width: 100% !important; }
+
+/* Forzar cells de Quarto y mount points OJS a ancho completo */
+.cell,
+.cell-output,
+.cell-output-display,
+#ojs-cell-3,
+[id^="ojs-cell-"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  grid-column: screen-start / screen-end !important;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--fuente-titulo);
+  color: var(--terracota);
+}
+
+/* ── Borde decorativo Lotería ────────────────────── */
+
+.borde-loteria {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('assets/fondo.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.80;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Navbar removido ─────────────────────────────── */
+
+.navbar, .quarto-secondary-nav, header.quarto-title-block { display: none !important; }
+
+/* ── Footer ──────────────────────────────────────── */
+
+.footer-loteria {
+  background: var(--terracota);
+  border-top: 3px solid var(--negro);
+  padding: 1.5rem 2rem;
+  margin-top: 4rem;
+  position: relative;
+  z-index: 10;
+}
+
+.footer-contenido {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-marca {
+  font-family: var(--fuente-titulo);
+  font-size: 1.2rem;
+  color: var(--crema);
+  letter-spacing: 0.05em;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer-nav a {
+  color: var(--crema);
+  text-decoration: none;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: opacity 0.2s;
+}
+
+.footer-nav a:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+.footer-credito {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.8rem;
+  color: rgba(235, 228, 209, 0.7);
+}
+
+/* ── Game container ──────────────────────────────── */
+
+.juego-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 5rem 0 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+.pantalla { animation: cartaEntrar 0.45s ease-out; position: relative; z-index: 1; }
+
+/* ── Pantalla de inicio — DESKTOP dos columnas ───── */
+
+.pantalla-seleccion {
+  min-height: 90vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  padding: 4rem 10%;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Columna izquierda — título y subtítulo */
+.intro-bloque {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.titulo-hero {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(4rem, 7vw, 7rem);
+  color: var(--terracota);
+  text-align: left;
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  margin: 0;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.12);
+}
+
+.estrella-deco, .titulo-estrella {
+  color: var(--verde);
+  font-size: 0.5em;
+  margin: 0 0.3em;
+  vertical-align: middle;
+}
+
+.intro-texto {
+  text-align: left;
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  max-width: 480px;
+  line-height: 1.6;
+  color: var(--negro);
+  margin: 0;
+}
+
+.irte-explicacion {
+  background: rgba(184, 67, 42, 0.06);
+  border-left: 3px solid var(--terracota);
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+  max-width: 480px;
+}
+
+.intro-cta {
+  font-family: var(--fuente-titulo);
+  font-size: 1.2rem;
+  color: var(--terracota);
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+}
+
+/* Columna derecha — controles */
+.controles-bloque {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+/* ── Selección — sin contenedor blanco ───────────── */
+
+.campo {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.campo label {
+  display: block;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--negro);
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+/* Dropdown estado */
+.select-estado, #select-estado {
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--crema);
+  border: var(--borde-grueso);
+  box-shadow: var(--sombra-offset);
+  padding: 0.75rem 2.5rem 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  color: var(--negro);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%23141414'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+
+/* Botones de género — ocupan todo el ancho disponible */
+.genero-btns {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.genero-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--crema);
+  border: var(--borde-grueso);
+  box-shadow: var(--sombra-offset);
+  padding: 1.5rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--negro);
+  transition: transform 0.1s, box-shadow 0.1s, background-color 0.15s;
+}
+
+.genero-btn img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+}
+
+.genero-btn:hover {
+  background: var(--crema);
+  color: var(--negro);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--negro);
+}
+
+.genero-btn.activo {
+  background: var(--dorado);
+  color: var(--negro);
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--negro);
+}
+
+.nota-brecha {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: rgba(20, 20, 20, 0.65);
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Botón principal Jugar mi vida */
+.btn-jugar, .btn-hero {
+  background: var(--verde);
+  color: var(--crema);
+  border: var(--borde-grueso);
+  box-shadow: var(--sombra-offset);
+  padding: 1rem 3rem;
+  border-radius: var(--radio-boton);
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  display: block;
+  width: 100%;
+  margin: 0;
+}
+
+.btn-jugar:hover:not(:disabled), .btn-hero:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--negro);
+}
+
+.btn-jugar:active:not(:disabled), .btn-hero:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--negro);
+}
+
+.btn-jugar:disabled, .btn-hero:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--sombra-offset);
+}
+
+/* ── Indicador de progreso ───────────────────────── */
+
+.juego-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 2rem;
+}
+
+.progress-step {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: var(--borde-grueso);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: var(--crema);
+  color: var(--negro);
+  box-shadow: 2px 2px 0 var(--negro);
+  flex-shrink: 0;
+}
+
+.progress-step.activa { background: var(--terracota); color: var(--crema); }
+.progress-step.completada { background: var(--verde); color: var(--crema); }
+.progress-step.bloqueada { background: rgba(0,0,0,0.1); color: var(--negro); opacity: 0.5; box-shadow: none; border-style: dashed; font-size: 0.75rem; }
+
+.progress-conector { width: 32px; height: 2px; background: var(--negro); flex-shrink: 0; }
+.progress-conector.bloqueada { background: none; border-top: 2px dashed rgba(20,20,20,0.4); height: 0; }
+
+/* ── Cartas del juego ────────────────────────────── */
+
+.carta, .carta-etapa {
+  background: var(--crema);
+  border: 3px solid var(--negro);
+  box-shadow: var(--sombra-offset);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 540px;
+  margin: 0 auto 1.5rem;
+  animation: cartaEntrar 0.4s ease-out;
+  position: relative;
+  outline: 1px solid var(--dorado);
+  outline-offset: -8px;
+}
+
+/* Esquinas decorativas tipo Lotería */
+.carta-etapa::before,
+.carta-etapa::after {
+  content: '✦';
+  position: absolute;
+  color: var(--terracota);
+  font-size: 1rem;
+  opacity: 0.6;
+}
+
+.carta-etapa::before { top: 0.5rem; left: 0.75rem; }
+.carta-etapa::after { top: 0.5rem; right: 0.75rem; }
+
+@keyframes cartaEntrar {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.carta-enter { animation: cartaEntrar 0.45s ease-out; }
+
+.carta-imagen {
+  width: 100%;
+  max-width: 320px;
+  height: 240px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 1.25rem;
+  filter: drop-shadow(3px 3px 0 rgba(20, 20, 20, 0.15));
+}
+
+@media (max-width: 640px) {
+  .carta-imagen { max-width: 240px; height: 180px; }
+}
+
+.carta-emoji { font-size: 3rem; line-height: 1; }
+
+.carta-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 1.8rem;
+  color: var(--terracota);
+  text-align: center;
+  margin: 0 0 0.5rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--terracota);
+  letter-spacing: 0.02em;
+}
+
+.carta-ods { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+.carta-body { margin-bottom: 1.5rem; }
+
+.carta-narrativa {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--negro);
+  line-height: 1.6;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: rgba(0,0,0,0.04);
+  border-radius: 6px;
+}
+
+.carta-narrativa strong { color: var(--terracota); }
+
+.carta-footer { margin-top: 1.5rem; }
+
+/* ── ODS badges ──────────────────────────────────── */
+
+.badge-ods {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  border: 1px solid;
+}
+
+.badge-ods1 { background: hsl(356, 72%, 93%); color: hsl(356, 72%, 28%); border-color: hsl(356, 72%, 75%); }
+.badge-ods3 { background: hsl(110, 50%, 92%); color: hsl(110, 50%, 22%); border-color: hsl(110, 50%, 70%); }
+.badge-ods4 { background: hsl(350, 72%, 92%); color: hsl(350, 72%, 25%); border-color: hsl(350, 72%, 72%); }
+.badge-ods5 { background: hsl(14, 72%, 93%); color: hsl(14, 72%, 28%); border-color: hsl(14, 72%, 72%); }
+.badge-ods6 { background: hsl(196, 72%, 92%); color: hsl(196, 72%, 22%); border-color: hsl(196, 72%, 68%); }
+.badge-ods8 { background: hsl(340, 60%, 93%); color: hsl(340, 60%, 25%); border-color: hsl(340, 60%, 72%); }
+.badge-ods10 { background: hsl(330, 60%, 93%); color: hsl(330, 60%, 25%); border-color: hsl(330, 60%, 72%); }
+.badge-ods16 { background: hsl(220, 60%, 93%); color: hsl(220, 60%, 25%); border-color: hsl(220, 60%, 72%); }
+
+/* ── Barras comparativas ─────────────────────────── */
+
+.barra-comparativa { margin: 1rem 0; }
+
+.barra-fila {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.barra-label {
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  min-width: 100px;
+  text-align: right;
+}
+
+.barra-track {
+  flex: 1;
+  height: 14px;
+  background: rgba(0,0,0,0.08);
+  border: 1.5px solid var(--negro);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.barra-fill {
+  height: 100%;
+  background: var(--terracota);
+  transition: width 0.6s ease-out;
+}
+
+.barra-fill.barra-mala { background: var(--terracota); }
+.barra-fill.barra-buena { background: var(--verde); }
+.barra-fill.barra-nacional, .barra-fill.nacional { background: var(--azul-luna); }
+
+.barra-valor {
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.95rem;
+  min-width: 44px;
+}
+
+/* ── Severidad ───────────────────────────────────── */
+
+.badge-severidad {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: var(--borde-grueso);
+  box-shadow: 2px 2px 0 var(--negro);
+  border-radius: 4px;
+}
+
+.severidad-alto { background: var(--terracota); color: var(--crema); border-color: var(--negro); }
+.severidad-medio { background: var(--dorado); color: var(--negro); border-color: var(--negro); }
+.severidad-bajo { background: var(--verde); color: var(--crema); border-color: var(--negro); }
+
+.badge-severidad-sm {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--negro);
+  border-radius: 3px;
+}
+
+.badge-severidad-sm.severidad-alto { background: var(--terracota); color: var(--crema); }
+.badge-severidad-sm.severidad-medio { background: var(--dorado); color: var(--negro); }
+.badge-severidad-sm.severidad-bajo { background: var(--verde); color: var(--crema); }
+
+/* ── Botón siguiente ─────────────────────────────── */
+
+.btn-siguiente {
+  display: block;
+  width: 100%;
+  background: var(--terracota);
+  color: var(--crema);
+  border: var(--borde-grueso);
+  box-shadow: var(--sombra-offset);
+  padding: 0.85rem 2rem;
+  border-radius: var(--radio-boton);
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.btn-siguiente:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--negro); }
+.btn-siguiente:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--negro); }
+
+.btn-reiniciar {
+  display: inline-block;
+  background: transparent;
+  color: var(--negro);
+  border: var(--borde-grueso);
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radio-boton);
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 0.75rem;
+  transition: background 0.15s;
+}
+
+.btn-reiniciar:hover { background: rgba(0,0,0,0.05); }
+
+.btn-ver-mapa {
+  display: inline-block;
+  background: transparent;
+  color: var(--verde);
+  border: 1px solid var(--verde);
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radio-boton);
+  font-family: var(--fuente-cuerpo);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 0.5rem;
+  text-decoration: none;
+}
+
+.btn-ver-mapa:hover {
+  background: var(--verde);
+  color: var(--crema);
+}
+
+/* ── Cartas bloqueadas ───────────────────────────── */
+
+.cartas-bloqueadas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.carta-locked {
+  background: rgba(0,0,0,0.04);
+  border: 2px dashed rgba(20,20,20,0.4);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.carta-locked h3 { font-size: 0.9rem; color: var(--negro); margin: 0.5rem 0 0.3rem; font-family: var(--fuente-cuerpo); font-weight: 700; text-transform: uppercase; }
+.carta-locked small { font-size: 0.72rem; color: rgba(20,20,20,0.6); }
+.carta-emoji-locked { font-size: 1.8rem; }
+
+/* ── Resumen ─────────────────────────────────────── */
+
+.carta-resumen { text-align: center; }
+
+.resumen-score { display: flex; flex-direction: column; align-items: center; margin-bottom: 1rem; }
+
+.score-numero {
+  font-family: var(--fuente-titulo);
+  font-size: 4.5rem;
+  line-height: 1;
+  color: var(--terracota);
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.12);
+}
+
+.score-label {
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  color: rgba(20,20,20,0.6);
+  text-transform: uppercase;
+}
+
+.resumen-titulo { font-family: var(--fuente-titulo); font-size: 1.6rem; color: var(--terracota); margin-bottom: 0.5rem; }
+.resumen-ranking { font-size: 1.05rem; margin-bottom: 1rem; }
+
+.resumen-etapas, .resumen-dimensiones {
+  text-align: left;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: rgba(0,0,0,0.04);
+  border: 1.5px solid var(--negro);
+  border-radius: 8px;
+}
+
+.resumen-etapas h3, .resumen-dimensiones h3 {
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--negro);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--negro);
+}
+
+.resumen-etapa-fila { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; font-size: 0.95rem; }
+
+.resumen-narrativa {
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 1.5rem 0;
+  padding: 1rem 1.2rem;
+  border-left: 4px solid var(--dorado);
+  background: rgba(232, 197, 71, 0.1);
+  border-radius: 0 8px 8px 0;
+}
+
+.resumen-acciones { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; margin-top: 1.5rem; }
+
+/* ── Escenarios ──────────────────────────────────── */
+
+.esc-intro { font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem; }
+
+.escenarios-grid { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+
+.btn-escenario {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 600;
+  font-size: 1rem;
+  background: var(--crema);
+  border: var(--borde-grueso);
+  border-radius: 12px;
+  box-shadow: var(--sombra-offset);
+  cursor: pointer;
+  text-align: left;
+  color: var(--negro);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.btn-escenario:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--negro); }
+.btn-escenario:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--negro); }
+.btn-escenario.activo { background: var(--dorado); font-weight: 700; }
+
+.esc-emoji { font-size: 1.5rem; }
+
+.escenario-resultado {
+  background: rgba(0,0,0,0.04);
+  border: var(--borde-grueso);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--sombra-offset);
+  margin-bottom: 1.5rem;
+}
+
+.escenario-resultado h3 { font-family: var(--fuente-titulo); font-size: 1.3rem; color: var(--terracota); margin-bottom: 0.5rem; }
+.esc-desc { font-size: 0.9rem; color: rgba(20,20,20,0.7); margin-bottom: 1rem; }
+.esc-datos { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+.esc-dato { text-align: center; }
+.esc-dato-num { display: block; font-family: var(--fuente-titulo); font-size: 2.2rem; color: var(--verde); }
+.esc-dato-label { font-family: var(--fuente-cuerpo); font-weight: 700; font-size: 0.7rem; letter-spacing: 0.15em; color: rgba(20,20,20,0.6); text-transform: uppercase; }
+
+/* ── Mapa ────────────────────────────────────────── */
+
+.mapa-section, #mapa, .mapa-seccion, .seccion-mapa {
+  max-width: 960px;
+  margin: 4rem auto 6rem;
+  padding: 0 1.5rem 4rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* Encabezado del mapa */
+.mapa-encabezado {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.mapa-encabezado h2 {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  color: var(--terracota);
+  margin: 0 0 0.75rem 0;
+  letter-spacing: 0.02em;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.mapa-encabezado p {
+  font-family: var(--fuente-cuerpo);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--negro);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Marco tipo carta — contiene el mapa */
+.mapa-marco {
+  background: var(--crema);
+  border: 3px solid var(--negro);
+  border-radius: 12px;
+  box-shadow: var(--sombra-offset);
+  padding: 1.5rem;
+  margin: 0 auto;
+  position: relative;
+  outline: 1px solid var(--dorado);
+  outline-offset: -8px;
+  overflow: hidden;
+}
+
+.mapa-marco::before,
+.mapa-marco::after {
+  content: '✦';
+  position: absolute;
+  color: var(--terracota);
+  font-size: 1rem;
+  opacity: 0.6;
+  z-index: 2;
+}
+
+.mapa-marco::before { top: 0.6rem; left: 0.85rem; }
+.mapa-marco::after { top: 0.6rem; right: 0.85rem; }
+
+/* Plotly chart inside the marco */
+.mapa-marco .cell { padding: 0 !important; }
+.mapa-marco .plotly { background: transparent !important; }
+.mapa-marco .modebar { display: none !important; }
+.mapa-marco svg { background: transparent !important; }
+
+/* Leyenda manual debajo del mapa — chips estilo cartas */
+.mapa-leyenda {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.leyenda-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 2px solid var(--negro);
+  border-radius: var(--radio-boton);
+  box-shadow: 2px 2px 0 var(--negro);
+}
+
+.leyenda-bajo { background: var(--verde); color: var(--crema); }
+.leyenda-medio { background: var(--dorado); color: var(--negro); }
+.leyenda-alto { background: var(--terracota); color: var(--crema); }
+
+/* ── Brechas ─────────────────────────────────────── */
+
+.brechas-section {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 0 1.5rem 4rem;
+  position: relative;
+  z-index: 10;
+}
+
+.brechas-section h2 { font-family: var(--fuente-titulo); font-size: 1.8rem; text-align: center; color: var(--terracota); margin-bottom: 1rem; }
+.brechas-section p { line-height: 1.7; margin-bottom: 1rem; }
+.brechas-section a { color: var(--terracota); text-decoration: underline; font-weight: 600; }
+
+/* ── Simulador — cartas de lotería ────────────────── */
+
+.simulador-cartas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 500px;
+  margin: 1.5rem auto;
+}
+
+.loteria-card {
+  background: var(--crema);
+  border: 3px solid var(--negro);
+  box-shadow: var(--sombra-offset);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.loteria-card-header {
+  background: var(--terracota);
+  color: var(--crema);
+  font-family: var(--fuente-titulo);
+  font-size: 1.1rem;
+  padding: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.loteria-card-header.proyectado {
+  background: var(--verde);
+}
+
+.loteria-card-body {
+  padding: 1.5rem 1rem;
+}
+
+.loteria-card-score {
+  font-family: var(--fuente-titulo);
+  font-size: 2.5rem;
+  color: var(--terracota);
+}
+
+.loteria-card-score.proyectado {
+  color: var(--verde);
+}
+
+.loteria-card-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
+.loteria-card-footer {
+  background: rgba(0,0,0,0.05);
+  padding: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--negro);
+}
+
+.loteria-card-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+  color: var(--negro);
+}
+
+.mejora-badge {
+  display: inline-block;
+  background: var(--verde);
+  color: var(--crema);
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  border: 1px solid var(--negro);
+  margin-top: 0.5rem;
+}
+
+/* ── Secciones compartidas ───────────────────────── */
+
+.seccion-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--terracota);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--terracota);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.seccion-subtitulo {
+  font-size: 1rem;
+  color: rgba(20,20,20,0.65);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+/* ── KPIs ────────────────────────────────────────── */
+
+.seccion-kpis {
+  padding: 4rem 8%;
+  background: var(--crema);
+  position: relative;
+  z-index: 1;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 2rem auto 0;
+}
+
+.kpi-card {
+  background: var(--crema);
+  border: var(--borde-grueso);
+  box-shadow: var(--sombra-offset);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.kpi-valor {
+  font-family: var(--fuente-titulo);
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.kpi-label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.kpi-nota {
+  font-size: 0.8rem;
+  color: rgba(20,20,20,0.6);
+}
+
+/* ── Ranking ─────────────────────────────────────── */
+
+.seccion-ranking {
+  padding: 4rem 8%;
+  position: relative;
+  z-index: 1;
+}
+
+.ranking-filtros {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.filtro-btn {
+  background: var(--crema);
+  border: var(--borde-grueso);
+  box-shadow: 2px 2px 0 var(--negro);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.filtro-btn:hover,
+.filtro-btn.activo {
+  background: var(--negro);
+  color: var(--crema);
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--negro);
+}
+
+.tabla-ranking {
+  width: 100%;
+  overflow-x: auto;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.tabla-ranking table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--fuente-cuerpo);
+}
+
+.tabla-ranking th {
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.75rem;
+  border-bottom: 2px solid var(--negro);
+  text-align: left;
+}
+
+.tabla-ranking td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  font-size: 0.9rem;
+}
+
+.tabla-ranking tr:hover td {
+  background: rgba(184,67,42,0.04);
+}
+
+.irte-barra-track {
+  background: rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.15);
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  min-width: 100px;
+}
+
+.irte-barra-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.nivel-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid var(--negro);
+}
+
+.nivel-alto       { background: var(--terracota); color: var(--crema); }
+.nivel-medio-alto { background: #E8A04A; color: var(--negro); }
+.nivel-medio      { background: #4A8BC4; color: var(--crema); }
+.nivel-bajo       { background: var(--verde); color: var(--crema); }
+
+/* ── ODS ─────────────────────────────────────────── */
+
+.seccion-ods {
+  padding: 4rem 8%;
+  background: rgba(26, 26, 46, 0.96);
+  position: relative;
+  z-index: 1;
+}
+
+.seccion-ods .seccion-titulo {
+  color: var(--dorado);
+  border-color: rgba(232,197,71,0.3);
+}
+
+.seccion-ods .seccion-subtitulo {
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.ods-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.ods-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(232,197,71,0.25);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.ods-numero {
+  display: inline-block;
+  background: var(--dorado);
+  color: var(--negro);
+  font-family: var(--fuente-titulo);
+  font-size: 0.9rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.ods-titulo {
+  color: #fff;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ods-desc {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.ods-dato-destacado {
+  background: rgba(232,197,71,0.1);
+  border: 1px solid rgba(232,197,71,0.4);
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.ods-dato-valor {
+  font-family: var(--fuente-titulo);
+  font-size: 2.5rem;
+  color: var(--dorado);
+}
+
+.ods-dato-label {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* ── Gobernanza ──────────────────────────────────── */
+
+.seccion-gobernanza {
+  padding: 4rem 8%;
+  position: relative;
+  z-index: 1;
+}
+
+.gobernanza-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+.gobernanza-card {
+  background: var(--crema);
+  border: var(--borde-grueso);
+  box-shadow: var(--sombra-offset);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.gobernanza-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--negro);
+}
+
+.gobernanza-titulo {
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.gobernanza-desc {
+  font-size: 0.88rem;
+  color: rgba(20,20,20,0.7);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.gobernanza-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--crema);
+  border: 1px solid var(--negro);
+}
+
+.gobernanza-nota {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+  background: rgba(184,67,42,0.06);
+  border-left: 3px solid var(--terracota);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* ── Scrollbar ───────────────────────────────────── */
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+::-webkit-scrollbar-thumb { background: var(--negro); }
+::-webkit-scrollbar-thumb:hover { background: var(--terracota); }
+
+/* ── Responsive ──────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .pantalla-seleccion {
+    grid-template-columns: 1fr;
+    padding: 3rem 1.5rem;
+    min-height: auto;
+    gap: 2rem;
+  }
+  .titulo-hero {
+    text-align: center;
+    font-size: clamp(3rem, 12vw, 5rem);
+  }
+  .intro-texto {
+    text-align: center;
+    max-width: 100%;
+  }
+  .irte-explicacion { max-width: 100%; }
+  .intro-bloque { align-items: center; }
+  .campo label { text-align: center; }
+  .genero-btn { padding: 1rem 0.5rem; }
+  .genero-btn img { width: 70px; height: 70px; }
+  .carta, .carta-etapa { margin: 0 1rem 1.5rem; padding: 1.5rem; }
+  .footer-contenido { flex-direction: column; text-align: center; }
+  .footer-nav { gap: 1rem; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .gobernanza-grid { grid-template-columns: 1fr; }
+  .ods-grid { grid-template-columns: 1fr 1fr; }
+  .simulador-cartas { grid-template-columns: 1fr; max-width: 260px; }
+}
+
+@media (max-width: 640px) {
+  .juego-container { padding: 1.5rem 1rem; }
+  .pantalla-seleccion {
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+  }
+  .genero-btns { gap: 1rem; }
+  .genero-btn img { width: 70px; height: 70px; }
+  .borde-loteria { display: none; }
+  .footer-nav { gap: 0.75rem; }
+  .barra-label { min-width: 70px; font-size: 0.7rem; }
+  .cartas-bloqueadas { grid-template-columns: 1fr; }
+  .esc-datos { flex-direction: column; gap: 0.75rem; }
+  .resumen-acciones { align-items: stretch; }
+}
+
+  </style>
+</head>
+<body>
+  <!-- El juego se monta aquí -->
+  <div id="tlahtoa-root"></div>
+  <div id="kpis-root"></div>
+  <div id="ranking-root"></div>
+  <div id="escenarios-root"></div>
+  <div id="tabla-root"></div>
+
+  <script>
+  // ============================================================
+  // Datos embebidos (pre-computados por el pipeline IRTE)
+  // © 2026 Jesús Rafael Loggen Gonzalez · Loggen Architecture™
+  // ============================================================
+  
+const __panelData = {"_meta": {"version": "0.2", "total_estados": 32}, "nacional": {"irte_promedio": 0.382, "irte_mediana": 0.3492}, "estados": [{"clave": 7, "nombre": "Chiapas", "region": "Sur", "irte_score": 1.0, "irte_rank": 1, "irte_nivel": "Alto", "dimensiones": {"salud": 1.0, "pobreza": 1.0, "educacion": 1.0, "genero_empleo": 1.0}, "trayectoria": {"nacimiento": {"severidad": "alto", "indicadores": {"mortalidad_infantil": 23.8, "acceso_agua": 43.2, "acceso_drenaje": 38.6}}, "infancia": {"severidad": "alto", "indicadores": {"tasa_pobreza": 75.5, "tasa_pobreza_extrema": 28.1, "acceso_drenaje": 38.6}}, "adolescencia": {"severidad": "alto", "indicadores": {"abandono_secundaria": 14.2, "rezago_educativo": 45.3, "fecundidad_adolescente": 98.3}}, "adultez": {"severidad": "alto", "indicadores": {"rezago_educativo": 45.3, "formalidad_laboral": 12.1}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 1.0, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.925, "delta": 0.075, "mejora_pct": 7.5}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.925, "delta": 0.075, "mejora_pct": 7.5}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.925, "delta": 0.075, "mejora_pct": 7.5}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.925, "delta": 0.075, "mejora_pct": 7.5}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.7, "delta": 0.3, "mejora_pct": 30.0}}}, {"clave": 20, "nombre": "Oaxaca", "region": "Sur", "irte_score": 0.9016, "irte_rank": 2, "irte_nivel": "Alto", "dimensiones": {"salud": 0.8972, "pobreza": 0.8763, "educacion": 0.8962, "genero_empleo": 0.9365}, "trayectoria": {"nacimiento": {"severidad": "alto", "indicadores": {"mortalidad_infantil": 22.4, "acceso_agua": 38.4, "acceso_drenaje": 33.8}}, "infancia": {"severidad": "alto", "indicadores": {"tasa_pobreza": 67.8, "tasa_pobreza_extrema": 24.8, "acceso_drenaje": 33.8}}, "adolescencia": {"severidad": "alto", "indicadores": {"abandono_secundaria": 13.4, "rezago_educativo": 40.2, "fecundidad_adolescente": 91.3}}, "adultez": {"severidad": "alto", "indicadores": {"rezago_educativo": 40.2, "formalidad_laboral": 13.4}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.9015, "delta": 0.0001, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.8343, "delta": 0.0673, "mejora_pct": 7.5}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.8358, "delta": 0.0658, "mejora_pct": 7.3}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.8343, "delta": 0.0673, "mejora_pct": 7.5}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.8313, "delta": 0.0703, "mejora_pct": 7.8}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.6311, "delta": 0.2705, "mejora_pct": 30.0}}}, {"clave": 12, "nombre": "Guerrero", "region": "Sur", "irte_score": 0.8594, "irte_rank": 3, "irte_nivel": "Alto", "dimensiones": {"salud": 0.8351, "pobreza": 0.8406, "educacion": 0.8487, "genero_empleo": 0.9134}, "trayectoria": {"nacimiento": {"severidad": "alto", "indicadores": {"mortalidad_infantil": 21.3, "acceso_agua": 36.8, "acceso_drenaje": 31.4}}, "infancia": {"severidad": "alto", "indicadores": {"tasa_pobreza": 66.4, "tasa_pobreza_extrema": 23.4, "acceso_drenaje": 31.4}}, "adolescencia": {"severidad": "alto", "indicadores": {"abandono_secundaria": 12.8, "rezago_educativo": 38.7, "fecundidad_adolescente": 89.4}}, "adultez": {"severidad": "alto", "indicadores": {"rezago_educativo": 38.7, "formalidad_laboral": 14.3}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.8595, "delta": -0.0001, "mejora_pct": -0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.7968, "delta": 0.0626, "mejora_pct": 7.3}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.7964, "delta": 0.063, "mejora_pct": 7.3}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.7958, "delta": 0.0636, "mejora_pct": 7.4}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.7909, "delta": 0.0685, "mejora_pct": 8.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.6016, "delta": 0.2578, "mejora_pct": 30.0}}}, {"clave": 30, "nombre": "Veracruz", "region": "Sureste", "irte_score": 0.6447, "irte_rank": 4, "irte_nivel": "Medio-Alto", "dimensiones": {"salud": 0.5702, "pobreza": 0.6175, "educacion": 0.6211, "genero_empleo": 0.77}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 17.4, "acceso_agua": 25.4, "acceso_drenaje": 20.4}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 57.4, "tasa_pobreza_extrema": 14.8, "acceso_drenaje": 20.4}}, "adolescencia": {"severidad": "alto", "indicadores": {"abandono_secundaria": 9.4, "rezago_educativo": 33.4, "fecundidad_adolescente": 81.4}}, "adultez": {"severidad": "alto", "indicadores": {"rezago_educativo": 33.4, "formalidad_laboral": 22.4}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.6447, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.6019, "delta": 0.0428, "mejora_pct": 6.6}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.5984, "delta": 0.0463, "mejora_pct": 7.2}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.5981, "delta": 0.0466, "mejora_pct": 7.2}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.5869, "delta": 0.0578, "mejora_pct": 9.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.4513, "delta": 0.1934, "mejora_pct": 30.0}}}, {"clave": 27, "nombre": "Tabasco", "region": "Sureste", "irte_score": 0.5829, "irte_rank": 5, "irte_nivel": "Medio-Alto", "dimensiones": {"salud": 0.5051, "pobreza": 0.5611, "educacion": 0.5353, "genero_empleo": 0.7301}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 16.4, "acceso_agua": 22.4, "acceso_drenaje": 18.4}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 54.8, "tasa_pobreza_extrema": 12.8, "acceso_drenaje": 18.4}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 8.4, "rezago_educativo": 30.4, "fecundidad_adolescente": 79.4}}, "adultez": {"severidad": "alto", "indicadores": {"rezago_educativo": 30.4, "formalidad_laboral": 24.8}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.5829, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.545, "delta": 0.0379, "mejora_pct": 6.5}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.5408, "delta": 0.0421, "mejora_pct": 7.2}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.5428, "delta": 0.0401, "mejora_pct": 6.9}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.5281, "delta": 0.0548, "mejora_pct": 9.4}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.408, "delta": 0.1749, "mejora_pct": 30.0}}}, {"clave": 21, "nombre": "Puebla", "region": "Centro", "irte_score": 0.5798, "irte_rank": 6, "irte_nivel": "Medio-Alto", "dimensiones": {"salud": 0.5106, "pobreza": 0.5366, "educacion": 0.567, "genero_empleo": 0.7052}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 16.8, "acceso_agua": 21.4, "acceso_drenaje": 17.4}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 52.8, "tasa_pobreza_extrema": 12.4, "acceso_drenaje": 17.4}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 8.8, "rezago_educativo": 31.4, "fecundidad_adolescente": 77.4}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 31.4, "formalidad_laboral": 25.8}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.5798, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.5416, "delta": 0.0382, "mejora_pct": 6.6}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.5396, "delta": 0.0402, "mejora_pct": 6.9}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.5373, "delta": 0.0425, "mejora_pct": 7.3}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.527, "delta": 0.0528, "mejora_pct": 9.1}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.4059, "delta": 0.1739, "mejora_pct": 30.0}}}, {"clave": 16, "nombre": "Michoacán", "region": "Occidente", "irte_score": 0.5348, "irte_rank": 7, "irte_nivel": "Medio-Alto", "dimensiones": {"salud": 0.4305, "pobreza": 0.4712, "educacion": 0.5536, "genero_empleo": 0.6839}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 15.4, "acceso_agua": 18.9, "acceso_drenaje": 14.8}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 49.2, "tasa_pobreza_extrema": 10.4, "acceso_drenaje": 14.8}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 8.4, "rezago_educativo": 31.8, "fecundidad_adolescente": 72.1}}, "adultez": {"severidad": "alto", "indicadores": {"rezago_educativo": 31.8, "formalidad_laboral": 24.3}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.5348, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.5025, "delta": 0.0323, "mejora_pct": 6.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.4995, "delta": 0.0353, "mejora_pct": 6.6}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.4933, "delta": 0.0415, "mejora_pct": 7.8}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.4835, "delta": 0.0513, "mejora_pct": 9.6}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.3744, "delta": 0.1604, "mejora_pct": 30.0}}}, {"clave": 4, "nombre": "Campeche", "region": "Sureste", "irte_score": 0.499, "irte_rank": 8, "irte_nivel": "Medio", "dimensiones": {"salud": 0.396, "pobreza": 0.4915, "educacion": 0.4496, "genero_empleo": 0.659}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 14.6, "acceso_agua": 18.4, "acceso_drenaje": 14.7}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 49.8, "tasa_pobreza_extrema": 11.3, "acceso_drenaje": 14.7}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 7.4, "rezago_educativo": 27.4, "fecundidad_adolescente": 74.8}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 27.4, "formalidad_laboral": 28.4}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.499, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.4693, "delta": 0.0297, "mejora_pct": 6.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.4622, "delta": 0.0368, "mejora_pct": 7.4}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.4653, "delta": 0.0337, "mejora_pct": 6.8}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.4496, "delta": 0.0494, "mejora_pct": 9.9}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.3493, "delta": 0.1497, "mejora_pct": 30.0}}}, {"clave": 13, "nombre": "Hidalgo", "region": "Centro", "irte_score": 0.4824, "irte_rank": 9, "irte_nivel": "Medio", "dimensiones": {"salud": 0.3858, "pobreza": 0.4263, "educacion": 0.4982, "genero_empleo": 0.6192}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 14.8, "acceso_agua": 16.3, "acceso_drenaje": 13.4}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 45.3, "tasa_pobreza_extrema": 9.8, "acceso_drenaje": 13.4}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 7.8, "rezago_educativo": 29.7, "fecundidad_adolescente": 71.3}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 29.7, "formalidad_laboral": 29.8}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.4824, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.4534, "delta": 0.029, "mejora_pct": 6.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.4504, "delta": 0.032, "mejora_pct": 6.6}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.445, "delta": 0.0374, "mejora_pct": 7.8}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.4359, "delta": 0.0465, "mejora_pct": 9.6}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.3377, "delta": 0.1447, "mejora_pct": 30.0}}}, {"clave": 24, "nombre": "San Luis Potosí", "region": "Centro-Norte", "irte_score": 0.4558, "irte_rank": 10, "irte_nivel": "Medio", "dimensiones": {"salud": 0.3733, "pobreza": 0.4017, "educacion": 0.4417, "genero_empleo": 0.6064}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 14.4, "acceso_agua": 16.8, "acceso_drenaje": 13.4}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 44.4, "tasa_pobreza_extrema": 8.8, "acceso_drenaje": 13.4}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 7.4, "rezago_educativo": 26.8, "fecundidad_adolescente": 70.4}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 26.8, "formalidad_laboral": 30.4}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.4558, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.4278, "delta": 0.028, "mejora_pct": 6.1}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.4256, "delta": 0.0302, "mejora_pct": 6.6}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.4226, "delta": 0.0332, "mejora_pct": 7.3}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.4103, "delta": 0.0455, "mejora_pct": 10.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.319, "delta": 0.1368, "mejora_pct": 30.0}}}, {"clave": 29, "nombre": "Tlaxcala", "region": "Centro", "irte_score": 0.4408, "irte_rank": 11, "irte_nivel": "Medio", "dimensiones": {"salud": 0.3539, "pobreza": 0.451, "educacion": 0.3877, "genero_empleo": 0.5708}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 14.8, "acceso_agua": 13.4, "acceso_drenaje": 9.8}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 48.8, "tasa_pobreza_extrema": 9.4, "acceso_drenaje": 9.8}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 6.8, "rezago_educativo": 24.8, "fecundidad_adolescente": 68.4}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 24.8, "formalidad_laboral": 32.4}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.4408, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.4143, "delta": 0.0265, "mejora_pct": 6.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.407, "delta": 0.0338, "mejora_pct": 7.7}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.4118, "delta": 0.029, "mejora_pct": 6.6}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.398, "delta": 0.0428, "mejora_pct": 9.7}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.3086, "delta": 0.1322, "mejora_pct": 30.0}}}, {"clave": 32, "nombre": "Zacatecas", "region": "Centro-Norte", "irte_score": 0.4385, "irte_rank": 12, "irte_nivel": "Medio", "dimensiones": {"salud": 0.3451, "pobreza": 0.3516, "educacion": 0.4473, "genero_empleo": 0.6101}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 13.8, "acceso_agua": 16.4, "acceso_drenaje": 12.8}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 41.4, "tasa_pobreza_extrema": 7.4, "acceso_drenaje": 12.8}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 7.8, "rezago_educativo": 25.8, "fecundidad_adolescente": 69.4}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 25.8, "formalidad_laboral": 29.4}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.4385, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.4126, "delta": 0.0259, "mejora_pct": 5.9}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.4122, "delta": 0.0263, "mejora_pct": 6.0}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.405, "delta": 0.0335, "mejora_pct": 7.6}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.3928, "delta": 0.0457, "mejora_pct": 10.4}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.307, "delta": 0.1315, "mejora_pct": 30.0}}}, {"clave": 31, "nombre": "Yucatán", "region": "Sureste", "irte_score": 0.4174, "irte_rank": 13, "irte_nivel": "Medio", "dimensiones": {"salud": 0.3142, "pobreza": 0.3528, "educacion": 0.4496, "genero_empleo": 0.553}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 13.4, "acceso_agua": 14.8, "acceso_drenaje": 11.4}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 40.8, "tasa_pobreza_extrema": 7.8, "acceso_drenaje": 11.4}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 7.4, "rezago_educativo": 27.4, "fecundidad_adolescente": 67.4}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 27.4, "formalidad_laboral": 33.4}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.4174, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.3938, "delta": 0.0236, "mejora_pct": 5.7}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.3909, "delta": 0.0265, "mejora_pct": 6.3}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.3837, "delta": 0.0337, "mejora_pct": 8.1}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.3759, "delta": 0.0415, "mejora_pct": 9.9}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.2922, "delta": 0.1252, "mejora_pct": 30.0}}}, {"clave": 18, "nombre": "Nayarit", "region": "Occidente", "irte_score": 0.3999, "irte_rank": 14, "irte_nivel": "Medio", "dimensiones": {"salud": 0.335, "pobreza": 0.2852, "educacion": 0.3803, "genero_empleo": 0.5989}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 13.8, "acceso_agua": 15.4, "acceso_drenaje": 11.8}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 36.4, "tasa_pobreza_extrema": 6.1, "acceso_drenaje": 11.8}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 7.2, "rezago_educativo": 22.8, "fecundidad_adolescente": 69.8}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 22.8, "formalidad_laboral": 30.7}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3999, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.3747, "delta": 0.0252, "mejora_pct": 6.3}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.3785, "delta": 0.0214, "mejora_pct": 5.4}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.3713, "delta": 0.0286, "mejora_pct": 7.2}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.3549, "delta": 0.045, "mejora_pct": 11.3}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.2799, "delta": 0.12, "mejora_pct": 30.0}}}, {"clave": 17, "nombre": "Morelos", "region": "Centro", "irte_score": 0.3937, "irte_rank": 15, "irte_nivel": "Medio", "dimensiones": {"salud": 0.2811, "pobreza": 0.3804, "educacion": 0.3508, "genero_empleo": 0.5625}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 13.4, "acceso_agua": 11.3, "acceso_drenaje": 8.4}}, "infancia": {"severidad": "medio", "indicadores": {"tasa_pobreza": 44.8, "tasa_pobreza_extrema": 7.3, "acceso_drenaje": 8.4}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 6.4, "rezago_educativo": 23.4, "fecundidad_adolescente": 65.4}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 23.4, "formalidad_laboral": 31.2}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3937, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.3726, "delta": 0.0211, "mejora_pct": 5.4}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.3652, "delta": 0.0285, "mejora_pct": 7.2}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.3674, "delta": 0.0263, "mejora_pct": 6.7}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.3515, "delta": 0.0422, "mejora_pct": 10.7}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.2756, "delta": 0.1181, "mejora_pct": 30.0}}}, {"clave": 10, "nombre": "Durango", "region": "Norte", "irte_score": 0.3728, "irte_rank": 16, "irte_nivel": "Medio", "dimensiones": {"salud": 0.3024, "pobreza": 0.2709, "educacion": 0.3664, "genero_empleo": 0.5516}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 13.2, "acceso_agua": 14.2, "acceso_drenaje": 11.3}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 36.1, "tasa_pobreza_extrema": 5.4, "acceso_drenaje": 11.3}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 7.1, "rezago_educativo": 22.1, "fecundidad_adolescente": 67.2}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 22.1, "formalidad_laboral": 33.4}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3728, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.3501, "delta": 0.0227, "mejora_pct": 6.1}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.3525, "delta": 0.0203, "mejora_pct": 5.4}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.3453, "delta": 0.0275, "mejora_pct": 7.4}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.3315, "delta": 0.0413, "mejora_pct": 11.1}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.261, "delta": 0.1118, "mejora_pct": 30.0}}}, {"clave": 11, "nombre": "Guanajuato", "region": "Centro", "irte_score": 0.3257, "irte_rank": 17, "irte_nivel": "Medio", "dimensiones": {"salud": 0.196, "pobreza": 0.2928, "educacion": 0.3694, "genero_empleo": 0.4446}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 12.4, "acceso_agua": 5.8, "acceso_drenaje": 5.2}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 37.8, "tasa_pobreza_extrema": 5.8, "acceso_drenaje": 5.2}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 5.4, "rezago_educativo": 28.4, "fecundidad_adolescente": 60.1}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 28.4, "formalidad_laboral": 38.7}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3257, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.311, "delta": 0.0147, "mejora_pct": 4.5}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.3037, "delta": 0.022, "mejora_pct": 6.8}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.298, "delta": 0.0277, "mejora_pct": 8.5}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2924, "delta": 0.0333, "mejora_pct": 10.2}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.228, "delta": 0.0977, "mejora_pct": 30.0}}}, {"clave": 23, "nombre": "Quintana Roo", "region": "Sureste", "irte_score": 0.3116, "irte_rank": 18, "irte_nivel": "Medio", "dimensiones": {"salud": 0.2266, "pobreza": 0.2224, "educacion": 0.2986, "genero_empleo": 0.499}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 12.4, "acceso_agua": 9.4, "acceso_drenaje": 7.4}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 31.8, "tasa_pobreza_extrema": 4.8, "acceso_drenaje": 7.4}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 6.4, "rezago_educativo": 19.4, "fecundidad_adolescente": 63.4}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 19.4, "formalidad_laboral": 35.8}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3116, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.2947, "delta": 0.0169, "mejora_pct": 5.4}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.295, "delta": 0.0166, "mejora_pct": 5.3}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2893, "delta": 0.0223, "mejora_pct": 7.2}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2742, "delta": 0.0374, "mejora_pct": 12.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.2182, "delta": 0.0934, "mejora_pct": 30.0}}}, {"clave": 25, "nombre": "Sinaloa", "region": "Noroeste", "irte_score": 0.3108, "irte_rank": 19, "irte_nivel": "Medio", "dimensiones": {"salud": 0.2462, "pobreza": 0.2019, "educacion": 0.2899, "genero_empleo": 0.5054}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 12.8, "acceso_agua": 9.8, "acceso_drenaje": 7.8}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 30.8, "tasa_pobreza_extrema": 4.1, "acceso_drenaje": 7.8}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 6.1, "rezago_educativo": 19.8, "fecundidad_adolescente": 62.8}}, "adultez": {"severidad": "medio", "indicadores": {"rezago_educativo": 19.8, "formalidad_laboral": 34.8}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3108, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.2924, "delta": 0.0184, "mejora_pct": 5.9}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.2957, "delta": 0.0151, "mejora_pct": 4.9}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2891, "delta": 0.0217, "mejora_pct": 7.0}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2729, "delta": 0.0379, "mejora_pct": 12.2}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.2176, "delta": 0.0932, "mejora_pct": 30.0}}}, {"clave": 15, "nombre": "Estado de México", "region": "Centro", "irte_score": 0.31, "irte_rank": 20, "irte_nivel": "Medio", "dimensiones": {"salud": 0.2339, "pobreza": 0.3252, "educacion": 0.2967, "genero_empleo": 0.3844}, "trayectoria": {"nacimiento": {"severidad": "medio", "indicadores": {"mortalidad_infantil": 12.8, "acceso_agua": 8.7, "acceso_drenaje": 6.4}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 42.7, "tasa_pobreza_extrema": 5.1, "acceso_drenaje": 6.4}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 5.8, "rezago_educativo": 21.4, "fecundidad_adolescente": 56.3}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 21.4, "formalidad_laboral": 41.8}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.31, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.2925, "delta": 0.0175, "mejora_pct": 5.6}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.2857, "delta": 0.0243, "mejora_pct": 7.8}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2878, "delta": 0.0222, "mejora_pct": 7.2}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2812, "delta": 0.0288, "mejora_pct": 9.3}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.217, "delta": 0.093, "mejora_pct": 30.0}}}, {"clave": 28, "nombre": "Tamaulipas", "region": "Norte", "irte_score": 0.243, "irte_rank": 21, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.1872, "pobreza": 0.1778, "educacion": 0.2442, "genero_empleo": 0.3629}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 11.8, "acceso_agua": 7.8, "acceso_drenaje": 5.8}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 29.4, "tasa_pobreza_extrema": 3.4, "acceso_drenaje": 5.8}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 5.4, "rezago_educativo": 18.8, "fecundidad_adolescente": 57.8}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 18.8, "formalidad_laboral": 44.8}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.243, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.229, "delta": 0.014, "mejora_pct": 5.8}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.2297, "delta": 0.0133, "mejora_pct": 5.5}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2247, "delta": 0.0183, "mejora_pct": 7.5}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2158, "delta": 0.0272, "mejora_pct": 11.2}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1701, "delta": 0.0729, "mejora_pct": 30.0}}}, {"clave": 8, "nombre": "Chihuahua", "region": "Norte", "irte_score": 0.2392, "irte_rank": 22, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.1874, "pobreza": 0.1754, "educacion": 0.2419, "genero_empleo": 0.3521}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 11.8, "acceso_agua": 8.3, "acceso_drenaje": 5.1}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 28.4, "tasa_pobreza_extrema": 3.8, "acceso_drenaje": 5.1}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 5.8, "rezago_educativo": 17.2, "fecundidad_adolescente": 58.4}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 17.2, "formalidad_laboral": 46.2}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.2392, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.2251, "delta": 0.0141, "mejora_pct": 5.9}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.226, "delta": 0.0132, "mejora_pct": 5.5}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2211, "delta": 0.0181, "mejora_pct": 7.6}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2128, "delta": 0.0264, "mejora_pct": 11.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1674, "delta": 0.0718, "mejora_pct": 30.0}}}, {"clave": 6, "nombre": "Colima", "region": "Occidente", "irte_score": 0.2298, "irte_rank": 23, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.1503, "pobreza": 0.18, "educacion": 0.1901, "genero_empleo": 0.3986}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 11.4, "acceso_agua": 5.4, "acceso_drenaje": 4.1}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 30.2, "tasa_pobreza_extrema": 3.1, "acceso_drenaje": 4.1}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 4.8, "rezago_educativo": 16.8, "fecundidad_adolescente": 57.4}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 16.8, "formalidad_laboral": 41.2}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.2298, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.2185, "delta": 0.0113, "mejora_pct": 4.9}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.2162, "delta": 0.0136, "mejora_pct": 5.9}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2155, "delta": 0.0143, "mejora_pct": 6.2}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1999, "delta": 0.0299, "mejora_pct": 13.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1608, "delta": 0.069, "mejora_pct": 30.0}}}, {"clave": 22, "nombre": "Querétaro", "region": "Centro", "irte_score": 0.2048, "irte_rank": 24, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.1591, "pobreza": 0.1565, "educacion": 0.1924, "genero_empleo": 0.3113}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 11.4, "acceso_agua": 6.4, "acceso_drenaje": 4.8}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 27.4, "tasa_pobreza_extrema": 3.2, "acceso_drenaje": 4.8}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 4.4, "rezago_educativo": 18.4, "fecundidad_adolescente": 54.3}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 18.4, "formalidad_laboral": 47.3}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.2048, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1929, "delta": 0.0119, "mejora_pct": 5.8}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1931, "delta": 0.0117, "mejora_pct": 5.7}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1904, "delta": 0.0144, "mejora_pct": 7.0}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1815, "delta": 0.0233, "mejora_pct": 11.4}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1434, "delta": 0.0614, "mejora_pct": 30.0}}}, {"clave": 26, "nombre": "Sonora", "region": "Noroeste", "irte_score": 0.1951, "irte_rank": 25, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.1442, "pobreza": 0.1355, "educacion": 0.1719, "genero_empleo": 0.3287}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 10.8, "acceso_agua": 7.4, "acceso_drenaje": 5.4}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 25.8, "tasa_pobreza_extrema": 2.8, "acceso_drenaje": 5.4}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 4.8, "rezago_educativo": 15.4, "fecundidad_adolescente": 55.4}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 15.4, "formalidad_laboral": 46.4}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1951, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1843, "delta": 0.0108, "mejora_pct": 5.5}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1849, "delta": 0.0102, "mejora_pct": 5.2}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1822, "delta": 0.0129, "mejora_pct": 6.6}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1704, "delta": 0.0247, "mejora_pct": 12.7}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1366, "delta": 0.0585, "mejora_pct": 30.0}}}, {"clave": 2, "nombre": "Baja California", "region": "Noroeste", "irte_score": 0.1871, "irte_rank": 26, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.1244, "pobreza": 0.1159, "educacion": 0.1976, "genero_empleo": 0.3105}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 10.8, "acceso_agua": 5.2, "acceso_drenaje": 3.8}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 24.9, "tasa_pobreza_extrema": 2.1, "acceso_drenaje": 3.8}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 5.1, "rezago_educativo": 16.3, "fecundidad_adolescente": 55.7}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 16.3, "formalidad_laboral": 48.3}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1871, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1778, "delta": 0.0093, "mejora_pct": 5.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1784, "delta": 0.0087, "mejora_pct": 4.6}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1723, "delta": 0.0148, "mejora_pct": 7.9}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1638, "delta": 0.0233, "mejora_pct": 12.5}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.131, "delta": 0.0561, "mejora_pct": 30.0}}}, {"clave": 3, "nombre": "Baja California Sur", "region": "Noroeste", "irte_score": 0.1639, "irte_rank": 27, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.083, "pobreza": 0.0732, "educacion": 0.1113, "genero_empleo": 0.388}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 9.4, "acceso_agua": 7.1, "acceso_drenaje": 4.2}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 20.7, "tasa_pobreza_extrema": 1.8, "acceso_drenaje": 4.2}}, "adolescencia": {"severidad": "medio", "indicadores": {"abandono_secundaria": 4.2, "rezago_educativo": 12.9, "fecundidad_adolescente": 61.2}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 12.9, "formalidad_laboral": 44.7}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1639, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1577, "delta": 0.0062, "mejora_pct": 3.8}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1584, "delta": 0.0055, "mejora_pct": 3.4}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1555, "delta": 0.0084, "mejora_pct": 5.1}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1348, "delta": 0.0291, "mejora_pct": 17.8}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1147, "delta": 0.0492, "mejora_pct": 30.0}}}, {"clave": 14, "nombre": "Jalisco", "region": "Occidente", "irte_score": 0.1637, "irte_rank": 28, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.1019, "pobreza": 0.1253, "educacion": 0.1706, "genero_empleo": 0.2569}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 10.4, "acceso_agua": 4.3, "acceso_drenaje": 3.4}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 25.4, "tasa_pobreza_extrema": 2.4, "acceso_drenaje": 3.4}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 4.1, "rezago_educativo": 17.8, "fecundidad_adolescente": 49.8}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 17.8, "formalidad_laboral": 49.4}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1637, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.156, "delta": 0.0077, "mejora_pct": 4.7}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1543, "delta": 0.0094, "mejora_pct": 5.7}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1509, "delta": 0.0128, "mejora_pct": 7.8}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1444, "delta": 0.0193, "mejora_pct": 11.8}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1146, "delta": 0.0491, "mejora_pct": 30.0}}}, {"clave": 1, "nombre": "Aguascalientes", "region": "Centro-Norte", "irte_score": 0.1521, "irte_rank": 29, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.1217, "pobreza": 0.1326, "educacion": 0.1083, "genero_empleo": 0.2457}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 11.2, "acceso_agua": 3.1, "acceso_drenaje": 2.4}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 26.4, "tasa_pobreza_extrema": 2.3, "acceso_drenaje": 2.4}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 3.8, "rezago_educativo": 14.1, "fecundidad_adolescente": 52.3}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 14.1, "formalidad_laboral": 52.1}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1521, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1429, "delta": 0.0092, "mejora_pct": 6.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1421, "delta": 0.01, "mejora_pct": 6.6}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.144, "delta": 0.0081, "mejora_pct": 5.3}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1336, "delta": 0.0185, "mejora_pct": 12.2}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1065, "delta": 0.0456, "mejora_pct": 30.0}}}, {"clave": 5, "nombre": "Coahuila", "region": "Norte", "irte_score": 0.1106, "irte_rank": 30, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.0759, "pobreza": 0.091, "educacion": 0.0904, "genero_empleo": 0.1852}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 10.1, "acceso_agua": 2.8, "acceso_drenaje": 2.1}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 22.5, "tasa_pobreza_extrema": 1.9, "acceso_drenaje": 2.1}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 3.5, "rezago_educativo": 13.8, "fecundidad_adolescente": 48.6}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 13.8, "formalidad_laboral": 55.3}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1106, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1049, "delta": 0.0057, "mejora_pct": 5.2}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1038, "delta": 0.0068, "mejora_pct": 6.1}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1038, "delta": 0.0068, "mejora_pct": 6.1}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.0967, "delta": 0.0139, "mejora_pct": 12.6}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.0774, "delta": 0.0332, "mejora_pct": 30.0}}}, {"clave": 9, "nombre": "Ciudad de México", "region": "Centro", "irte_score": 0.074, "irte_rank": 31, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.0334, "pobreza": 0.1335, "educacion": 0.0429, "genero_empleo": 0.0863}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 8.9, "acceso_agua": 4.1, "acceso_drenaje": 1.2}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 27.6, "tasa_pobreza_extrema": 1.7, "acceso_drenaje": 1.2}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 2.9, "rezago_educativo": 12.3, "fecundidad_adolescente": 38.4}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 12.3, "formalidad_laboral": 57.8}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.074, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.0715, "delta": 0.0025, "mejora_pct": 3.4}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.064, "delta": 0.01, "mejora_pct": 13.5}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.0708, "delta": 0.0032, "mejora_pct": 4.3}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.0676, "delta": 0.0064, "mejora_pct": 8.6}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.0518, "delta": 0.0222, "mejora_pct": 30.0}}}, {"clave": 19, "nombre": "Nuevo León", "region": "Norte", "irte_score": 0.0002, "irte_rank": 32, "irte_nivel": "Bajo", "dimensiones": {"salud": 0.0008, "pobreza": 0.0, "educacion": 0.0, "genero_empleo": 0.0}, "trayectoria": {"nacimiento": {"severidad": "bajo", "indicadores": {"mortalidad_infantil": 8.4, "acceso_agua": 1.8, "acceso_drenaje": 1.4}}, "infancia": {"severidad": "bajo", "indicadores": {"tasa_pobreza": 14.2, "tasa_pobreza_extrema": 0.9, "acceso_drenaje": 1.4}}, "adolescencia": {"severidad": "bajo", "indicadores": {"abandono_secundaria": 2.4, "rezago_educativo": 10.8, "fecundidad_adolescente": 34.7}}, "adultez": {"severidad": "bajo", "indicadores": {"rezago_educativo": 10.8, "formalidad_laboral": 63.4}}}, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.0002, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.0001, "delta": 0.0001, "mejora_pct": 50.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.0002, "delta": 0.0, "mejora_pct": 0.0}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.0002, "delta": 0.0, "mejora_pct": 0.0}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.0002, "delta": 0.0, "mejora_pct": 0.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.0001, "delta": 0.0001, "mejora_pct": 50.0}}}]};
+const __scenariosData = {"_meta": {"improvement_factor": 0.3}, "estados": [{"clave": 7, "nombre": "Chiapas", "region": "Sur", "irte_base": 1.0, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 1.0, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.925, "delta": 0.075, "mejora_pct": 7.5}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.925, "delta": 0.075, "mejora_pct": 7.5}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.925, "delta": 0.075, "mejora_pct": 7.5}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.925, "delta": 0.075, "mejora_pct": 7.5}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.7, "delta": 0.3, "mejora_pct": 30.0}}}, {"clave": 20, "nombre": "Oaxaca", "region": "Sur", "irte_base": 0.9016, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.9015, "delta": 0.0001, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.8343, "delta": 0.0673, "mejora_pct": 7.5}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.8358, "delta": 0.0658, "mejora_pct": 7.3}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.8343, "delta": 0.0673, "mejora_pct": 7.5}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.8313, "delta": 0.0703, "mejora_pct": 7.8}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.6311, "delta": 0.2705, "mejora_pct": 30.0}}}, {"clave": 12, "nombre": "Guerrero", "region": "Sur", "irte_base": 0.8594, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.8595, "delta": -0.0001, "mejora_pct": -0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.7968, "delta": 0.0626, "mejora_pct": 7.3}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.7964, "delta": 0.063, "mejora_pct": 7.3}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.7958, "delta": 0.0636, "mejora_pct": 7.4}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.7909, "delta": 0.0685, "mejora_pct": 8.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.6016, "delta": 0.2578, "mejora_pct": 30.0}}}, {"clave": 30, "nombre": "Veracruz", "region": "Sureste", "irte_base": 0.6447, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.6447, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.6019, "delta": 0.0428, "mejora_pct": 6.6}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.5984, "delta": 0.0463, "mejora_pct": 7.2}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.5981, "delta": 0.0466, "mejora_pct": 7.2}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.5869, "delta": 0.0578, "mejora_pct": 9.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.4513, "delta": 0.1934, "mejora_pct": 30.0}}}, {"clave": 27, "nombre": "Tabasco", "region": "Sureste", "irte_base": 0.5829, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.5829, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.545, "delta": 0.0379, "mejora_pct": 6.5}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.5408, "delta": 0.0421, "mejora_pct": 7.2}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.5428, "delta": 0.0401, "mejora_pct": 6.9}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.5281, "delta": 0.0548, "mejora_pct": 9.4}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.408, "delta": 0.1749, "mejora_pct": 30.0}}}, {"clave": 21, "nombre": "Puebla", "region": "Centro", "irte_base": 0.5798, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.5798, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.5416, "delta": 0.0382, "mejora_pct": 6.6}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.5396, "delta": 0.0402, "mejora_pct": 6.9}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.5373, "delta": 0.0425, "mejora_pct": 7.3}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.527, "delta": 0.0528, "mejora_pct": 9.1}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.4059, "delta": 0.1739, "mejora_pct": 30.0}}}, {"clave": 16, "nombre": "Michoacán", "region": "Occidente", "irte_base": 0.5348, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.5348, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.5025, "delta": 0.0323, "mejora_pct": 6.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.4995, "delta": 0.0353, "mejora_pct": 6.6}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.4933, "delta": 0.0415, "mejora_pct": 7.8}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.4835, "delta": 0.0513, "mejora_pct": 9.6}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.3744, "delta": 0.1604, "mejora_pct": 30.0}}}, {"clave": 4, "nombre": "Campeche", "region": "Sureste", "irte_base": 0.499, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.499, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.4693, "delta": 0.0297, "mejora_pct": 6.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.4622, "delta": 0.0368, "mejora_pct": 7.4}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.4653, "delta": 0.0337, "mejora_pct": 6.8}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.4496, "delta": 0.0494, "mejora_pct": 9.9}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.3493, "delta": 0.1497, "mejora_pct": 30.0}}}, {"clave": 13, "nombre": "Hidalgo", "region": "Centro", "irte_base": 0.4824, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.4824, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.4534, "delta": 0.029, "mejora_pct": 6.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.4504, "delta": 0.032, "mejora_pct": 6.6}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.445, "delta": 0.0374, "mejora_pct": 7.8}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.4359, "delta": 0.0465, "mejora_pct": 9.6}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.3377, "delta": 0.1447, "mejora_pct": 30.0}}}, {"clave": 24, "nombre": "San Luis Potosí", "region": "Centro-Norte", "irte_base": 0.4558, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.4558, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.4278, "delta": 0.028, "mejora_pct": 6.1}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.4256, "delta": 0.0302, "mejora_pct": 6.6}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.4226, "delta": 0.0332, "mejora_pct": 7.3}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.4103, "delta": 0.0455, "mejora_pct": 10.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.319, "delta": 0.1368, "mejora_pct": 30.0}}}, {"clave": 29, "nombre": "Tlaxcala", "region": "Centro", "irte_base": 0.4408, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.4408, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.4143, "delta": 0.0265, "mejora_pct": 6.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.407, "delta": 0.0338, "mejora_pct": 7.7}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.4118, "delta": 0.029, "mejora_pct": 6.6}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.398, "delta": 0.0428, "mejora_pct": 9.7}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.3086, "delta": 0.1322, "mejora_pct": 30.0}}}, {"clave": 32, "nombre": "Zacatecas", "region": "Centro-Norte", "irte_base": 0.4385, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.4385, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.4126, "delta": 0.0259, "mejora_pct": 5.9}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.4122, "delta": 0.0263, "mejora_pct": 6.0}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.405, "delta": 0.0335, "mejora_pct": 7.6}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.3928, "delta": 0.0457, "mejora_pct": 10.4}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.307, "delta": 0.1315, "mejora_pct": 30.0}}}, {"clave": 31, "nombre": "Yucatán", "region": "Sureste", "irte_base": 0.4174, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.4174, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.3938, "delta": 0.0236, "mejora_pct": 5.7}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.3909, "delta": 0.0265, "mejora_pct": 6.3}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.3837, "delta": 0.0337, "mejora_pct": 8.1}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.3759, "delta": 0.0415, "mejora_pct": 9.9}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.2922, "delta": 0.1252, "mejora_pct": 30.0}}}, {"clave": 18, "nombre": "Nayarit", "region": "Occidente", "irte_base": 0.3999, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3999, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.3747, "delta": 0.0252, "mejora_pct": 6.3}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.3785, "delta": 0.0214, "mejora_pct": 5.4}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.3713, "delta": 0.0286, "mejora_pct": 7.2}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.3549, "delta": 0.045, "mejora_pct": 11.3}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.2799, "delta": 0.12, "mejora_pct": 30.0}}}, {"clave": 17, "nombre": "Morelos", "region": "Centro", "irte_base": 0.3937, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3937, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.3726, "delta": 0.0211, "mejora_pct": 5.4}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.3652, "delta": 0.0285, "mejora_pct": 7.2}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.3674, "delta": 0.0263, "mejora_pct": 6.7}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.3515, "delta": 0.0422, "mejora_pct": 10.7}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.2756, "delta": 0.1181, "mejora_pct": 30.0}}}, {"clave": 10, "nombre": "Durango", "region": "Norte", "irte_base": 0.3728, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3728, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.3501, "delta": 0.0227, "mejora_pct": 6.1}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.3525, "delta": 0.0203, "mejora_pct": 5.4}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.3453, "delta": 0.0275, "mejora_pct": 7.4}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.3315, "delta": 0.0413, "mejora_pct": 11.1}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.261, "delta": 0.1118, "mejora_pct": 30.0}}}, {"clave": 11, "nombre": "Guanajuato", "region": "Centro", "irte_base": 0.3257, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3257, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.311, "delta": 0.0147, "mejora_pct": 4.5}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.3037, "delta": 0.022, "mejora_pct": 6.8}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.298, "delta": 0.0277, "mejora_pct": 8.5}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2924, "delta": 0.0333, "mejora_pct": 10.2}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.228, "delta": 0.0977, "mejora_pct": 30.0}}}, {"clave": 23, "nombre": "Quintana Roo", "region": "Sureste", "irte_base": 0.3116, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3116, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.2947, "delta": 0.0169, "mejora_pct": 5.4}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.295, "delta": 0.0166, "mejora_pct": 5.3}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2893, "delta": 0.0223, "mejora_pct": 7.2}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2742, "delta": 0.0374, "mejora_pct": 12.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.2182, "delta": 0.0934, "mejora_pct": 30.0}}}, {"clave": 25, "nombre": "Sinaloa", "region": "Noroeste", "irte_base": 0.3108, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.3108, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.2924, "delta": 0.0184, "mejora_pct": 5.9}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.2957, "delta": 0.0151, "mejora_pct": 4.9}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2891, "delta": 0.0217, "mejora_pct": 7.0}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2729, "delta": 0.0379, "mejora_pct": 12.2}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.2176, "delta": 0.0932, "mejora_pct": 30.0}}}, {"clave": 15, "nombre": "Estado de México", "region": "Centro", "irte_base": 0.31, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.31, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.2925, "delta": 0.0175, "mejora_pct": 5.6}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.2857, "delta": 0.0243, "mejora_pct": 7.8}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2878, "delta": 0.0222, "mejora_pct": 7.2}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2812, "delta": 0.0288, "mejora_pct": 9.3}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.217, "delta": 0.093, "mejora_pct": 30.0}}}, {"clave": 28, "nombre": "Tamaulipas", "region": "Norte", "irte_base": 0.243, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.243, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.229, "delta": 0.014, "mejora_pct": 5.8}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.2297, "delta": 0.0133, "mejora_pct": 5.5}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2247, "delta": 0.0183, "mejora_pct": 7.5}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2158, "delta": 0.0272, "mejora_pct": 11.2}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1701, "delta": 0.0729, "mejora_pct": 30.0}}}, {"clave": 8, "nombre": "Chihuahua", "region": "Norte", "irte_base": 0.2392, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.2392, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.2251, "delta": 0.0141, "mejora_pct": 5.9}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.226, "delta": 0.0132, "mejora_pct": 5.5}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2211, "delta": 0.0181, "mejora_pct": 7.6}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.2128, "delta": 0.0264, "mejora_pct": 11.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1674, "delta": 0.0718, "mejora_pct": 30.0}}}, {"clave": 6, "nombre": "Colima", "region": "Occidente", "irte_base": 0.2298, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.2298, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.2185, "delta": 0.0113, "mejora_pct": 4.9}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.2162, "delta": 0.0136, "mejora_pct": 5.9}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.2155, "delta": 0.0143, "mejora_pct": 6.2}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1999, "delta": 0.0299, "mejora_pct": 13.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1608, "delta": 0.069, "mejora_pct": 30.0}}}, {"clave": 22, "nombre": "Querétaro", "region": "Centro", "irte_base": 0.2048, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.2048, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1929, "delta": 0.0119, "mejora_pct": 5.8}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1931, "delta": 0.0117, "mejora_pct": 5.7}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1904, "delta": 0.0144, "mejora_pct": 7.0}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1815, "delta": 0.0233, "mejora_pct": 11.4}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1434, "delta": 0.0614, "mejora_pct": 30.0}}}, {"clave": 26, "nombre": "Sonora", "region": "Noroeste", "irte_base": 0.1951, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1951, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1843, "delta": 0.0108, "mejora_pct": 5.5}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1849, "delta": 0.0102, "mejora_pct": 5.2}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1822, "delta": 0.0129, "mejora_pct": 6.6}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1704, "delta": 0.0247, "mejora_pct": 12.7}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1366, "delta": 0.0585, "mejora_pct": 30.0}}}, {"clave": 2, "nombre": "Baja California", "region": "Noroeste", "irte_base": 0.1871, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1871, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1778, "delta": 0.0093, "mejora_pct": 5.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1784, "delta": 0.0087, "mejora_pct": 4.6}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1723, "delta": 0.0148, "mejora_pct": 7.9}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1638, "delta": 0.0233, "mejora_pct": 12.5}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.131, "delta": 0.0561, "mejora_pct": 30.0}}}, {"clave": 3, "nombre": "Baja California Sur", "region": "Noroeste", "irte_base": 0.1639, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1639, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1577, "delta": 0.0062, "mejora_pct": 3.8}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1584, "delta": 0.0055, "mejora_pct": 3.4}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1555, "delta": 0.0084, "mejora_pct": 5.1}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1348, "delta": 0.0291, "mejora_pct": 17.8}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1147, "delta": 0.0492, "mejora_pct": 30.0}}}, {"clave": 14, "nombre": "Jalisco", "region": "Occidente", "irte_base": 0.1637, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1637, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.156, "delta": 0.0077, "mejora_pct": 4.7}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1543, "delta": 0.0094, "mejora_pct": 5.7}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1509, "delta": 0.0128, "mejora_pct": 7.8}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1444, "delta": 0.0193, "mejora_pct": 11.8}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1146, "delta": 0.0491, "mejora_pct": 30.0}}}, {"clave": 1, "nombre": "Aguascalientes", "region": "Centro-Norte", "irte_base": 0.1521, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1521, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1429, "delta": 0.0092, "mejora_pct": 6.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1421, "delta": 0.01, "mejora_pct": 6.6}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.144, "delta": 0.0081, "mejora_pct": 5.3}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.1336, "delta": 0.0185, "mejora_pct": 12.2}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.1065, "delta": 0.0456, "mejora_pct": 30.0}}}, {"clave": 5, "nombre": "Coahuila", "region": "Norte", "irte_base": 0.1106, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.1106, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.1049, "delta": 0.0057, "mejora_pct": 5.2}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.1038, "delta": 0.0068, "mejora_pct": 6.1}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.1038, "delta": 0.0068, "mejora_pct": 6.1}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.0967, "delta": 0.0139, "mejora_pct": 12.6}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.0774, "delta": 0.0332, "mejora_pct": 30.0}}}, {"clave": 9, "nombre": "Ciudad de México", "region": "Centro", "irte_base": 0.074, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.074, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.0715, "delta": 0.0025, "mejora_pct": 3.4}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.064, "delta": 0.01, "mejora_pct": 13.5}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.0708, "delta": 0.0032, "mejora_pct": 4.3}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.0676, "delta": 0.0064, "mejora_pct": 8.6}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.0518, "delta": 0.0222, "mejora_pct": 30.0}}}, {"clave": 19, "nombre": "Nuevo León", "region": "Norte", "irte_base": 0.0002, "scenarios": {"base": {"label": "Situación actual", "description": "Sin cambios. Refleja los indicadores estructurales actuales.", "irte_score": 0.0002, "delta": 0.0, "mejora_pct": 0.0}, "mejora_salud": {"label": "Mejora en salud y servicios básicos", "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).", "irte_score": 0.0001, "delta": 0.0001, "mejora_pct": 50.0}, "mejora_pobreza": {"label": "Reducción de pobreza", "description": "Reducción del 30% en el riesgo de la dimensión pobreza.", "irte_score": 0.0002, "delta": 0.0, "mejora_pct": 0.0}, "mejora_educacion": {"label": "Mejora educativa", "description": "Reducción del 30% en rezago y abandono escolar.", "irte_score": 0.0002, "delta": 0.0, "mejora_pct": 0.0}, "mejora_genero_empleo": {"label": "Mejora en género y empleo", "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.", "irte_score": 0.0002, "delta": 0.0, "mejora_pct": 0.0}, "mejora_combinada": {"label": "Mejora combinada (todas las dimensiones)", "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.", "irte_score": 0.0001, "delta": 0.0001, "mejora_pct": 50.0}}}]};
+
+// Replicate OJS reactive variables as plain JS
+const datos = __panelData;
+const scenariosData = __scenariosData;
+const estados = datos.estados.map(e => e.nombre).sort();
+const lookup = Object.fromEntries(datos.estados.map(e => [e.nombre, e]));
+
+
+  // ============================================================
+  // Juego Lotería de la Vida
+  // Autoría: Zabdiel Taboada Vera (dashboard/visualización)
+  // ============================================================
+  (function() {
+    // Mount game
+    const el = document.getElementById('tlahtoa-root');
+    
+gameState = {
+  const ESTADOS = estados;
+  const LK = lookup;
+  const NAC = datos.nacional;
+
+  /* ── Personajes ─────────────────────────────────── */
+  const PERSONAJES = [
+    { id: "mateo",  nombre: "Mateo",  imagen: "assets/chico.png" },
+    { id: "lupita", nombre: "Lupita", imagen: "assets/chica.png" },
+    { id: "alex",   nombre: "Álex",   imagen: "assets/chico.png" }
+  ];
+
+  function elegirPersonaje(sexo) {
+    if (sexo === "Hombre") return PERSONAJES[0];
+    if (sexo === "Mujer")  return PERSONAJES[1];
+    return PERSONAJES[2];
+  }
+
+  /* ── Narrativas placeholder ─────────────────────── */
+  const NARRATIVE_TEMPLATES = {
+    nacimiento: {
+      alto: "{entity} nació en {estado}. Desde el primer día, las probabilidades no estaban a su favor: {value} de cada 1,000 bebés no sobreviven su primer año aquí.",
+      medio: "{entity} nació en {estado}. La mortalidad infantil es de {value} por cada 1,000 nacidos vivos, por encima del promedio nacional de 13.6.",
+      bajo: "{entity} nació en {estado}. Con {value} defunciones por cada 1,000 nacidos vivos, tuvo mejores condiciones de inicio que la mayoría del país."
+    },
+    infancia: {
+      alto: "Durante su infancia en {estado}, {entity} creció rodeado/a de carencias. El {value}% de la población vive en pobreza multidimensional.",
+      medio: "En {estado}, {entity} creció en un entorno con desafíos. El {value}% de la población vive en pobreza.",
+      bajo: "{entity} creció en {estado}, donde el {value}% vive en pobreza, uno de los niveles más bajos del país."
+    },
+    adolescencia: {
+      alto: "Cuando llegó el momento de estudiar, {entity} se enfrentó a un sistema frágil. En {estado}, el {value}% de los jóvenes abandona la secundaria.",
+      medio: "La escuela fue un reto para {entity} en {estado}. El {value}% de los jóvenes no termina la secundaria.",
+      bajo: "En {estado}, {entity} tuvo más oportunidades educativas. Solo el {value}% abandona la secundaria."
+    },
+    adultez: {
+      alto: "Al buscar trabajo, {entity} encontró un mercado laboral precario. En {estado}, solo el {value}% de los trabajadores tiene empleo formal.",
+      medio: "El primer trabajo de {entity} en {estado} llegó con incertidumbre. El {value}% de los trabajadores tiene empleo formal.",
+      bajo: "{entity} entró a un mercado más estable en {estado}, donde el {value}% de los trabajadores tiene empleo formal."
+    }
+  };
+
+  function generarNarrativa(etapaId, severidad, personaje, estado, valor) {
+    const template = NARRATIVE_TEMPLATES[etapaId][severidad];
+    return template
+      .replace(/{entity}/g, personaje.nombre)
+      .replace(/{estado}/g, estado)
+      .replace(/{value}/g, valor);
+  }
+
+  /* ── Etapas del juego ───────────────────────────── */
+  const ETAPAS = [
+    {
+      id: "nacimiento", titulo: "El día que naciste", imagen: "assets/Bebe.png",
+      ods: ["ODS 3"], indicador: "mortalidad_infantil", promedio: 13.6,
+      unidad: "de cada 1,000 bebés no sobreviven su primer año",
+      campo: d => d.trayectoria.nacimiento.indicadores.mortalidad_infantil,
+      severidad: d => d.trayectoria.nacimiento.severidad,
+      rango: [8.4, 23.8]
+    },
+    {
+      id: "infancia", titulo: "Tu infancia", imagen: "assets/Ninez.png",
+      ods: ["ODS 1", "ODS 6"], indicador: "tasa_pobreza", promedio: 39.3,
+      unidad: "de cada 100 personas viven en pobreza",
+      campo: d => d.trayectoria.infancia.indicadores.tasa_pobreza,
+      severidad: d => d.trayectoria.infancia.severidad,
+      rango: [14.2, 75.5]
+    },
+    {
+      id: "adolescencia", titulo: "La escuela", imagen: "assets/Escuela.png",
+      ods: ["ODS 4"], indicador: "abandono_secundaria", promedio: 6.7,
+      unidad: "de cada 100 jóvenes abandonan la secundaria",
+      campo: d => d.trayectoria.adolescencia.indicadores.abandono_secundaria,
+      severidad: d => d.trayectoria.adolescencia.severidad,
+      rango: [2.4, 14.2]
+    },
+    {
+      id: "adultez", titulo: "Tu primer trabajo", imagen: "assets/Trabajo.png",
+      ods: ["ODS 8"], indicador: "formalidad_laboral", promedio: 36.4,
+      unidad: "de cada 100 trabajadores tienen empleo formal",
+      campo: d => d.trayectoria.adultez.indicadores.formalidad_laboral,
+      severidad: d => d.trayectoria.adultez.severidad,
+      rango: [12.1, 63.4], invertida: true
+    }
+  ];
+
+  const ESCENARIOS = [
+    { key: "mejora_salud", emoji: "💊", label: "Salud y servicios" },
+    { key: "mejora_pobreza", emoji: "🏠", label: "Reducir pobreza" },
+    { key: "mejora_educacion", emoji: "📚", label: "Educación" },
+    { key: "mejora_genero_empleo", emoji: "👩‍💼", label: "Género y empleo" },
+    { key: "mejora_combinada", emoji: "✨", label: "Todo combinado" }
+  ];
+
+  const el = document.createElement('div');
+  el.className = 'juego-container';
+
+  let st = { paso: 0, estado: "", sexo: "", escenarioActivo: null };
+
+  function pct(val, mn, mx) { return Math.max(0, Math.min(100, Math.round(((val - mn) / (mx - mn)) * 100))); }
+  function sevClase(s) { return s === "alto" ? "severidad-alto" : s === "medio" ? "severidad-medio" : "severidad-bajo"; }
+  function sevTexto(s) { return s === "alto" ? "RIESGO ALTO" : s === "medio" ? "RIESGO MEDIO" : "RIESGO BAJO"; }
+  function nivelClase(n) { return (n === "Alto" || n === "Medio-Alto") ? "severidad-alto" : n === "Medio" ? "severidad-medio" : "severidad-bajo"; }
+  function nivelColor(n) { return n === "Alto" ? "var(--terracota)" : n === "Medio-Alto" ? "#E8A04A" : n === "Medio" ? "#4A8BC4" : "var(--verde)"; }
+
+  el.addEventListener('click', e => {
+    const gb = e.target.closest('.genero-btn');
+    if (gb) {
+      st.sexo = gb.dataset.sexo;
+      el.querySelectorAll('.genero-btn').forEach(b => b.classList.remove('activo'));
+      gb.classList.add('activo');
+      checkReady();
+      return;
+    }
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const a = btn.dataset.action;
+    if (a === 'jugar' && st.estado && st.sexo) { st.paso = 1; render(); }
+    else if (a === 'siguiente') { st.paso++; render(); }
+    else if (a === 'ver-escenarios') { st.paso = 6; render(); }
+    else if (a === 'reiniciar') { st = { paso: 0, estado: "", sexo: "", escenarioActivo: null }; render(); }
+    else if (a === 'escenario') { st.escenarioActivo = btn.dataset.tipo; render(); }
+  });
+
+  el.addEventListener('change', e => {
+    if (e.target.id === 'select-estado') { st.estado = e.target.value; checkReady(); }
+  });
+
+  function checkReady() {
+    const btn = el.querySelector('[data-action="jugar"]');
+    if (btn) btn.disabled = !(st.estado && st.sexo);
+  }
+
+  function getPersonaje() {
+    return elegirPersonaje(st.sexo);
+  }
+
+  function renderProgress(cur) {
+    let h = '<div class="juego-progress">';
+    for (let i = 0; i < 4; i++) {
+      const cls = i < cur ? 'completada' : i === cur ? 'activa' : '';
+      h += '<div class="progress-step ' + cls + '">' + (i + 1) + '</div>';
+      if (i < 3) h += '<div class="progress-conector"></div>';
+    }
+    h += '<div class="progress-conector"></div>';
+    h += '<div class="progress-step bloqueada">🔒</div>';
+    h += '<div class="progress-conector bloqueada"></div>';
+    h += '<div class="progress-step bloqueada">🔒</div>';
+    h += '</div>';
+    return h;
+  }
+
+  /* ── Pantalla de inicio ─────────────────────────── */
+  function renderSeleccion() {
+    const opts = ESTADOS.map(e =>
+      '<option value="' + e + '"' + (e === st.estado ? ' selected' : '') + '>' + e + '</option>'
+    ).join('');
+    return '<div class="pantalla pantalla-seleccion carta-enter">' +
+      '<div class="intro-bloque">' +
+        '<h1 class="titulo-hero">✦ LOTERÍA<br>DE LA<br>VIDA ✦</h1>' +
+        '<p class="intro-texto">' +
+          'El estado donde naces en México no es un detalle menor. ' +
+          'Define tu acceso a salud, educación y trabajo antes de que puedas elegir nada. ' +
+          'Elige el tuyo y recorre lo que los datos dicen sobre una vida ahí.' +
+        '</p>' +
+        '<p class="intro-texto">' +
+          'El estado en donde nacemos impacta de gran manera en nuestra vida. ' +
+          'La diferencia entre la situación de cada estado dicta de una manera u otra cómo se ' +
+          'desarrollaría nuestra vida de haber nacido ahí. ' +
+          'Así como en La Lotería, elige tu estado y observa cómo son tus cartas: salud, educación, trabajo.' +
+        '</p>' +
+        '<div class="irte-explicacion">' +
+          '<p class="intro-texto">' +
+            '<strong>Nuestro indicador:</strong> Cada estado tiene un número asignado entre el 0 (menos riesgo) ' +
+            'y 1 (mayor riesgo). Te presentamos el <strong>IRTE: Índice de Riesgo de Trayectoria Estructural</strong>, ' +
+            'el cual mide cómo las circunstancias del entorno (salud, educación, pobreza, género/empleo) impactan ' +
+            'las oportunidades de las personas nacidas en ese estado. Usamos datos reales para simular el futuro ' +
+            'al que se enfrentan millones de mexicanos.' +
+          '</p>' +
+          '<p class="intro-cta">Ahí están los datos… pero ¿realmente los estamos viendo?</p>' +
+        '</div>' +
+      '</div>' +
+      '<div class="controles-bloque">' +
+        '<div class="campo">' +
+          '<label for="select-estado">¿En qué estado naciste?</label>' +
+          '<select id="select-estado" class="select-estado"><option value="">Elige un estado...</option>' + opts + '</select>' +
+        '</div>' +
+        '<div class="campo">' +
+          '<label>¿Con qué género te identificas?</label>' +
+          '<div class="genero-btns">' +
+            '<button class="genero-btn ' + (st.sexo === 'Hombre' ? 'activo' : '') + '" data-sexo="Hombre">' +
+              '<img src="assets/chico.png" alt="Hombre">HOMBRE' +
+            '</button>' +
+            '<button class="genero-btn ' + (st.sexo === 'Mujer' ? 'activo' : '') + '" data-sexo="Mujer">' +
+              '<img src="assets/chica.png" alt="Mujer">MUJER' +
+            '</button>' +
+          '</div>' +
+          '<small class="nota-brecha">' +
+            '*Los datos actuales no tienen desglose por sexo. ' +
+            'Tu selección aparecerá en tu historia pero no cambia las probabilidades — ' +
+            'esta es una de las brechas que documentamos en el proyecto.*' +
+          '</small>' +
+        '</div>' +
+        '<button class="btn-jugar" data-action="jugar"' + (st.estado && st.sexo ? '' : ' disabled') + '>' +
+          'JUGAR MI VIDA' +
+        '</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  /* ── Carta de etapa (con narrativa por personaje) ── */
+  function renderCarta(pasoActual) {
+    const idx = pasoActual - 1;
+    const etapa = ETAPAS[idx];
+    const d = LK[st.estado];
+    if (!d) return '<p>Error: estado no encontrado.</p>';
+    const personaje = getPersonaje();
+    const valor = etapa.campo(d);
+    const sev = etapa.severidad(d);
+    const valPct = pct(valor, etapa.rango[0], etapa.rango[1]);
+    const promPct = pct(etapa.promedio, etapa.rango[0], etapa.rango[1]);
+    const isMala = etapa.invertida ? (valor < etapa.promedio) : (valor > etapa.promedio);
+    const barClass = isMala ? 'barra-mala' : 'barra-buena';
+
+    const narrativa = generarNarrativa(etapa.id, sev, personaje, st.estado, valor);
+
+    const odsBadges = etapa.ods.map(o =>
+      '<span class="badge-ods badge-' + o.toLowerCase().replace(' ', '') + '">' + o + '</span>'
+    ).join('');
+
+    let bloqueadas = '';
+    if (idx === 3) {
+      bloqueadas =
+        '<div class="cartas-bloqueadas">' +
+          '<div class="carta-locked">' +
+            '<span class="carta-emoji-locked">⚠️</span>' +
+            '<h3>Violencia</h3>' +
+            '<small>ENDIREH (INEGI) — datos pendientes</small>' +
+          '</div>' +
+          '<div class="carta-locked">' +
+            '<span class="carta-emoji-locked">👨‍👩‍👧</span>' +
+            '<h3>Embarazo y familia</h3>' +
+            '<small>ENADID (INEGI/CONAPO) — datos pendientes</small>' +
+          '</div>' +
+        '</div>';
+    }
+
+    return '<div class="pantalla pantalla-carta carta-enter">' +
+      renderProgress(idx) +
+      '<div class="carta carta-etapa">' +
+        '<img class="carta-imagen" src="' + etapa.imagen + '" alt="' + etapa.titulo + '">' +
+        '<h2 class="carta-titulo">' + etapa.titulo + '</h2>' +
+        '<div class="carta-ods" style="text-align:center;justify-content:center;margin-bottom:1rem">' + odsBadges + '</div>' +
+        '<div class="carta-body">' +
+          '<div class="carta-narrativa">' + narrativa + '</div>' +
+          '<div class="barra-comparativa">' +
+            '<div class="barra-fila">' +
+              '<span class="barra-label">' + st.estado + '</span>' +
+              '<div class="barra-track"><div class="barra-fill ' + barClass + '" style="width:' + valPct + '%"></div></div>' +
+              '<span class="barra-valor">' + valor + '</span>' +
+            '</div>' +
+            '<div class="barra-fila">' +
+              '<span class="barra-label">Nacional</span>' +
+              '<div class="barra-track"><div class="barra-fill barra-nacional" style="width:' + promPct + '%"></div></div>' +
+              '<span class="barra-valor">' + etapa.promedio + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="badge-severidad ' + sevClase(sev) + '">' + sevTexto(sev) + '</div>' +
+        '</div>' +
+        '<div class="carta-footer">' +
+          '<button class="btn-siguiente" data-action="siguiente">' +
+            (idx < 3 ? 'SIGUIENTE CARTA →' : 'VER MI TRAYECTORIA →') +
+          '</button>' +
+        '</div>' +
+      '</div>' +
+      bloqueadas +
+    '</div>';
+  }
+
+  /* ── Resumen / Carta final ─────────────────────── */
+  function renderResumen() {
+    const d = LK[st.estado];
+    if (!d) return '<p>Error: estado no encontrado.</p>';
+    const personaje = getPersonaje();
+    const dims = d.dimensiones;
+    const dimNames = { salud: "Salud", pobreza: "Pobreza", educacion: "Educación", genero_empleo: "Género/Empleo" };
+
+    let etapasHTML = '';
+    ETAPAS.forEach(etapa => {
+      const sev = etapa.severidad(d);
+      etapasHTML += '<div class="resumen-etapa-fila">' +
+        '<span>' + etapa.titulo + '</span>' +
+        '<span class="badge-severidad-sm ' + sevClase(sev) + '">' + sevTexto(sev) + '</span>' +
+      '</div>';
+    });
+
+    let dimensionesHTML = '';
+    for (const key in dimNames) {
+      const val = dims[key];
+      const valPct = Math.round(val * 100);
+      dimensionesHTML += '<div class="barra-fila">' +
+        '<span class="barra-label">' + dimNames[key] + '</span>' +
+        '<div class="barra-track"><div class="barra-fill ' + (val > 0.5 ? 'barra-mala' : 'barra-buena') + '" style="width:' + valPct + '%"></div></div>' +
+        '<span class="barra-valor">' + val.toFixed(2) + '</span>' +
+      '</div>';
+    }
+
+    return '<div class="pantalla pantalla-resumen carta-enter">' +
+      '<div class="carta carta-resumen">' +
+        '<div class="resumen-score">' +
+          '<span class="score-numero">' + d.irte_score.toFixed(3) + '</span>' +
+          '<span class="score-label">IRTE</span>' +
+        '</div>' +
+        '<h2 class="resumen-titulo">La trayectoria de ' + personaje.nombre + ' en ' + st.estado + '</h2>' +
+        '<p class="resumen-ranking">Lugar <strong>' + d.irte_rank + '</strong> de 32</p>' +
+        '<div class="badge-severidad ' + nivelClase(d.irte_nivel) + '" style="margin:0 auto 1.5rem;width:fit-content;">' +
+          d.irte_nivel.toUpperCase() +
+        '</div>' +
+        '<div class="resumen-etapas"><h3>RESUMEN DE ETAPAS</h3>' + etapasHTML + '</div>' +
+        '<div class="resumen-dimensiones"><h3>DIMENSIONES DEL IRTE</h3><div class="barra-comparativa">' + dimensionesHTML + '</div></div>' +
+        '<p class="resumen-narrativa">' +
+          'El IRTE de <strong>' + st.estado + '</strong> es <strong>' + d.irte_score.toFixed(3) + '</strong>. ' +
+          'Eso lo coloca en el lugar <strong>' + d.irte_rank + '</strong> de 32 estados. ' +
+          'No es un juicio sobre las personas que viven ahí. ' +
+          'Es una descripción de las estructuras que las rodean.' +
+        '</p>' +
+        '<div class="resumen-acciones">' +
+          '<button class="btn-hero" data-action="ver-escenarios">¿QUÉ PASARÍA SI CAMBIARA ALGO?</button>' +
+          '<button class="btn-reiniciar" data-action="reiniciar">← COMPARAR CON OTRO ESTADO</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  /* ── Simulador de intervención (con cartas lotería) ── */
+  function renderEscenarios() {
+    const d = LK[st.estado];
+    if (!d) return '<p>Error: estado no encontrado.</p>';
+    const personaje = getPersonaje();
+
+    // Buscar estado en scenario_templates.json
+    const estadoScenario = scenariosData.estados.find(e => e.nombre === st.estado);
+
+    const acciones = [
+      { key: "mejora_salud",         emoji: "💊", label: "Salud y servicios" },
+      { key: "mejora_pobreza",       emoji: "🏠", label: "Reducir pobreza" },
+      { key: "mejora_educacion",     emoji: "📚", label: "Educación" },
+      { key: "mejora_genero_empleo", emoji: "👩‍💼", label: "Género y empleo" },
+      { key: "mejora_combinada",     emoji: "✨", label: "Todo combinado" }
+    ];
+
+    let botonesHTML = acciones.map(esc =>
+      '<button class="btn-escenario ' + (st.escenarioActivo === esc.key ? 'activo' : '') + '" data-action="escenario" data-tipo="' + esc.key + '">' +
+        '<span class="esc-emoji">' + esc.emoji + '</span>' +
+        '<span class="esc-label">' + esc.label + '</span>' +
+      '</button>'
+    ).join('');
+
+    let resultadoHTML = '';
+    if (st.escenarioActivo && estadoScenario && estadoScenario.scenarios[st.escenarioActivo]) {
+      const esc = estadoScenario.scenarios[st.escenarioActivo];
+      const irteBase = estadoScenario.irte_base;
+
+      resultadoHTML = '<div class="escenario-resultado carta-enter">' +
+        '<div class="simulador-cartas">' +
+          '<div class="loteria-card">' +
+            '<div class="loteria-card-header">' + personaje.nombre + '</div>' +
+            '<div class="loteria-card-body">' +
+              '<img class="loteria-card-img" src="' + personaje.imagen + '" alt="' + personaje.nombre + '">' +
+              '<div class="loteria-card-score">' + irteBase.toFixed(3) + '</div>' +
+              '<div class="loteria-card-name">' + st.estado + '</div>' +
+            '</div>' +
+            '<div class="loteria-card-footer">SITUACIÓN ACTUAL</div>' +
+          '</div>' +
+          '<div class="loteria-card">' +
+            '<div class="loteria-card-header proyectado">' + personaje.nombre + '</div>' +
+            '<div class="loteria-card-body">' +
+              '<img class="loteria-card-img" src="' + personaje.imagen + '" alt="' + personaje.nombre + '">' +
+              '<div class="loteria-card-score proyectado">' + esc.irte_score.toFixed(3) + '</div>' +
+              '<div class="loteria-card-name">' + st.estado + ' proyectado</div>' +
+              '<span class="mejora-badge">-' + esc.mejora_pct.toFixed(1) + '% riesgo</span>' +
+            '</div>' +
+            '<div class="loteria-card-footer">CON ESTA MEJORA</div>' +
+          '</div>' +
+        '</div>' +
+        '<h3>' + esc.label + '</h3>' +
+        '<p class="esc-desc">' + esc.description + '</p>' +
+        '<div class="esc-datos">' +
+          '<div class="esc-dato"><span class="esc-dato-num">' + esc.irte_score.toFixed(3) + '</span><span class="esc-dato-label">NUEVO IRTE</span></div>' +
+          '<div class="esc-dato"><span class="esc-dato-num">-' + esc.delta.toFixed(3) + '</span><span class="esc-dato-label">REDUCCIÓN</span></div>' +
+          '<div class="esc-dato"><span class="esc-dato-num">' + esc.mejora_pct.toFixed(1) + '%</span><span class="esc-dato-label">MEJORA</span></div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    return '<div class="pantalla pantalla-escenarios carta-enter">' +
+      '<div class="carta">' +
+        '<h2 class="carta-titulo">¿Qué pasaría si se mejorara algo en ' + st.estado + '?</h2>' +
+        '<p class="esc-intro">Si en <strong>' + st.estado + '</strong> se pudiera mejorar una sola dimensión en un 30%, ¿cuál tendría más impacto?</p>' +
+        '<div class="escenarios-grid">' + botonesHTML + '</div>' +
+        resultadoHTML +
+        '<div style="text-align:center;margin-top:2rem">' +
+          '<button class="btn-reiniciar" data-action="reiniciar">← JUGAR DE NUEVO</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function render() {
+    if (st.paso === 0) el.innerHTML = renderSeleccion();
+    else if (st.paso >= 1 && st.paso <= 4) el.innerHTML = renderCarta(st.paso);
+    else if (st.paso === 5) el.innerHTML = renderResumen();
+    else if (st.paso === 6) el.innerHTML = renderEscenarios();
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    el.value = { estado: st.estado, sexo: st.sexo, paso: st.paso };
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  render();
+  return el;
+}
+
+  })();
+
+  // KPIs
+  (function() {
+    const el = document.getElementById('kpis-root');
+    
+{
+  const kpisEl = document.createElement('section');
+  kpisEl.className = 'seccion-kpis';
+  kpisEl.id = 'kpis';
+
+  const KPIS = [
+    { valor: "1.00",    label: "IRTE Chiapas",          nota: "Mayor riesgo relativo",       color: "var(--terracota)" },
+    { valor: "0.00",    label: "IRTE Nuevo León",       nota: "Menor riesgo relativo",       color: "var(--verde)" },
+    { valor: "~99%",    label: "Brecha estructural",    nota: "Entre extremos del país",     color: "var(--negro)" },
+    { valor: "32",      label: "Entidades analizadas",  nota: "Cobertura nacional completa", color: "var(--negro)" },
+    { valor: "r=0.936", label: "Pobreza × Servicios",   nota: "Correlación Pearson",         color: "var(--dorado)" },
+    { valor: "2022",    label: "Año de referencia",      nota: "CONEVAL oficial",             color: "var(--negro)" }
+  ];
+
+  let cardsHTML = KPIS.map(k =>
+    '<div class="kpi-card">' +
+      '<div class="kpi-valor" style="color:' + k.color + '">' + k.valor + '</div>' +
+      '<div class="kpi-label">' + k.label + '</div>' +
+      '<div class="kpi-nota">' + k.nota + '</div>' +
+    '</div>'
+  ).join('');
+
+  kpisEl.innerHTML =
+    '<h2 class="seccion-titulo">México en números</h2>' +
+    '<div class="kpi-grid">' + cardsHTML + '</div>';
+
+  return kpisEl;
+}
+
+    el.appendChild(kpisEl);
+  })();
+  </script>
+</body>
+</html>

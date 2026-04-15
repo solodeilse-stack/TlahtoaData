@@ -12,7 +12,6 @@ format:
 execute:
   echo: false
   warning: false
-  freeze: auto
 aliases:
   - /index.html
 resources:
@@ -24,6 +23,7 @@ resources:
   - assets/Escuela.png
   - assets/Trabajo.png
 ---
+
 <!--
   @project      Tlahtoa Data 2026
   @team         Jesús Rafael Loggen Gonzalez · Ilse Cristina Gonzalez Diaz · Zabdiel Taboada Vera
@@ -35,632 +35,72 @@ resources:
 ::: {.borde-loteria}
 :::
 
-```{ojs}
-//| echo: false
-datos = FileAttachment("../data/processed/state_panel.json").json()
-```
+## Lotería de la Vida {#juego}
 
-```{ojs}
-//| echo: false
-scenariosData = FileAttachment("../data/processed/scenario_templates.json").json()
-```
+*¿Qué mexicano no ha jugado Lotería? En este tablero, cada carta revela una etapa de vida — y lo que los datos dicen sobre ella según el estado donde naciste.*
 
-```{ojs}
-//| echo: false
-irteCSV = FileAttachment("../data/processed/irte_por_estado.csv").csv({typed: true})
-```
-
-```{ojs}
-//| echo: false
-estados = datos.estados.map(e => e.nombre).sort()
-lookup = Object.fromEntries(datos.estados.map(e => [e.nombre, e]))
-```
-
-```{ojs}
-//| echo: false
-viewof gameState = {
-  const ESTADOS = estados;
-  const LK = lookup;
-  const NAC = datos.nacional;
-
-  /* ── Personajes ─────────────────────────────────── */
-  const PERSONAJES = [
-    { id: "mateo",  nombre: "Mateo",  imagen: "assets/chico.png" },
-    { id: "lupita", nombre: "Lupita", imagen: "assets/chica.png" },
-    { id: "alex",   nombre: "Álex",   imagen: "assets/chico.png" }
-  ];
-
-  function elegirPersonaje(sexo) {
-    if (sexo === "Hombre") return PERSONAJES[0];
-    if (sexo === "Mujer")  return PERSONAJES[1];
-    return PERSONAJES[2];
-  }
-
-  /* ── Narrativas placeholder ─────────────────────── */
-  const NARRATIVE_TEMPLATES = {
-    nacimiento: {
-      alto: "{entity} nació en {estado}. Desde el primer día, las probabilidades no estaban a su favor: {value} de cada 1,000 bebés no sobreviven su primer año aquí.",
-      medio: "{entity} nació en {estado}. La mortalidad infantil es de {value} por cada 1,000 nacidos vivos, por encima del promedio nacional de 13.6.",
-      bajo: "{entity} nació en {estado}. Con {value} defunciones por cada 1,000 nacidos vivos, tuvo mejores condiciones de inicio que la mayoría del país."
-    },
-    infancia: {
-      alto: "Durante su infancia en {estado}, {entity} creció rodeado/a de carencias. El {value}% de la población vive en pobreza multidimensional.",
-      medio: "En {estado}, {entity} creció en un entorno con desafíos. El {value}% de la población vive en pobreza.",
-      bajo: "{entity} creció en {estado}, donde el {value}% vive en pobreza, uno de los niveles más bajos del país."
-    },
-    adolescencia: {
-      alto: "Cuando llegó el momento de estudiar, {entity} se enfrentó a un sistema frágil. En {estado}, el {value}% de los jóvenes abandona la secundaria.",
-      medio: "La escuela fue un reto para {entity} en {estado}. El {value}% de los jóvenes no termina la secundaria.",
-      bajo: "En {estado}, {entity} tuvo más oportunidades educativas. Solo el {value}% abandona la secundaria."
-    },
-    adultez: {
-      alto: "Al buscar trabajo, {entity} encontró un mercado laboral precario. En {estado}, solo el {value}% de los trabajadores tiene empleo formal.",
-      medio: "El primer trabajo de {entity} en {estado} llegó con incertidumbre. El {value}% de los trabajadores tiene empleo formal.",
-      bajo: "{entity} entró a un mercado más estable en {estado}, donde el {value}% de los trabajadores tiene empleo formal."
-    }
-  };
-
-  function generarNarrativa(etapaId, severidad, personaje, estado, valor) {
-    const template = NARRATIVE_TEMPLATES[etapaId][severidad];
-    return template
-      .replace(/{entity}/g, personaje.nombre)
-      .replace(/{estado}/g, estado)
-      .replace(/{value}/g, valor);
-  }
-
-  /* ── Etapas del juego ───────────────────────────── */
-  const ETAPAS = [
-    {
-      id: "nacimiento", titulo: "El día que naciste", imagen: "assets/Bebe.png",
-      ods: ["ODS 3"], indicador: "mortalidad_infantil", promedio: 13.6,
-      unidad: "de cada 1,000 bebés no sobreviven su primer año",
-      campo: d => d.trayectoria.nacimiento.indicadores.mortalidad_infantil,
-      severidad: d => d.trayectoria.nacimiento.severidad,
-      rango: [8.4, 23.8]
-    },
-    {
-      id: "infancia", titulo: "Tu infancia", imagen: "assets/Ninez.png",
-      ods: ["ODS 1", "ODS 6"], indicador: "tasa_pobreza", promedio: 39.3,
-      unidad: "de cada 100 personas viven en pobreza",
-      campo: d => d.trayectoria.infancia.indicadores.tasa_pobreza,
-      severidad: d => d.trayectoria.infancia.severidad,
-      rango: [14.2, 75.5]
-    },
-    {
-      id: "adolescencia", titulo: "La escuela", imagen: "assets/Escuela.png",
-      ods: ["ODS 4"], indicador: "abandono_secundaria", promedio: 6.7,
-      unidad: "de cada 100 jóvenes abandonan la secundaria",
-      campo: d => d.trayectoria.adolescencia.indicadores.abandono_secundaria,
-      severidad: d => d.trayectoria.adolescencia.severidad,
-      rango: [2.4, 14.2]
-    },
-    {
-      id: "adultez", titulo: "Tu primer trabajo", imagen: "assets/Trabajo.png",
-      ods: ["ODS 8"], indicador: "formalidad_laboral", promedio: 36.4,
-      unidad: "de cada 100 trabajadores tienen empleo formal",
-      campo: d => d.trayectoria.adultez.indicadores.formalidad_laboral,
-      severidad: d => d.trayectoria.adultez.severidad,
-      rango: [12.1, 63.4], invertida: true
-    }
-  ];
-
-  const ESCENARIOS = [
-    { key: "mejora_salud", emoji: "💊", label: "Salud y servicios" },
-    { key: "mejora_pobreza", emoji: "🏠", label: "Reducir pobreza" },
-    { key: "mejora_educacion", emoji: "📚", label: "Educación" },
-    { key: "mejora_genero_empleo", emoji: "👩‍💼", label: "Género y empleo" },
-    { key: "mejora_combinada", emoji: "✨", label: "Todo combinado" }
-  ];
-
-  const el = document.createElement('div');
-  el.className = 'juego-container';
-
-  let st = { paso: 0, estado: "", sexo: "", escenarioActivo: null };
-
-  function pct(val, mn, mx) { return Math.max(0, Math.min(100, Math.round(((val - mn) / (mx - mn)) * 100))); }
-  function sevClase(s) { return s === "alto" ? "severidad-alto" : s === "medio" ? "severidad-medio" : "severidad-bajo"; }
-  function sevTexto(s) { return s === "alto" ? "RIESGO ALTO" : s === "medio" ? "RIESGO MEDIO" : "RIESGO BAJO"; }
-  function nivelClase(n) { return (n === "Alto" || n === "Medio-Alto") ? "severidad-alto" : n === "Medio" ? "severidad-medio" : "severidad-bajo"; }
-  function nivelColor(n) { return n === "Alto" ? "var(--terracota)" : n === "Medio-Alto" ? "#E8A04A" : n === "Medio" ? "#4A8BC4" : "var(--verde)"; }
-
-  el.addEventListener('click', e => {
-    const gb = e.target.closest('.genero-btn');
-    if (gb) {
-      st.sexo = gb.dataset.sexo;
-      el.querySelectorAll('.genero-btn').forEach(b => b.classList.remove('activo'));
-      gb.classList.add('activo');
-      checkReady();
-      return;
-    }
-    const btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    const a = btn.dataset.action;
-    if (a === 'jugar' && st.estado && st.sexo) { st.paso = 1; render(); }
-    else if (a === 'siguiente') { st.paso++; render(); }
-    else if (a === 'ver-escenarios') { st.paso = 6; render(); }
-    else if (a === 'reiniciar') { st = { paso: 0, estado: "", sexo: "", escenarioActivo: null }; render(); }
-    else if (a === 'escenario') { st.escenarioActivo = btn.dataset.tipo; render(); }
-  });
-
-  el.addEventListener('change', e => {
-    if (e.target.id === 'select-estado') { st.estado = e.target.value; checkReady(); }
-  });
-
-  function checkReady() {
-    const btn = el.querySelector('[data-action="jugar"]');
-    if (btn) btn.disabled = !(st.estado && st.sexo);
-  }
-
-  function getPersonaje() {
-    return elegirPersonaje(st.sexo);
-  }
-
-  function renderProgress(cur) {
-    let h = '<div class="juego-progress">';
-    for (let i = 0; i < 4; i++) {
-      const cls = i < cur ? 'completada' : i === cur ? 'activa' : '';
-      h += '<div class="progress-step ' + cls + '">' + (i + 1) + '</div>';
-      if (i < 3) h += '<div class="progress-conector"></div>';
-    }
-    h += '<div class="progress-conector"></div>';
-    h += '<div class="progress-step bloqueada">🔒</div>';
-    h += '<div class="progress-conector bloqueada"></div>';
-    h += '<div class="progress-step bloqueada">🔒</div>';
-    h += '</div>';
-    return h;
-  }
-
-  /* ── Pantalla de inicio ─────────────────────────── */
-  function renderSeleccion() {
-    const opts = ESTADOS.map(e =>
-      '<option value="' + e + '"' + (e === st.estado ? ' selected' : '') + '>' + e + '</option>'
-    ).join('');
-    return '<div class="pantalla pantalla-seleccion carta-enter">' +
-      '<div class="intro-bloque">' +
-        '<h1 class="titulo-hero">✦ LOTERÍA<br>DE LA<br>VIDA ✦</h1>' +
-        '<p class="intro-texto">' +
-          'El estado donde naces en México no es un detalle menor. ' +
-          'Define tu acceso a salud, educación y trabajo antes de que puedas elegir nada. ' +
-          'Elige el tuyo y recorre lo que los datos dicen sobre una vida ahí.' +
-        '</p>' +
-        '<p class="intro-texto">' +
-          'El estado en donde nacemos impacta de gran manera en nuestra vida. ' +
-          'La diferencia entre la situación de cada estado dicta de una manera u otra cómo se ' +
-          'desarrollaría nuestra vida de haber nacido ahí. ' +
-          'Así como en La Lotería, elige tu estado y observa cómo son tus cartas: salud, educación, trabajo.' +
-        '</p>' +
-        '<div class="irte-explicacion">' +
-          '<p class="intro-texto">' +
-            '<strong>Nuestro indicador:</strong> Cada estado tiene un número asignado entre el 0 (menos riesgo) ' +
-            'y 1 (mayor riesgo). Te presentamos el <strong>IRTE: Índice de Riesgo de Trayectoria Estructural</strong>, ' +
-            'el cual mide cómo las circunstancias del entorno (salud, educación, pobreza, género/empleo) impactan ' +
-            'las oportunidades de las personas nacidas en ese estado. Usamos datos reales para simular el futuro ' +
-            'al que se enfrentan millones de mexicanos.' +
-          '</p>' +
-          '<p class="intro-cta">Ahí están los datos… pero ¿realmente los estamos viendo?</p>' +
-        '</div>' +
-      '</div>' +
-      '<div class="controles-bloque">' +
-        '<div class="campo">' +
-          '<label for="select-estado">¿En qué estado naciste?</label>' +
-          '<select id="select-estado" class="select-estado"><option value="">Elige un estado...</option>' + opts + '</select>' +
-        '</div>' +
-        '<div class="campo">' +
-          '<label>¿Con qué género te identificas?</label>' +
-          '<div class="genero-btns">' +
-            '<button class="genero-btn ' + (st.sexo === 'Hombre' ? 'activo' : '') + '" data-sexo="Hombre">' +
-              '<img src="assets/chico.png" alt="Hombre">HOMBRE' +
-            '</button>' +
-            '<button class="genero-btn ' + (st.sexo === 'Mujer' ? 'activo' : '') + '" data-sexo="Mujer">' +
-              '<img src="assets/chica.png" alt="Mujer">MUJER' +
-            '</button>' +
-          '</div>' +
-          '<small class="nota-brecha">' +
-            '*Los datos actuales no tienen desglose por sexo. ' +
-            'Tu selección aparecerá en tu historia pero no cambia las probabilidades — ' +
-            'esta es una de las brechas que documentamos en el proyecto.*' +
-          '</small>' +
-        '</div>' +
-        '<button class="btn-jugar" data-action="jugar"' + (st.estado && st.sexo ? '' : ' disabled') + '>' +
-          'JUGAR MI VIDA' +
-        '</button>' +
-      '</div>' +
-    '</div>';
-  }
-
-  /* ── Carta de etapa (con narrativa por personaje) ── */
-  function renderCarta(pasoActual) {
-    const idx = pasoActual - 1;
-    const etapa = ETAPAS[idx];
-    const d = LK[st.estado];
-    if (!d) return '<p>Error: estado no encontrado.</p>';
-    const personaje = getPersonaje();
-    const valor = etapa.campo(d);
-    const sev = etapa.severidad(d);
-    const valPct = pct(valor, etapa.rango[0], etapa.rango[1]);
-    const promPct = pct(etapa.promedio, etapa.rango[0], etapa.rango[1]);
-    const isMala = etapa.invertida ? (valor < etapa.promedio) : (valor > etapa.promedio);
-    const barClass = isMala ? 'barra-mala' : 'barra-buena';
-
-    const narrativa = generarNarrativa(etapa.id, sev, personaje, st.estado, valor);
-
-    const odsBadges = etapa.ods.map(o =>
-      '<span class="badge-ods badge-' + o.toLowerCase().replace(' ', '') + '">' + o + '</span>'
-    ).join('');
-
-    let bloqueadas = '';
-    if (idx === 3) {
-      bloqueadas =
-        '<div class="cartas-bloqueadas">' +
-          '<div class="carta-locked">' +
-            '<span class="carta-emoji-locked">⚠️</span>' +
-            '<h3>Violencia</h3>' +
-            '<small>ENDIREH (INEGI) — datos pendientes</small>' +
-          '</div>' +
-          '<div class="carta-locked">' +
-            '<span class="carta-emoji-locked">👨‍👩‍👧</span>' +
-            '<h3>Embarazo y familia</h3>' +
-            '<small>ENADID (INEGI/CONAPO) — datos pendientes</small>' +
-          '</div>' +
-        '</div>';
-    }
-
-    return '<div class="pantalla pantalla-carta carta-enter">' +
-      renderProgress(idx) +
-      '<div class="carta carta-etapa">' +
-        '<img class="carta-imagen" src="' + etapa.imagen + '" alt="' + etapa.titulo + '">' +
-        '<h2 class="carta-titulo">' + etapa.titulo + '</h2>' +
-        '<div class="carta-ods" style="text-align:center;justify-content:center;margin-bottom:1rem">' + odsBadges + '</div>' +
-        '<div class="carta-body">' +
-          '<div class="carta-narrativa">' + narrativa + '</div>' +
-          '<div class="barra-comparativa">' +
-            '<div class="barra-fila">' +
-              '<span class="barra-label">' + st.estado + '</span>' +
-              '<div class="barra-track"><div class="barra-fill ' + barClass + '" style="width:' + valPct + '%"></div></div>' +
-              '<span class="barra-valor">' + valor + '</span>' +
-            '</div>' +
-            '<div class="barra-fila">' +
-              '<span class="barra-label">Nacional</span>' +
-              '<div class="barra-track"><div class="barra-fill barra-nacional" style="width:' + promPct + '%"></div></div>' +
-              '<span class="barra-valor">' + etapa.promedio + '</span>' +
-            '</div>' +
-          '</div>' +
-          '<div class="badge-severidad ' + sevClase(sev) + '">' + sevTexto(sev) + '</div>' +
-        '</div>' +
-        '<div class="carta-footer">' +
-          '<button class="btn-siguiente" data-action="siguiente">' +
-            (idx < 3 ? 'SIGUIENTE CARTA →' : 'VER MI TRAYECTORIA →') +
-          '</button>' +
-        '</div>' +
-      '</div>' +
-      bloqueadas +
-    '</div>';
-  }
-
-  /* ── Resumen / Carta final ─────────────────────── */
-  function renderResumen() {
-    const d = LK[st.estado];
-    if (!d) return '<p>Error: estado no encontrado.</p>';
-    const personaje = getPersonaje();
-    const dims = d.dimensiones;
-    const dimNames = { salud: "Salud", pobreza: "Pobreza", educacion: "Educación", genero_empleo: "Género/Empleo" };
-
-    let etapasHTML = '';
-    ETAPAS.forEach(etapa => {
-      const sev = etapa.severidad(d);
-      etapasHTML += '<div class="resumen-etapa-fila">' +
-        '<span>' + etapa.titulo + '</span>' +
-        '<span class="badge-severidad-sm ' + sevClase(sev) + '">' + sevTexto(sev) + '</span>' +
-      '</div>';
-    });
-
-    let dimensionesHTML = '';
-    for (const key in dimNames) {
-      const val = dims[key];
-      const valPct = Math.round(val * 100);
-      dimensionesHTML += '<div class="barra-fila">' +
-        '<span class="barra-label">' + dimNames[key] + '</span>' +
-        '<div class="barra-track"><div class="barra-fill ' + (val > 0.5 ? 'barra-mala' : 'barra-buena') + '" style="width:' + valPct + '%"></div></div>' +
-        '<span class="barra-valor">' + val.toFixed(2) + '</span>' +
-      '</div>';
-    }
-
-    return '<div class="pantalla pantalla-resumen carta-enter">' +
-      '<div class="carta carta-resumen">' +
-        '<div class="resumen-score">' +
-          '<span class="score-numero">' + d.irte_score.toFixed(3) + '</span>' +
-          '<span class="score-label">IRTE</span>' +
-        '</div>' +
-        '<h2 class="resumen-titulo">La trayectoria de ' + personaje.nombre + ' en ' + st.estado + '</h2>' +
-        '<p class="resumen-ranking">Lugar <strong>' + d.irte_rank + '</strong> de 32</p>' +
-        '<div class="badge-severidad ' + nivelClase(d.irte_nivel) + '" style="margin:0 auto 1.5rem;width:fit-content;">' +
-          d.irte_nivel.toUpperCase() +
-        '</div>' +
-        '<div class="resumen-etapas"><h3>RESUMEN DE ETAPAS</h3>' + etapasHTML + '</div>' +
-        '<div class="resumen-dimensiones"><h3>DIMENSIONES DEL IRTE</h3><div class="barra-comparativa">' + dimensionesHTML + '</div></div>' +
-        '<p class="resumen-narrativa">' +
-          'El IRTE de <strong>' + st.estado + '</strong> es <strong>' + d.irte_score.toFixed(3) + '</strong>. ' +
-          'Eso lo coloca en el lugar <strong>' + d.irte_rank + '</strong> de 32 estados. ' +
-          'No es un juicio sobre las personas que viven ahí. ' +
-          'Es una descripción de las estructuras que las rodean.' +
-        '</p>' +
-        '<div class="resumen-acciones">' +
-          '<button class="btn-hero" data-action="ver-escenarios">¿QUÉ PASARÍA SI CAMBIARA ALGO?</button>' +
-          '<button class="btn-reiniciar" data-action="reiniciar">← COMPARAR CON OTRO ESTADO</button>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
-  }
-
-  /* ── Simulador de intervención (con cartas lotería) ── */
-  function renderEscenarios() {
-    const d = LK[st.estado];
-    if (!d) return '<p>Error: estado no encontrado.</p>';
-    const personaje = getPersonaje();
-
-    // Buscar estado en scenario_templates.json
-    const estadoScenario = scenariosData.estados.find(e => e.nombre === st.estado);
-
-    const acciones = [
-      { key: "mejora_salud",         emoji: "💊", label: "Salud y servicios" },
-      { key: "mejora_pobreza",       emoji: "🏠", label: "Reducir pobreza" },
-      { key: "mejora_educacion",     emoji: "📚", label: "Educación" },
-      { key: "mejora_genero_empleo", emoji: "👩‍💼", label: "Género y empleo" },
-      { key: "mejora_combinada",     emoji: "✨", label: "Todo combinado" }
-    ];
-
-    let botonesHTML = acciones.map(esc =>
-      '<button class="btn-escenario ' + (st.escenarioActivo === esc.key ? 'activo' : '') + '" data-action="escenario" data-tipo="' + esc.key + '">' +
-        '<span class="esc-emoji">' + esc.emoji + '</span>' +
-        '<span class="esc-label">' + esc.label + '</span>' +
-      '</button>'
-    ).join('');
-
-    let resultadoHTML = '';
-    if (st.escenarioActivo && estadoScenario && estadoScenario.scenarios[st.escenarioActivo]) {
-      const esc = estadoScenario.scenarios[st.escenarioActivo];
-      const irteBase = estadoScenario.irte_base;
-
-      resultadoHTML = '<div class="escenario-resultado carta-enter">' +
-        '<div class="simulador-cartas">' +
-          '<div class="loteria-card">' +
-            '<div class="loteria-card-header">' + personaje.nombre + '</div>' +
-            '<div class="loteria-card-body">' +
-              '<img class="loteria-card-img" src="' + personaje.imagen + '" alt="' + personaje.nombre + '">' +
-              '<div class="loteria-card-score">' + irteBase.toFixed(3) + '</div>' +
-              '<div class="loteria-card-name">' + st.estado + '</div>' +
-            '</div>' +
-            '<div class="loteria-card-footer">SITUACIÓN ACTUAL</div>' +
-          '</div>' +
-          '<div class="loteria-card">' +
-            '<div class="loteria-card-header proyectado">' + personaje.nombre + '</div>' +
-            '<div class="loteria-card-body">' +
-              '<img class="loteria-card-img" src="' + personaje.imagen + '" alt="' + personaje.nombre + '">' +
-              '<div class="loteria-card-score proyectado">' + esc.irte_score.toFixed(3) + '</div>' +
-              '<div class="loteria-card-name">' + st.estado + ' proyectado</div>' +
-              '<span class="mejora-badge">-' + esc.mejora_pct.toFixed(1) + '% riesgo</span>' +
-            '</div>' +
-            '<div class="loteria-card-footer">CON ESTA MEJORA</div>' +
-          '</div>' +
-        '</div>' +
-        '<h3>' + esc.label + '</h3>' +
-        '<p class="esc-desc">' + esc.description + '</p>' +
-        '<div class="esc-datos">' +
-          '<div class="esc-dato"><span class="esc-dato-num">' + esc.irte_score.toFixed(3) + '</span><span class="esc-dato-label">NUEVO IRTE</span></div>' +
-          '<div class="esc-dato"><span class="esc-dato-num">-' + esc.delta.toFixed(3) + '</span><span class="esc-dato-label">REDUCCIÓN</span></div>' +
-          '<div class="esc-dato"><span class="esc-dato-num">' + esc.mejora_pct.toFixed(1) + '%</span><span class="esc-dato-label">MEJORA</span></div>' +
-        '</div>' +
-      '</div>';
-    }
-
-    return '<div class="pantalla pantalla-escenarios carta-enter">' +
-      '<div class="carta">' +
-        '<h2 class="carta-titulo">¿Qué pasaría si se mejorara algo en ' + st.estado + '?</h2>' +
-        '<p class="esc-intro">Si en <strong>' + st.estado + '</strong> se pudiera mejorar una sola dimensión en un 30%, ¿cuál tendría más impacto?</p>' +
-        '<div class="escenarios-grid">' + botonesHTML + '</div>' +
-        resultadoHTML +
-        '<div style="text-align:center;margin-top:2rem">' +
-          '<button class="btn-reiniciar" data-action="reiniciar">← JUGAR DE NUEVO</button>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
-  }
-
-  function render() {
-    if (st.paso === 0) el.innerHTML = renderSeleccion();
-    else if (st.paso >= 1 && st.paso <= 4) el.innerHTML = renderCarta(st.paso);
-    else if (st.paso === 5) el.innerHTML = renderResumen();
-    else if (st.paso === 6) el.innerHTML = renderEscenarios();
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    el.value = { estado: st.estado, sexo: st.sexo, paso: st.paso };
-    el.dispatchEvent(new Event('input', { bubbles: true }));
-  }
-
-  render();
-  return el;
-}
+```{=html}
+<div style="text-align:center; margin: 2rem 0;">
+  <a href="loteria.html" 
+     style="display:inline-block; background:#B8432A; color:#EBE4D1; 
+            font-family:'Abril Fatface',serif; font-size:1.4rem;
+            padding:1rem 2.5rem; border-radius:8px; text-decoration:none;
+            border:3px solid #141414; box-shadow:4px 4px 0 #141414;">
+    🎴 Jugar Lotería de la Vida
+  </a>
+  <p style="margin-top:1rem; color:#666; font-size:.9rem;">
+    Selecciona un estado y recorre una trayectoria de vida con datos reales.
+  </p>
+</div>
 ```
 
 <!-- ══ KPIs NACIONALES ══ -->
 
-```{ojs}
-//| echo: false
-{
-  const kpisEl = document.createElement('section');
-  kpisEl.className = 'seccion-kpis';
-  kpisEl.id = 'kpis';
-
-  const KPIS = [
-    { valor: "1.00",    label: "IRTE Chiapas",          nota: "Mayor riesgo relativo",       color: "var(--terracota)" },
-    { valor: "0.00",    label: "IRTE Nuevo León",       nota: "Menor riesgo relativo",       color: "var(--verde)" },
-    { valor: "~99%",    label: "Brecha estructural",    nota: "Entre extremos del país",     color: "var(--negro)" },
-    { valor: "32",      label: "Entidades analizadas",  nota: "Cobertura nacional completa", color: "var(--negro)" },
-    { valor: "r=0.936", label: "Pobreza × Servicios",   nota: "Correlación Pearson",         color: "var(--dorado)" },
-    { valor: "2022",    label: "Año de referencia",      nota: "CONEVAL oficial",             color: "var(--negro)" }
-  ];
-
-  let cardsHTML = KPIS.map(k =>
-    '<div class="kpi-card">' +
-      '<div class="kpi-valor" style="color:' + k.color + '">' + k.valor + '</div>' +
-      '<div class="kpi-label">' + k.label + '</div>' +
-      '<div class="kpi-nota">' + k.nota + '</div>' +
-    '</div>'
-  ).join('');
-
-  kpisEl.innerHTML =
-    '<h2 class="seccion-titulo">México en números</h2>' +
-    '<div class="kpi-grid">' + cardsHTML + '</div>';
-
-  return kpisEl;
-}
+```{=html}
+<section class="seccion-kpis" id="kpis">
+  <h2 class="seccion-titulo">México en números</h2>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-valor" style="color:var(--terracota)">1.00</div>
+      <div class="kpi-label">IRTE Chiapas</div>
+      <div class="kpi-nota">Mayor riesgo relativo</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-valor" style="color:var(--verde)">0.00</div>
+      <div class="kpi-label">IRTE Nuevo León</div>
+      <div class="kpi-nota">Menor riesgo relativo</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-valor">~99%</div>
+      <div class="kpi-label">Brecha estructural</div>
+      <div class="kpi-nota">Entre extremos del país</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-valor">32</div>
+      <div class="kpi-label">Entidades analizadas</div>
+      <div class="kpi-nota">Cobertura nacional completa</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-valor" style="color:var(--dorado)">r=0.936</div>
+      <div class="kpi-label">Pobreza × Servicios</div>
+      <div class="kpi-nota">Correlación Pearson</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-valor">2022</div>
+      <div class="kpi-label">Año de referencia</div>
+      <div class="kpi-nota">CONEVAL oficial</div>
+    </div>
+  </div>
+</section>
 ```
 
-<!-- ══ RANKING DE 32 ESTADOS ══ -->
+:::: {#mapa .mapa-section .mapa-seccion}
 
-```{ojs}
-//| echo: false
-{
-  const rankEl = document.createElement('section');
-  rankEl.className = 'seccion-ranking';
-  rankEl.id = 'ranking';
-
-  const NIVEL_COLORS = {
-    "Alto": "var(--terracota)",
-    "Medio-Alto": "#E8A04A",
-    "Medio": "#4A8BC4",
-    "Bajo": "var(--verde)"
-  };
-
-  const NIVEL_CLASS = {
-    "Alto": "nivel-alto",
-    "Medio-Alto": "nivel-medio-alto",
-    "Medio": "nivel-medio",
-    "Bajo": "nivel-bajo"
-  };
-
-  function buildRows(filtro) {
-    let rows = [...irteCSV].sort((a, b) => a.irte_rank - b.irte_rank);
-    if (filtro && filtro !== 'todos') {
-      rows = rows.filter(d => d.irte_nivel === filtro);
-    }
-    return rows.map(d => {
-      const pctW = Math.round(d.irte_score * 100);
-      return '<tr>' +
-        '<td>' + d.irte_rank + '</td>' +
-        '<td><strong>' + d.nombre + '</strong></td>' +
-        '<td>' + d.region + '</td>' +
-        '<td><strong style="color:' + (NIVEL_COLORS[d.irte_nivel] || 'var(--negro)') + '">' + d.irte_score.toFixed(3) + '</strong></td>' +
-        '<td><span class="nivel-badge ' + (NIVEL_CLASS[d.irte_nivel] || '') + '">' + d.irte_nivel + '</span></td>' +
-        '<td style="min-width:100px"><div class="irte-barra-track"><div class="irte-barra-fill" style="width:' + pctW + '%;background:' + (NIVEL_COLORS[d.irte_nivel] || 'var(--negro)') + '"></div></div></td>' +
-      '</tr>';
-    }).join('');
-  }
-
-  const filtros = ['todos', 'Alto', 'Medio-Alto', 'Medio', 'Bajo'];
-  const filtrosHTML = filtros.map(f =>
-    '<button class="filtro-btn' + (f === 'todos' ? ' activo' : '') + '" data-filtro="' + f + '">' + (f === 'todos' ? 'Todos' : f) + '</button>'
-  ).join('');
-
-  rankEl.innerHTML =
-    '<h2 class="seccion-titulo">Ranking IRTE 2022 — 32 estados</h2>' +
-    '<div class="ranking-filtros">' + filtrosHTML + '</div>' +
-    '<div class="tabla-ranking"><table>' +
-      '<thead><tr><th>#</th><th>Estado</th><th>Región</th><th>IRTE</th><th>Nivel</th><th>Barra</th></tr></thead>' +
-      '<tbody>' + buildRows('todos') + '</tbody>' +
-    '</table></div>';
-
-  rankEl.addEventListener('click', e => {
-    const btn = e.target.closest('.filtro-btn');
-    if (!btn) return;
-    rankEl.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('activo'));
-    btn.classList.add('activo');
-    rankEl.querySelector('tbody').innerHTML = buildRows(btn.dataset.filtro);
-  });
-
-  return rankEl;
-}
-```
-
-<!-- ══ ODS ══ -->
-
-```{ojs}
-//| echo: false
-{
-  const odsEl = document.createElement('section');
-  odsEl.className = 'seccion-ods';
-  odsEl.id = 'ods';
-
-  const ODS_DATA = [
-    { numero: "ODS 1",  titulo: "Fin de la Pobreza",           desc: "Pobreza multidimensional y extrema por entidad (CONEVAL 2022)" },
-    { numero: "ODS 4",  titulo: "Educación de Calidad",        desc: "Rezago educativo y abandono escolar (CONEVAL / SEP 2022)" },
-    { numero: "ODS 5",  titulo: "Igualdad de Género",          desc: "Fecundidad adolescente como proxy de desigualdad (CONAPO 2021)" },
-    { numero: "ODS 6",  titulo: "Agua y Saneamiento",          desc: "Acceso a agua potable y drenaje en vivienda (INEGI Censo 2020)" },
-    { numero: "ODS 10", titulo: "Reducción de Desigualdades",  desc: "IRTE como índice propio de riesgo acumulado territorial" }
-  ];
-
-  let cardsHTML = ODS_DATA.map(o =>
-    '<div class="ods-card">' +
-      '<span class="ods-numero">' + o.numero + '</span>' +
-      '<div class="ods-titulo">' + o.titulo + '</div>' +
-      '<p class="ods-desc">' + o.desc + '</p>' +
-    '</div>'
-  ).join('');
-
-  cardsHTML += '<div class="ods-dato-destacado">' +
-    '<div class="ods-dato-valor">r=0.936</div>' +
-    '<div class="ods-dato-label">Correlación pobreza × servicios</div>' +
-  '</div>';
-
-  odsEl.innerHTML =
-    '<h2 class="seccion-titulo" style="color:var(--dorado)">Objetivos de Desarrollo Sostenible</h2>' +
-    '<p class="seccion-subtitulo" style="color:rgba(255,255,255,0.7)">El IRTE vincula directamente 5 ODS con evidencia empírica por entidad federativa.</p>' +
-    '<div class="ods-grid">' + cardsHTML + '</div>';
-
-  return odsEl;
-}
-```
-
-<!-- ══ GOBERNANZA ══ -->
-
-```{ojs}
-//| echo: false
-{
-  const gobEl = document.createElement('section');
-  gobEl.className = 'seccion-gobernanza';
-  gobEl.id = 'gobernanza';
-
-  const GOB_DATA = [
-    { titulo: "Datos oficiales verificados", desc: "CONEVAL, INEGI, SEP, CONAPO, IMSS. Hash MD5 por archivo canónico.", badge: "official_confirmed", badgeColor: "var(--verde)" },
-    { titulo: "Pipeline reproducible",       desc: "bash reproduce.sh — 21 PASS / 0 FAIL. Cada corrida genera manifests con timestamp.", badge: "21 PASS / 0 FAIL", badgeColor: "var(--verde)" },
-    { titulo: "Código abierto",              desc: "Suite de tests completa. Contratos de datos explícitos. Licencia CC BY-SA 4.0.", badge: "CC BY-SA 4.0", badgeColor: "var(--terracota)" }
-  ];
-
-  let cardsHTML = GOB_DATA.map(g =>
-    '<div class="gobernanza-card">' +
-      '<div class="gobernanza-titulo">' + g.titulo + '</div>' +
-      '<div class="gobernanza-desc">' + g.desc + '</div>' +
-      '<span class="gobernanza-badge" style="background:' + g.badgeColor + '">' + g.badge + '</span>' +
-    '</div>'
-  ).join('');
-
-  gobEl.innerHTML =
-    '<h2 class="seccion-titulo">Gobernanza y trazabilidad</h2>' +
-    '<div class="gobernanza-grid">' + cardsHTML + '</div>' +
-    '<div class="gobernanza-nota">' +
-      '<strong>Nota metodológica:</strong> El IRTE es un índice analítico comparativo — no un indicador ' +
-      'oficial del gobierno mexicano. Mide condiciones territoriales, no destinos individuales.' +
-    '</div>';
-
-  return gobEl;
-}
-```
-
-::: {#mapa .mapa-section .mapa-seccion}
-
-::: {.mapa-encabezado}
+:::: {.mapa-encabezado}
 ## ✦ México en perspectiva ✦
+
 ¿Dónde queda tu estado en el mapa nacional? Cada estado está coloreado por su **IRTE** — de verde (menor riesgo) a terracota (mayor riesgo).
-:::
+::::
 
 ```{=html}
 <div class="mapa-marco">
@@ -763,47 +203,8 @@ fig.show(config={"displayModeBar": False, "scrollZoom": False})
 
 ```{=html}
 </div>
-<div class="mapa-leyenda">
-  <span class="leyenda-chip leyenda-bajo">● Bajo riesgo</span>
-  <span class="leyenda-chip leyenda-medio">● Riesgo medio</span>
-  <span class="leyenda-chip leyenda-alto">● Alto riesgo</span>
-</div>
 ```
 
-:::
+::::
 
-::: {.brechas-section}
 
-## Brechas y metodología
-
-Este tablero cubre **4 de las 6 etapas** que diseñamos para el juego. Las etapas de **Violencia** y **Embarazo/Familia** están pendientes de datos — las fuentes donde conseguirlos están documentadas en nuestro [README](https://github.com/LiedBaez/tlahtoa).
-
-El **IRTE** (Índice de Riesgo de Trayectoria Estructural) es una construcción analítica del equipo Tlahtoa Data. No reproduce ningún índice oficial existente. Mide la posición relativa de cada estado en una escala de 0 a 1, donde 1 = mayor acumulación de desventajas estructurales. Se compone de 4 dimensiones con peso igual (25% cada una): salud, pobreza, educación y género/empleo, calculadas a partir de 9 variables de 6 fuentes oficiales (CONEVAL, INEGI, SSA, SEP, CONAPO, IMSS).
-
-*La estadística describe estructuras, no destinos. El IRTE puede afirmar que un estado concentra más desventajas que otro. No puede afirmar que una persona nacida ahí tendrá una trayectoria determinada.*
-
-**Datos:** ver [`datos/metadata.md`](../datos/metadata.md) para fuentes completas, URLs y licencias.
-
-**Código fuente y metodología:** [github.com/LiedBaez/tlahtoa](https://github.com/LiedBaez/tlahtoa)
-
-**Tlahtoa Data** · Rafael · Zabdiel · Ilse · Hack ODS UNAM 2026
-
-:::
-
-```{=html}
-<footer class="footer-loteria">
-  <div class="footer-contenido">
-    <nav class="footer-nav">
-      <a href="#inicio">Inicio</a>
-      <a href="#juego">El juego</a>
-      <a href="#simulador">Simulador</a>
-      <a href="#ranking">Ranking</a>
-      <a href="#ods">ODS</a>
-      <a href="#gobernanza">Gobernanza</a>
-      <a href="../ai-log.html">AI Log</a>
-      <a href="https://github.com/LiedBaez/tlahtoa" target="_blank" rel="noopener">GitHub</a>
-    </nav>
-    <div class="footer-credito">Tlahtoa Data · Hack ODS UNAM 2026</div>
-  </div>
-</footer>
-```
