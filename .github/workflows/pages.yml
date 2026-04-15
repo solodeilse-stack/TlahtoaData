@@ -76,11 +76,7 @@ jobs:
           "
 
       - name: Render Quarto
-        run: |
-          quarto render \
-            --no-cache
-        env:
-          QUARTO_DENO_EXTRA_OPTIONS: "--v8-flags=--max-old-space-size=4096"
+        run: quarto render --no-cache
 
       - name: Verify output
         run: |
