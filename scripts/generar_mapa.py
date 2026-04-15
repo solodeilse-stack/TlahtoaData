@@ -1,3 +1,11 @@
+# ============================================================
+# @project      Tlahtoa Data 2026
+# @author       Jesús Rafael Loggen Gonzalez <loggibooy@gmail.com>
+# @coauthor     Zabdiel Taboada Vera (dashboard/visualización)
+# @architecture Loggen Architecture™
+# @copyright    © 2026 Tlahtoa Data Team · CC BY-NC-SA 4.0
+# @hackods      HackODS UNAM 2026 · ODS 1, 4, 5, 6, 10
+# ============================================================
 """
 generar_mapa.py
 Tlahtoa Data — Hack ODS UNAM 2026

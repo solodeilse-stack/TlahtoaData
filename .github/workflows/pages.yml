@@ -1,6 +1,20 @@
-name: Deploy Tlahtoa-Data/Oficial → GitHub Pages
-# © 2026 Jesús Rafael Loggen Gonzalez · Loggen Architecture™
-# HackODS UNAM 2026
+name: Quarto Render + Deploy → GitHub Pages
+# ============================================================
+# @project      Tlahtoa Data 2026
+# @author       Jesús Rafael Loggen Gonzalez <loggibooy@gmail.com>
+# @architecture Loggen Architecture™
+# @copyright    © 2026 Tlahtoa Data Team · CC BY-NC-SA 4.0
+# @hackods      HackODS UNAM 2026
+# ============================================================
+#
+# Stack obligatorio HackODS:
+#   Quarto · Python · Plotly · uv
+#
+# Flujo:
+#   1. uv sync — instala dependencias
+#   2. Verifica integridad de datos
+#   3. quarto render — compila QMDs a HTML
+#   4. Deploy docs/ → GitHub Pages
 
 on:
   push:
@@ -17,8 +31,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    name: Verify + Deploy → GitHub Pages
+  render-and-deploy:
+    name: Render Quarto + Deploy
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -27,45 +41,76 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Verify critical files
-        run: |
-          echo "=== Verificando archivos críticos ==="
-          python3 -c "
-          import json, sys
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-          # 3 archivos que consume el QMD de Zabdiel
-          import os
-          files = [
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Install dependencies with uv
+        run: uv sync
+
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "1.4.554"
+
+      - name: Verify data integrity
+        run: |
+          uv run python3 -c "
+          import json, os, sys
+
+          checks = [
             'data/processed/state_panel.json',
             'data/processed/scenario_templates.json',
             'data/processed/irte_por_estado.csv',
+            'data/processed/indicadores_normalizados.csv',
+            'data/static_api/simulations.json',
+            'dashboard/mexico.geojson',
           ]
-          for f in files:
-              ok = os.path.exists(f)
-              print(f'  {\"✅\" if ok else \"❌\"} {f}')
-              if not ok: sys.exit(1)
+          failed = []
+          for f in checks:
+              if os.path.exists(f):
+                  print(f'  ✅ {f}')
+              else:
+                  print(f'  ❌ FALTA: {f}')
+                  failed.append(f)
 
-          # Validar state_panel.json
-          data = json.load(open('data/processed/state_panel.json'))
-          estados = data.get('estados', [])
-          assert len(estados) == 32, f'ERROR: {len(estados)} estados'
-          print(f'  ✅ state_panel.json: {len(estados)} estados')
+          if failed:
+              sys.exit(1)
 
-          # Validar simulations.json
-          sims = json.load(open('data/static_api/simulations.json'))
-          keys = [k for k in sims if not k.startswith('_')]
-          total = sum(sum(len(v) for v in sims[k]['simulations'].values()) for k in keys)
-          assert total == 480, f'ERROR: {total} combos'
-          print(f'  ✅ simulations.json: {total} combos')
+          # IRTE: 32 estados
+          d = json.load(open('data/processed/state_panel.json'))
+          assert len(d['estados']) == 32, f'ERROR: {len(d[\"estados\"])} estados'
+          print(f'  ✅ state_panel: {len(d[\"estados\"])} estados')
+
+          # Simulations: 480 combos
+          s = json.load(open('data/static_api/simulations.json'))
+          keys = [k for k in s if not k.startswith('_')]
+          total = sum(sum(len(v) for v in s[k]['simulations'].values()) for k in keys)
+          assert total == 480, f'ERROR: {total} != 480 combos'
+          print(f'  ✅ simulations: {total} combos pre-calculados')
+          print()
+          print('  Todos los datos verificados ✅')
           "
+
+      - name: Render Quarto site
+        run: |
+          uv run quarto render
+          echo "✅ Quarto render completado"
+          ls docs/ | head -10
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Upload artifact
+      - name: Upload artifact (docs/)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "."
+          path: docs
 
       - name: Deploy to GitHub Pages
         id: deployment

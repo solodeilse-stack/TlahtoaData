@@ -1,0 +1,22 @@
+version = 1
+requires-python = ">=3.10"
+
+[[package]]
+name = "tlahtoa-data"
+version = "2026.1.0"
+source = { virtual = "." }
+
+[package.dev-dependencies]
+dev = [{ name = "pytest" }]
+
+[package.metadata]
+requires-dist = [
+  { name = "pandas", specifier = ">=2.0" },
+  { name = "plotly", specifier = ">=5.0" },
+  { name = "pyyaml", specifier = ">=6.0" },
+  { name = "pydantic", specifier = ">=2.0" },
+  { name = "jsonschema", specifier = ">=4.0" },
+  { name = "openpyxl", specifier = ">=3.1" },
+  { name = "requests", specifier = ">=2.28" },
+  { name = "beautifulsoup4", specifier = ">=4.12" },
+]

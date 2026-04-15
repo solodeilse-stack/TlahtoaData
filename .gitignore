@@ -2,59 +2,33 @@
 __pycache__/
 *.pyc
 *.pyo
-.env
-venv/
 .venv/
+.env
+*.egg-info/
 
-# Quarto
+# Quarto render output
 /.quarto/
-*_files/
+/_freeze/
+/docs/
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Cursor / IDE (local)
-.cursor/
+# IDE
+.vscode/
+.idea/
 
-# Data raw — bulk files (too large / license; see data/raw/INSTRUCCIONES_DESCARGA.md)
-# Already-tracked files remain tracked; new downloads are not added by default.
-data/raw/*.csv
-data/raw/*.xlsx
-data/raw/*.xls
-data/raw/*.zip
-data/raw/**/*.csv
-data/raw/**/*.xlsx
-data/raw/**/*.xls
-data/raw/**/*.zip
-data/raw/**/*.rar
-data/raw/**/*.pdf
+# No subir datos brutos grandes
+data/raw/
+*.rar
+*.zip
+*.pdf
 
-# Python packaging
-*.egg-info/
-*.egg
+# Node (si se agrega algún día)
+node_modules/
 dist/
-build/
-.pytest_cache/
 
-# archivos locales del dev
-.env.local
+# Archivos locales de dev
 *.local.py
 _scratch/
-
-# raw data files — demasiado grandes para Git
-data/raw/conapo/proyecciones_2023/additional_sources/pobproy_*.csv
-data/raw/conapo/proyecciones_2023/additional_sources/00_Pob_*.csv
-data/raw/conapo/proyecciones_2023/additional_sources/01_Defunciones*.csv
-data/raw/conapo/proyecciones_2023/additional_sources/02_mig_*.csv
-data/raw/conapo/proyecciones_2023/additional_sources/03_mig_*.csv
-data/raw/conapo/proyecciones_2023/additional_sources/04_Tasas_*.csv
-data/raw/coneval/pobreza_2022/Python_MMP_*.zip
-data/raw/coneval/pobreza_2022/AE_*.zip
-data/raw/coneval/pobreza_2022/AE_*.rar
-data/raw/coneval/pobreza_municipal/*.rar
-data/raw/coneval/lineas_pobreza/*.pdf
-data/raw/coneval/metodologia/*.pdf
-*.mp3
-*.rar
-*.pdf

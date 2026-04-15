@@ -7,6 +7,14 @@ format:
     toc-depth: 3
 ---
 <!--
+  @project      Tlahtoa Data 2026
+  @team         Jesús Rafael Loggen Gonzalez · Ilse Cristina Gonzalez Diaz · Zabdiel Taboada Vera
+  @data         Jesús Rafael Loggen Gonzalez <loggibooy@gmail.com> — Loggen Architecture™
+  @copyright    © 2026 Tlahtoa Data Team · CC BY-NC-SA 4.0
+  @hackods      HackODS UNAM 2026 · ODS 1, 4, 5, 6, 10
+-->
+
+<!--
  * ------------------------------------------------------------
  * @project      Tlahtoa_Data_2026
  * @architecture Layered Hexagonal - Loggen Architecture™

@@ -23,6 +23,14 @@ resources:
   - assets/Escuela.png
   - assets/Trabajo.png
 ---
+<!--
+  @project      Tlahtoa Data 2026
+  @team         Jesús Rafael Loggen Gonzalez · Ilse Cristina Gonzalez Diaz · Zabdiel Taboada Vera
+  @data         Jesús Rafael Loggen Gonzalez <loggibooy@gmail.com> — Loggen Architecture™
+  @copyright    © 2026 Tlahtoa Data Team · CC BY-NC-SA 4.0
+  @hackods      HackODS UNAM 2026 · ODS 1, 4, 5, 6, 10
+-->
+
 
 ::: {.borde-loteria}
 :::
