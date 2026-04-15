@@ -189,6 +189,11 @@ fig = go.Figure()
 colores_alto = ["#c0392b","#e74c3c","#e67e22","#d35400","#c0392b"]
 colores_bajo = ["#27ae60","#2ecc71","#16a085","#1abc9c","#27ae60"]
 
+def hex_to_rgba(h, a=0.13):
+    h = h.lstrip("#")
+    r, g, b = int(h[0:2],16), int(h[2:4],16), int(h[4:6],16)
+    return f"rgba({r},{g},{b},{a})"
+
 for i, (_, row) in enumerate(top5_alto.iterrows()):
     vals = [row["tasa_pobreza_norm"], row["mortalidad_infantil_norm"],
             row["rezago_educativo_norm"], row["fecundidad_adolescente_norm"]]
@@ -197,7 +202,7 @@ for i, (_, row) in enumerate(top5_alto.iterrows()):
         r=vals_closed,
         theta=categorias + [categorias[0]],
         fill="toself",
-        fillcolor=colores_alto[i] + "22",
+        fillcolor=hex_to_rgba(colores_alto[i]),
         line=dict(color=colores_alto[i], width=1.5),
         name=row["nombre"],
         legendgroup="alto",
@@ -212,7 +217,7 @@ for i, (_, row) in enumerate(top5_bajo.iterrows()):
         r=vals_closed,
         theta=categorias + [categorias[0]],
         fill="toself",
-        fillcolor=colores_bajo[i] + "22",
+        fillcolor=hex_to_rgba(colores_bajo[i]),
         line=dict(color=colores_bajo[i], width=1.5, dash="dot"),
         name=row["nombre"],
         legendgroup="bajo",
