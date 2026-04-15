@@ -36,29 +36,21 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install Python dependencies
+      - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install \
-            pandas==2.2.2 \
-            plotly==5.22.0 \
-            pyyaml==6.0.1 \
-            pydantic==2.7.0 \
-            openpyxl==3.1.2 \
-            jsonschema==4.22.0 \
-            requests==2.31.0 \
-            beautifulsoup4==4.12.3 \
-            kaleido==0.2.1
-          echo "✅ Python deps instalados"
-          python3 -c "import pandas, plotly, yaml; print('imports OK')"
+            jupyter nbformat nbclient ipykernel \
+            pandas plotly pyyaml pydantic \
+            openpyxl jsonschema requests beautifulsoup4
+          python3 -m ipykernel install --user
+          echo "✅ deps instalados"
+          python3 -c "import pandas, plotly, nbformat; print('imports OK')"
 
       - name: Install Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Verify Quarto
-        run: quarto --version
-
-      - name: Verify data integrity
+      - name: Verify data
         run: |
           python3 -c "
           import json, os, sys
@@ -82,14 +74,11 @@ jobs:
               if not ok: sys.exit(1)
           d = json.load(open('data/processed/state_panel.json'))
           assert len(d['estados']) == 32
-          print(f'\n  32 estados OK — continuando render')
+          print('32 estados OK')
           "
 
       - name: Render Quarto
-        run: |
-          quarto render
-          echo "Archivos generados:"
-          ls docs/ | head -15
+        run: quarto render
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
