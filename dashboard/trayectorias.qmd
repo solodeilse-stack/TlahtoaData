@@ -174,7 +174,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 # cargar datos normalizados por dimensión
-df_dims = pd.read_csv(Path(".") / "data/processed/indicadores_normalizados.csv")
+df_dims = pd.read_csv(Path("../") / "data/processed/indicadores_normalizados.csv")
 
 # Top 5 mayor riesgo y top 5 menor riesgo
 top5_alto = df_dims.nlargest(5, "tasa_pobreza_norm")[["nombre","tasa_pobreza_norm",
