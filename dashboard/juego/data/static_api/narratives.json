@@ -1,0 +1,20 @@
+{
+  "mateo": {
+    "success": "El agua corre y el drenaje responde en {entity}. El {indicator_name} llegó a {value} — la infraestructura aguanta. Mateo lo sabe: cuando la base es sólida, todo lo demás se construye.\n",
+    "base": "En {entity}, el {indicator_name} marca {value}. Mateo observa las grietas: hay avance, pero la tubería no llega a todos. El trabajo todavía no termina.\n",
+    "alert": "Mateo señala la falla. En {entity}, el {indicator_name} es {value}. Sin infraestructura básica, no hay dignidad posible. Esta carta exige intervención.\n",
+    "empty": ""
+  },
+  "lupita": {
+    "success": "El piso se nivela en {entity}. El {indicator_name} bajó a {value} — menos mujeres cargando solas el peso. Lupita lo celebra: así se construye equidad.\n",
+    "base": "En {entity}, el {indicator_name} es {value}. Lupita observa: hay avance, pero no todas las mujeres caminan al mismo ritmo. El mosaico todavía tiene huecos.\n",
+    "alert": "Lupita alza la voz. En {entity}, el {indicator_name} marca {value}. El peso estructural sobre las mujeres sigue siendo demasiado. Este dato exige respuesta, no silencio.\n",
+    "empty": ""
+  },
+  "alex": {
+    "success": "Los datos brillan en {entity}. El {indicator_name} llegó a {value} — más jóvenes con acceso real al futuro. Álex enciende la pantalla con certeza: la educación avanza.\n",
+    "base": "En {entity}, el {indicator_name} registra {value}. Álex analiza: el sistema educa, pero la desigualdad frena el paso. Queda camino por recorrer.\n",
+    "alert": "Álex muestra la pantalla. En {entity}, el {indicator_name} es {value}. Sin educación equitativa, el futuro no compila. Esta carta necesita un Frijol.\n",
+    "empty": ""
+  }
+}

@@ -32,3 +32,6 @@ dist/
 # Archivos locales de dev
 *.local.py
 _scratch/
+
+**/*.quarto_ipynb
+**/*.quarto_ipynb_*

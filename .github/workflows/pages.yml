@@ -43,7 +43,7 @@ jobs:
           pip install \
             jupyter nbformat nbclient ipykernel \
             pandas plotly pyyaml pydantic \
-            openpyxl jsonschema requests beautifulsoup4
+            openpyxl jsonschema requests beautifulsoup4 tabulate
           python3 -m ipykernel install --user
           python3 -c "import pandas, plotly, nbformat; print('✅ imports OK')"
 
@@ -78,15 +78,20 @@ jobs:
       - name: Render Quarto
         run: |
           quarto render \
-            --execute-timeout 300 \
             --no-cache
         env:
           QUARTO_DENO_EXTRA_OPTIONS: "--v8-flags=--max-old-space-size=4096"
 
-      - name: List generated files
+      - name: Verify output
         run: |
-          echo "=== docs/ generado ==="
-          ls docs/ | head -20
+          echo "=== docs/ ==="
+          ls docs/
+          echo "=== dashboard pages ==="
+          ls docs/dashboard/
+          echo "=== juego React ==="
+          ls docs/dashboard/juego/index.html && echo "✅ Juego OK"
+          echo "=== redirect root ==="
+          cat docs/index.html | head -5
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

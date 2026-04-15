@@ -1,0 +1,1607 @@
+{
+  "_meta": {
+    "improvement_factor": 0.3
+  },
+  "estados": [
+    {
+      "clave": 7,
+      "nombre": "Chiapas",
+      "region": "Sur",
+      "irte_base": 1.0,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 1.0,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.925,
+          "delta": 0.075,
+          "mejora_pct": 7.5
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.925,
+          "delta": 0.075,
+          "mejora_pct": 7.5
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.925,
+          "delta": 0.075,
+          "mejora_pct": 7.5
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.925,
+          "delta": 0.075,
+          "mejora_pct": 7.5
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.7,
+          "delta": 0.3,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 20,
+      "nombre": "Oaxaca",
+      "region": "Sur",
+      "irte_base": 0.9016,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.9015,
+          "delta": 0.0001,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.8343,
+          "delta": 0.0673,
+          "mejora_pct": 7.5
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.8358,
+          "delta": 0.0658,
+          "mejora_pct": 7.3
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.8343,
+          "delta": 0.0673,
+          "mejora_pct": 7.5
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.8313,
+          "delta": 0.0703,
+          "mejora_pct": 7.8
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.6311,
+          "delta": 0.2705,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 12,
+      "nombre": "Guerrero",
+      "region": "Sur",
+      "irte_base": 0.8594,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.8595,
+          "delta": -0.0001,
+          "mejora_pct": -0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.7968,
+          "delta": 0.0626,
+          "mejora_pct": 7.3
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.7964,
+          "delta": 0.063,
+          "mejora_pct": 7.3
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.7958,
+          "delta": 0.0636,
+          "mejora_pct": 7.4
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.7909,
+          "delta": 0.0685,
+          "mejora_pct": 8.0
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.6016,
+          "delta": 0.2578,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 30,
+      "nombre": "Veracruz",
+      "region": "Sureste",
+      "irte_base": 0.6447,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.6447,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.6019,
+          "delta": 0.0428,
+          "mejora_pct": 6.6
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.5984,
+          "delta": 0.0463,
+          "mejora_pct": 7.2
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.5981,
+          "delta": 0.0466,
+          "mejora_pct": 7.2
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.5869,
+          "delta": 0.0578,
+          "mejora_pct": 9.0
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.4513,
+          "delta": 0.1934,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 27,
+      "nombre": "Tabasco",
+      "region": "Sureste",
+      "irte_base": 0.5829,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.5829,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.545,
+          "delta": 0.0379,
+          "mejora_pct": 6.5
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.5408,
+          "delta": 0.0421,
+          "mejora_pct": 7.2
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.5428,
+          "delta": 0.0401,
+          "mejora_pct": 6.9
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.5281,
+          "delta": 0.0548,
+          "mejora_pct": 9.4
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.408,
+          "delta": 0.1749,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 21,
+      "nombre": "Puebla",
+      "region": "Centro",
+      "irte_base": 0.5798,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.5798,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.5416,
+          "delta": 0.0382,
+          "mejora_pct": 6.6
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.5396,
+          "delta": 0.0402,
+          "mejora_pct": 6.9
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.5373,
+          "delta": 0.0425,
+          "mejora_pct": 7.3
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.527,
+          "delta": 0.0528,
+          "mejora_pct": 9.1
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.4059,
+          "delta": 0.1739,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 16,
+      "nombre": "Michoacán",
+      "region": "Occidente",
+      "irte_base": 0.5348,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.5348,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.5025,
+          "delta": 0.0323,
+          "mejora_pct": 6.0
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.4995,
+          "delta": 0.0353,
+          "mejora_pct": 6.6
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.4933,
+          "delta": 0.0415,
+          "mejora_pct": 7.8
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.4835,
+          "delta": 0.0513,
+          "mejora_pct": 9.6
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.3744,
+          "delta": 0.1604,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 4,
+      "nombre": "Campeche",
+      "region": "Sureste",
+      "irte_base": 0.499,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.499,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.4693,
+          "delta": 0.0297,
+          "mejora_pct": 6.0
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.4622,
+          "delta": 0.0368,
+          "mejora_pct": 7.4
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.4653,
+          "delta": 0.0337,
+          "mejora_pct": 6.8
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.4496,
+          "delta": 0.0494,
+          "mejora_pct": 9.9
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.3493,
+          "delta": 0.1497,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 13,
+      "nombre": "Hidalgo",
+      "region": "Centro",
+      "irte_base": 0.4824,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.4824,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.4534,
+          "delta": 0.029,
+          "mejora_pct": 6.0
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.4504,
+          "delta": 0.032,
+          "mejora_pct": 6.6
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.445,
+          "delta": 0.0374,
+          "mejora_pct": 7.8
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.4359,
+          "delta": 0.0465,
+          "mejora_pct": 9.6
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.3377,
+          "delta": 0.1447,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 24,
+      "nombre": "San Luis Potosí",
+      "region": "Centro-Norte",
+      "irte_base": 0.4558,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.4558,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.4278,
+          "delta": 0.028,
+          "mejora_pct": 6.1
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.4256,
+          "delta": 0.0302,
+          "mejora_pct": 6.6
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.4226,
+          "delta": 0.0332,
+          "mejora_pct": 7.3
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.4103,
+          "delta": 0.0455,
+          "mejora_pct": 10.0
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.319,
+          "delta": 0.1368,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 29,
+      "nombre": "Tlaxcala",
+      "region": "Centro",
+      "irte_base": 0.4408,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.4408,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.4143,
+          "delta": 0.0265,
+          "mejora_pct": 6.0
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.407,
+          "delta": 0.0338,
+          "mejora_pct": 7.7
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.4118,
+          "delta": 0.029,
+          "mejora_pct": 6.6
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.398,
+          "delta": 0.0428,
+          "mejora_pct": 9.7
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.3086,
+          "delta": 0.1322,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 32,
+      "nombre": "Zacatecas",
+      "region": "Centro-Norte",
+      "irte_base": 0.4385,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.4385,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.4126,
+          "delta": 0.0259,
+          "mejora_pct": 5.9
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.4122,
+          "delta": 0.0263,
+          "mejora_pct": 6.0
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.405,
+          "delta": 0.0335,
+          "mejora_pct": 7.6
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.3928,
+          "delta": 0.0457,
+          "mejora_pct": 10.4
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.307,
+          "delta": 0.1315,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 31,
+      "nombre": "Yucatán",
+      "region": "Sureste",
+      "irte_base": 0.4174,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.4174,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.3938,
+          "delta": 0.0236,
+          "mejora_pct": 5.7
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.3909,
+          "delta": 0.0265,
+          "mejora_pct": 6.3
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.3837,
+          "delta": 0.0337,
+          "mejora_pct": 8.1
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.3759,
+          "delta": 0.0415,
+          "mejora_pct": 9.9
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.2922,
+          "delta": 0.1252,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 18,
+      "nombre": "Nayarit",
+      "region": "Occidente",
+      "irte_base": 0.3999,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.3999,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.3747,
+          "delta": 0.0252,
+          "mejora_pct": 6.3
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.3785,
+          "delta": 0.0214,
+          "mejora_pct": 5.4
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.3713,
+          "delta": 0.0286,
+          "mejora_pct": 7.2
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.3549,
+          "delta": 0.045,
+          "mejora_pct": 11.3
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.2799,
+          "delta": 0.12,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 17,
+      "nombre": "Morelos",
+      "region": "Centro",
+      "irte_base": 0.3937,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.3937,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.3726,
+          "delta": 0.0211,
+          "mejora_pct": 5.4
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.3652,
+          "delta": 0.0285,
+          "mejora_pct": 7.2
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.3674,
+          "delta": 0.0263,
+          "mejora_pct": 6.7
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.3515,
+          "delta": 0.0422,
+          "mejora_pct": 10.7
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.2756,
+          "delta": 0.1181,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 10,
+      "nombre": "Durango",
+      "region": "Norte",
+      "irte_base": 0.3728,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.3728,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.3501,
+          "delta": 0.0227,
+          "mejora_pct": 6.1
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.3525,
+          "delta": 0.0203,
+          "mejora_pct": 5.4
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.3453,
+          "delta": 0.0275,
+          "mejora_pct": 7.4
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.3315,
+          "delta": 0.0413,
+          "mejora_pct": 11.1
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.261,
+          "delta": 0.1118,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 11,
+      "nombre": "Guanajuato",
+      "region": "Centro",
+      "irte_base": 0.3257,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.3257,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.311,
+          "delta": 0.0147,
+          "mejora_pct": 4.5
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.3037,
+          "delta": 0.022,
+          "mejora_pct": 6.8
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.298,
+          "delta": 0.0277,
+          "mejora_pct": 8.5
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.2924,
+          "delta": 0.0333,
+          "mejora_pct": 10.2
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.228,
+          "delta": 0.0977,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 23,
+      "nombre": "Quintana Roo",
+      "region": "Sureste",
+      "irte_base": 0.3116,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.3116,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.2947,
+          "delta": 0.0169,
+          "mejora_pct": 5.4
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.295,
+          "delta": 0.0166,
+          "mejora_pct": 5.3
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.2893,
+          "delta": 0.0223,
+          "mejora_pct": 7.2
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.2742,
+          "delta": 0.0374,
+          "mejora_pct": 12.0
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.2182,
+          "delta": 0.0934,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 25,
+      "nombre": "Sinaloa",
+      "region": "Noroeste",
+      "irte_base": 0.3108,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.3108,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.2924,
+          "delta": 0.0184,
+          "mejora_pct": 5.9
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.2957,
+          "delta": 0.0151,
+          "mejora_pct": 4.9
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.2891,
+          "delta": 0.0217,
+          "mejora_pct": 7.0
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.2729,
+          "delta": 0.0379,
+          "mejora_pct": 12.2
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.2176,
+          "delta": 0.0932,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 15,
+      "nombre": "Estado de México",
+      "region": "Centro",
+      "irte_base": 0.31,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.31,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.2925,
+          "delta": 0.0175,
+          "mejora_pct": 5.6
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.2857,
+          "delta": 0.0243,
+          "mejora_pct": 7.8
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.2878,
+          "delta": 0.0222,
+          "mejora_pct": 7.2
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.2812,
+          "delta": 0.0288,
+          "mejora_pct": 9.3
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.217,
+          "delta": 0.093,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 28,
+      "nombre": "Tamaulipas",
+      "region": "Norte",
+      "irte_base": 0.243,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.243,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.229,
+          "delta": 0.014,
+          "mejora_pct": 5.8
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.2297,
+          "delta": 0.0133,
+          "mejora_pct": 5.5
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.2247,
+          "delta": 0.0183,
+          "mejora_pct": 7.5
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.2158,
+          "delta": 0.0272,
+          "mejora_pct": 11.2
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.1701,
+          "delta": 0.0729,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 8,
+      "nombre": "Chihuahua",
+      "region": "Norte",
+      "irte_base": 0.2392,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.2392,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.2251,
+          "delta": 0.0141,
+          "mejora_pct": 5.9
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.226,
+          "delta": 0.0132,
+          "mejora_pct": 5.5
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.2211,
+          "delta": 0.0181,
+          "mejora_pct": 7.6
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.2128,
+          "delta": 0.0264,
+          "mejora_pct": 11.0
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.1674,
+          "delta": 0.0718,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 6,
+      "nombre": "Colima",
+      "region": "Occidente",
+      "irte_base": 0.2298,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.2298,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.2185,
+          "delta": 0.0113,
+          "mejora_pct": 4.9
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.2162,
+          "delta": 0.0136,
+          "mejora_pct": 5.9
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.2155,
+          "delta": 0.0143,
+          "mejora_pct": 6.2
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.1999,
+          "delta": 0.0299,
+          "mejora_pct": 13.0
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.1608,
+          "delta": 0.069,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 22,
+      "nombre": "Querétaro",
+      "region": "Centro",
+      "irte_base": 0.2048,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.2048,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.1929,
+          "delta": 0.0119,
+          "mejora_pct": 5.8
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.1931,
+          "delta": 0.0117,
+          "mejora_pct": 5.7
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.1904,
+          "delta": 0.0144,
+          "mejora_pct": 7.0
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.1815,
+          "delta": 0.0233,
+          "mejora_pct": 11.4
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.1434,
+          "delta": 0.0614,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 26,
+      "nombre": "Sonora",
+      "region": "Noroeste",
+      "irte_base": 0.1951,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.1951,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.1843,
+          "delta": 0.0108,
+          "mejora_pct": 5.5
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.1849,
+          "delta": 0.0102,
+          "mejora_pct": 5.2
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.1822,
+          "delta": 0.0129,
+          "mejora_pct": 6.6
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.1704,
+          "delta": 0.0247,
+          "mejora_pct": 12.7
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.1366,
+          "delta": 0.0585,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 2,
+      "nombre": "Baja California",
+      "region": "Noroeste",
+      "irte_base": 0.1871,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.1871,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.1778,
+          "delta": 0.0093,
+          "mejora_pct": 5.0
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.1784,
+          "delta": 0.0087,
+          "mejora_pct": 4.6
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.1723,
+          "delta": 0.0148,
+          "mejora_pct": 7.9
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.1638,
+          "delta": 0.0233,
+          "mejora_pct": 12.5
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.131,
+          "delta": 0.0561,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 3,
+      "nombre": "Baja California Sur",
+      "region": "Noroeste",
+      "irte_base": 0.1639,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.1639,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.1577,
+          "delta": 0.0062,
+          "mejora_pct": 3.8
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.1584,
+          "delta": 0.0055,
+          "mejora_pct": 3.4
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.1555,
+          "delta": 0.0084,
+          "mejora_pct": 5.1
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.1348,
+          "delta": 0.0291,
+          "mejora_pct": 17.8
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.1147,
+          "delta": 0.0492,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 14,
+      "nombre": "Jalisco",
+      "region": "Occidente",
+      "irte_base": 0.1637,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.1637,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.156,
+          "delta": 0.0077,
+          "mejora_pct": 4.7
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.1543,
+          "delta": 0.0094,
+          "mejora_pct": 5.7
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.1509,
+          "delta": 0.0128,
+          "mejora_pct": 7.8
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.1444,
+          "delta": 0.0193,
+          "mejora_pct": 11.8
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.1146,
+          "delta": 0.0491,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 1,
+      "nombre": "Aguascalientes",
+      "region": "Centro-Norte",
+      "irte_base": 0.1521,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.1521,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.1429,
+          "delta": 0.0092,
+          "mejora_pct": 6.0
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.1421,
+          "delta": 0.01,
+          "mejora_pct": 6.6
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.144,
+          "delta": 0.0081,
+          "mejora_pct": 5.3
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.1336,
+          "delta": 0.0185,
+          "mejora_pct": 12.2
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.1065,
+          "delta": 0.0456,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 5,
+      "nombre": "Coahuila",
+      "region": "Norte",
+      "irte_base": 0.1106,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.1106,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.1049,
+          "delta": 0.0057,
+          "mejora_pct": 5.2
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.1038,
+          "delta": 0.0068,
+          "mejora_pct": 6.1
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.1038,
+          "delta": 0.0068,
+          "mejora_pct": 6.1
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.0967,
+          "delta": 0.0139,
+          "mejora_pct": 12.6
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.0774,
+          "delta": 0.0332,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 9,
+      "nombre": "Ciudad de México",
+      "region": "Centro",
+      "irte_base": 0.074,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.074,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.0715,
+          "delta": 0.0025,
+          "mejora_pct": 3.4
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.064,
+          "delta": 0.01,
+          "mejora_pct": 13.5
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.0708,
+          "delta": 0.0032,
+          "mejora_pct": 4.3
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.0676,
+          "delta": 0.0064,
+          "mejora_pct": 8.6
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.0518,
+          "delta": 0.0222,
+          "mejora_pct": 30.0
+        }
+      }
+    },
+    {
+      "clave": 19,
+      "nombre": "Nuevo León",
+      "region": "Norte",
+      "irte_base": 0.0002,
+      "scenarios": {
+        "base": {
+          "label": "Situación actual",
+          "description": "Sin cambios. Refleja los indicadores estructurales actuales.",
+          "irte_score": 0.0002,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_salud": {
+          "label": "Mejora en salud y servicios básicos",
+          "description": "Reducción del 30% en el riesgo de la dimensión salud (mortalidad, agua, saneamiento).",
+          "irte_score": 0.0001,
+          "delta": 0.0001,
+          "mejora_pct": 50.0
+        },
+        "mejora_pobreza": {
+          "label": "Reducción de pobreza",
+          "description": "Reducción del 30% en el riesgo de la dimensión pobreza.",
+          "irte_score": 0.0002,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_educacion": {
+          "label": "Mejora educativa",
+          "description": "Reducción del 30% en rezago y abandono escolar.",
+          "irte_score": 0.0002,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_genero_empleo": {
+          "label": "Mejora en género y empleo",
+          "description": "Reducción del 30% en fecundidad adolescente y mayor formalidad laboral.",
+          "irte_score": 0.0002,
+          "delta": 0.0,
+          "mejora_pct": 0.0
+        },
+        "mejora_combinada": {
+          "label": "Mejora combinada (todas las dimensiones)",
+          "description": "Reducción del 30% en riesgo de todas las dimensiones simultáneamente.",
+          "irte_score": 0.0001,
+          "delta": 0.0001,
+          "mejora_pct": 50.0
+        }
+      }
+    }
+  ]
+}

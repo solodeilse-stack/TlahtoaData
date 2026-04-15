@@ -91,15 +91,11 @@ with open(ROOT / "config/irte_weights.yaml") as f:
     cfg = yaml.safe_load(f)
 
 rows = []
-for dim, dcfg in cfg["dimensions"].items():
-    for var, vcfg in dcfg["variables"].items():
-        rows.append({
-            "Dimensión": dim,
-            "Peso dim": f"{dcfg['weight']:.0%}",
-            "Variable": var,
-            "Peso en dim": f"{vcfg['weight']:.0%}",
-            "Dirección": vcfg["directionality"],
-        })
+for dim, peso in cfg["weights"].items():
+    rows.append({
+        "Dimensión": dim,
+        "Peso": f"{peso:.0%}",
+    })
 print(pd.DataFrame(rows).to_markdown(index=False))
 ```
 
@@ -166,13 +162,9 @@ if "tasa_pobreza" in df_j2.columns and "services_deficit_avg" in df_j2.columns:
 #| echo: false
 df_un = pd.read_csv(ROOT / "data/staging/un_external_validation.csv")
 print(f"Fuente: {df_un['source'].iloc[0]}")
-print(f"Status: {df_un['data_status'].iloc[0]}")
-print(f"\nMéxico mortalidad infantil (UN): {df_un[df_un['country']=='Mexico']['infant_mortality_national'].iloc[0]}")
-
-our_min = dqr["variables"]["mortalidad_infantil"]["min"]
-our_max = dqr["variables"]["mortalidad_infantil"]["max"]
-print(f"Nuestro rango estatal:           {our_min} – {our_max}")
-print(f"Coherencia: UN (año de referencia anterior) > rango estatal actual — esperado ✓")
+print(f"Año referencia: {df_un['year'].iloc[0]}")
+print()
+print(df_un[["indicator", "mexico_value", "un_target", "source"]].to_markdown(index=False))
 ```
 
 ---
@@ -185,12 +177,11 @@ rows_dq = []
 for var, s in dqr["variables"].items():
     rows_dq.append({
         "Variable": var,
-        "Válidos": s["n_valid"],
-        "Nulos": s["n_null"],
+        "Válidos": s["count"],
+        "Nulos": s["missing"],
         "Min": s["min"],
         "Max": s["max"],
-        "Media": s["mean"],
-        "CV%": s.get("cv_pct", "N/A"),
+        "Media": round(s["mean"], 2),
     })
 print(pd.DataFrame(rows_dq).to_markdown(index=False))
 ```
@@ -202,7 +193,11 @@ print(pd.DataFrame(rows_dq).to_markdown(index=False))
 ```{python}
 #| echo: false
 df_sens = pd.read_csv(ROOT / "data/metadata/irte_sensitivity.csv")
-print(df_sens[["dimension_aumentada","estados_que_cambian_rank","delta_irte_max","interpretacion"]].to_markdown(index=False))
+# Mostrar top 5 estados con mayor delta en alguna dimensión
+delta_cols = [c for c in df_sens.columns if c.startswith("delta_")]
+df_sens["max_delta"] = df_sens[delta_cols].abs().max(axis=1)
+top = df_sens.nlargest(10, "max_delta")[["nombre", "irte_base"] + delta_cols]
+print(top.to_markdown(index=False))
 ```
 
 ---
@@ -240,7 +235,7 @@ for titulo, nota in limites:
 
 ```{python}
 #| echo: false
-print(Path("ai-log.md").read_text(encoding="utf-8"))
+print(Path("../ai-log.md").read_text(encoding="utf-8"))
 ```
 
 ---

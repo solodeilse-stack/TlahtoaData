@@ -1,0 +1,52 @@
+{
+  "profiles": [
+    {
+      "profile_id": "mateo_periferia_40",
+      "name": "Mateo",
+      "character_accent": "#023E8A",
+      "context_type": "urban_peripheral",
+      "ods_primary": [
+        "ODS6",
+        "ODS9"
+      ],
+      "active_variables": [
+        "acceso_agua_diaria",
+        "acceso_drenaje",
+        "agua_potable_red_publica",
+        "tratamiento_aguas_residuales"
+      ]
+    },
+    {
+      "profile_id": "lupita_comunidad_50",
+      "name": "Lupita",
+      "character_accent": "#7B2CBF",
+      "context_type": "gender_poverty",
+      "ods_primary": [
+        "ODS1",
+        "ODS5"
+      ],
+      "active_variables": [
+        "tasa_pobreza",
+        "tasa_pobreza_extrema",
+        "fecundidad_adolescente",
+        "participacion_laboral_femenina"
+      ]
+    },
+    {
+      "profile_id": "alex_estudiante_20",
+      "name": "Álex",
+      "character_accent": "#0077B6",
+      "context_type": "education_future",
+      "ods_primary": [
+        "ODS4",
+        "ODS10"
+      ],
+      "active_variables": [
+        "rezago_educativo",
+        "abandono_secundaria",
+        "tasa_pobreza",
+        "coeficiente_gini"
+      ]
+    }
+  ]
+}

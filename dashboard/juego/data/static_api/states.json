@@ -1,0 +1,228 @@
+{
+  "states": [
+    {
+      "clave": 7,
+      "nombre": "Chiapas",
+      "region": "Sur",
+      "irte_score": 1.0,
+      "irte_nivel": "Alto"
+    },
+    {
+      "clave": 20,
+      "nombre": "Oaxaca",
+      "region": "Sur",
+      "irte_score": 0.9016,
+      "irte_nivel": "Alto"
+    },
+    {
+      "clave": 12,
+      "nombre": "Guerrero",
+      "region": "Sur",
+      "irte_score": 0.8594,
+      "irte_nivel": "Alto"
+    },
+    {
+      "clave": 30,
+      "nombre": "Veracruz",
+      "region": "Sureste",
+      "irte_score": 0.6447,
+      "irte_nivel": "Medio-Alto"
+    },
+    {
+      "clave": 27,
+      "nombre": "Tabasco",
+      "region": "Sureste",
+      "irte_score": 0.5829,
+      "irte_nivel": "Medio-Alto"
+    },
+    {
+      "clave": 21,
+      "nombre": "Puebla",
+      "region": "Centro",
+      "irte_score": 0.5798,
+      "irte_nivel": "Medio-Alto"
+    },
+    {
+      "clave": 16,
+      "nombre": "Michoacán",
+      "region": "Occidente",
+      "irte_score": 0.5348,
+      "irte_nivel": "Medio-Alto"
+    },
+    {
+      "clave": 4,
+      "nombre": "Campeche",
+      "region": "Sureste",
+      "irte_score": 0.499,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 13,
+      "nombre": "Hidalgo",
+      "region": "Centro",
+      "irte_score": 0.4824,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 24,
+      "nombre": "San Luis Potosí",
+      "region": "Centro-Norte",
+      "irte_score": 0.4558,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 29,
+      "nombre": "Tlaxcala",
+      "region": "Centro",
+      "irte_score": 0.4408,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 32,
+      "nombre": "Zacatecas",
+      "region": "Centro-Norte",
+      "irte_score": 0.4385,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 31,
+      "nombre": "Yucatán",
+      "region": "Sureste",
+      "irte_score": 0.4174,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 18,
+      "nombre": "Nayarit",
+      "region": "Occidente",
+      "irte_score": 0.3999,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 17,
+      "nombre": "Morelos",
+      "region": "Centro",
+      "irte_score": 0.3937,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 10,
+      "nombre": "Durango",
+      "region": "Norte",
+      "irte_score": 0.3728,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 11,
+      "nombre": "Guanajuato",
+      "region": "Centro",
+      "irte_score": 0.3257,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 23,
+      "nombre": "Quintana Roo",
+      "region": "Sureste",
+      "irte_score": 0.3116,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 25,
+      "nombre": "Sinaloa",
+      "region": "Noroeste",
+      "irte_score": 0.3108,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 15,
+      "nombre": "Estado de México",
+      "region": "Centro",
+      "irte_score": 0.31,
+      "irte_nivel": "Medio"
+    },
+    {
+      "clave": 28,
+      "nombre": "Tamaulipas",
+      "region": "Norte",
+      "irte_score": 0.243,
+      "irte_nivel": "Bajo"
+    },
+    {
+      "clave": 8,
+      "nombre": "Chihuahua",
+      "region": "Norte",
+      "irte_score": 0.2392,
+      "irte_nivel": "Bajo"
+    },
+    {
+      "clave": 6,
+      "nombre": "Colima",
+      "region": "Occidente",
+      "irte_score": 0.2298,
+      "irte_nivel": "Bajo"
+    },
+    {
+      "clave": 22,
+      "nombre": "Querétaro",
+      "region": "Centro",
+      "irte_score": 0.2048,
+      "irte_nivel": "Bajo"
+    },
+    {
+      "clave": 26,
+      "nombre": "Sonora",
+      "region": "Noroeste",
+      "irte_score": 0.1951,
+      "irte_nivel": "Bajo"
+    },
+    {
+      "clave": 2,
+      "nombre": "Baja California",
+      "region": "Noroeste",
+      "irte_score": 0.1871,
+      "irte_nivel": "Bajo"
+    },
+    {
+      "clave": 3,
+      "nombre": "Baja California Sur",
+      "region": "Noroeste",
+      "irte_score": 0.1639,
+      "irte_nivel": "Bajo"
+    },
+    {
+      "clave": 14,
+      "nombre": "Jalisco",
+      "region": "Occidente",
+      "irte_score": 0.1637,
+      "irte_nivel": "Bajo"
+    },
+    {
+      "clave": 1,
+      "nombre": "Aguascalientes",
+      "region": "Centro-Norte",
+      "irte_score": 0.1521,
+      "irte_nivel": "Bajo"
+    },
+    {
+      "clave": 5,
+      "nombre": "Coahuila",
+      "region": "Norte",
+      "irte_score": 0.1106,
+      "irte_nivel": "Bajo"
+    },
+    {
+      "clave": 9,
+      "nombre": "Ciudad de México",
+      "region": "Centro",
+      "irte_score": 0.074,
+      "irte_nivel": "Bajo"
+    },
+    {
+      "clave": 19,
+      "nombre": "Nuevo León",
+      "region": "Norte",
+      "irte_score": 0.0002,
+      "irte_nivel": "Bajo"
+    }
+  ]
+}

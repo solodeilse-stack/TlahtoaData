@@ -1,0 +1,272 @@
+[
+  {
+    "ods": 1,
+    "tema": "Pobreza y Alimentación",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "El comedor comunitario abrió en tu colonia. Hoy comiste caliente sin tocar tus últimos 200 pesos.",
+        "efecto_barras": "+Economia, +Salud"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Mejoraron los apoyos, pero te enfermaste. El IMSS te citó en 3 semanas. Pagaste consulta privada.",
+        "efecto_barras": "-Economia"
+      },
+      "colapso_por_inaccion": {
+        "texto": "Ya no alcanza. Tus hijos cenaron solo tortillas con sal. Mañana tienes que ir a pedir prestado.",
+        "efecto_barras": "-Salud, -Economia"
+      }
+    }
+  },
+  {
+    "ods": 4,
+    "tema": "Educación",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Tu hija entró a la primaria nueva. Está cerca, ya no gastas en pesero ni madrugas tanto.",
+        "efecto_barras": "+TiempoLibre, +Economia"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Ampliaron escuelas, pero cerraron la guardería. Ahora pagas $2,500 al mes por cuidado infantil.",
+        "efecto_barras": "-Economia, -TiempoLibre"
+      },
+      "colapso_por_inaccion": {
+        "texto": "Tu hijo reprobó otra vez. La escuela pública está saturada. Necesita apoyo que no puedes pagar.",
+        "efecto_barras": "-TiempoLibre, -Economia"
+      }
+    }
+  },
+  {
+    "ods": 5,
+    "tema": "Igualdad de Género",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Por fin pagaron parejo. Ahora ganas lo mismo que tu compañero por el mismo trabajo. Ya era hora.",
+        "efecto_barras": "+Economia, +Salud"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Hay licencias de paternidad, pero tu pareja no la tomó. Tú faltaste al trabajo para cuidar al bebé.",
+        "efecto_barras": "-Economia, -TiempoLibre"
+      },
+      "colapso_por_inaccion": {
+        "texto": "Te acosan en el trabajo y nadie hace nada. El estrés te tiene desvelada. Ya no rindes igual.",
+        "efecto_barras": "-Salud, -TiempoLibre"
+      }
+    }
+  },
+  {
+    "ods": 6,
+    "tema": "Agua y Saneamiento",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "¡Por fin! Abriste la llave y salió agua limpia. Hoy no tuviste que madrugar para esperar la pipa.",
+        "efecto_barras": "+TiempoLibre, +Salud"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "La red municipal mejoró, pero la lluvia inundó tu patio. Gastaste tus ahorros en limpiar el lodo.",
+        "efecto_barras": "-Economia"
+      },
+      "colapso_por_inaccion": {
+        "texto": "Llevas una semana reciclando agua. Tu hijo amaneció con infección estomacal. Toca ir al seguro.",
+        "efecto_barras": "-Salud, -TiempoLibre"
+      }
+    }
+  },
+  {
+    "ods": 10,
+    "tema": "Reducción de Desigualdades",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Pusieron transporte subsidiado. Antes gastabas $80 diarios en peseros, ahora son $30. Respiras.",
+        "efecto_barras": "+Economia, +TiempoLibre"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Hay clínicas gratuitas, pero las medicinas siguen caras. Pagaste $850 por antibióticos del niño.",
+        "efecto_barras": "-Economia"
+      },
+      "colapso_por_inaccion": {
+        "texto": "El transporte subió otra vez. Llegas tarde al trabajo y te descontaron medio día. Ya van dos veces.",
+        "efecto_barras": "-Economia, -TiempoLibre"
+      }
+    }
+  },
+  {
+    "ods": 1,
+    "tema": "Pobreza y Vivienda",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Aprobaron el subsidio de renta. Pagaste $3,000 menos este mes. Alcanzó para las medicinas.",
+        "efecto_barras": "+Economia, +Salud"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Dieron créditos de vivienda, pero subieron las tasas. Tu mensualidad creció $800. Ya no alcanza.",
+        "efecto_barras": "-Economia, -Salud"
+      },
+      "colapso_por_inaccion": {
+        "texto": "El casero te amenazó con desalojarte. Necesitas juntar $15,000 en 2 semanas o a la calle.",
+        "efecto_barras": "-Salud, -TiempoLibre"
+      }
+    }
+  },
+  {
+    "ods": 4,
+    "tema": "Educación y Capacitación",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Entraste al curso gratuito de computación. Te van a aumentar en la chamba. Valió la pena.",
+        "efecto_barras": "+Economia, +TiempoLibre"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Hay becas, pero tu hija necesita laptop. Sacaste $6,500 a crédito al 45% de interés mensual.",
+        "efecto_barras": "-Economia, -Salud"
+      },
+      "colapso_por_inaccion": {
+        "texto": "Tu trabajo pidió certificación. No tienes tiempo ni dinero para estudiar. Te van a sustituir.",
+        "efecto_barras": "-Economia, -TiempoLibre"
+      }
+    }
+  },
+  {
+    "ods": 5,
+    "tema": "Género y Cuidados",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Abrieron estancias infantiles. Ya no pagas $3,000 de guardería pirata. Tu hija está segura.",
+        "efecto_barras": "+Economia, +Salud"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Hay programas de apoyo, pero solo si trabajas formal. Tú estás en el ambulantaje. Te quedaste fuera.",
+        "efecto_barras": "-TiempoLibre, -Salud"
+      },
+      "colapso_por_inaccion": {
+        "texto": "Renunciaste. Entre el trabajo y cuidar a tu mamá enferma no aguantas. Ya no tienes seguro médico.",
+        "efecto_barras": "-Economia, -Salud"
+      }
+    }
+  },
+  {
+    "ods": 6,
+    "tema": "Agua e Higiene",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Instalaron drenaje en tu calle. Ya no huele a caño roto. Tus hijos dejaron de enfermarse tanto.",
+        "efecto_barras": "+Salud, +Economia"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Arreglaron tuberías, pero te cobraron $2,800 de reconexión. Empeñaste la tele para pagarla.",
+        "efecto_barras": "-Economia"
+      },
+      "colapso_por_inaccion": {
+        "texto": "La fuga siguió. Ahora la humedad te provocó hongos respiratorios. Necesitas tratamiento de 6 meses.",
+        "efecto_barras": "-Salud, -Economia"
+      }
+    }
+  },
+  {
+    "ods": 10,
+    "tema": "Desigualdad y Servicios",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Pusieron alumbrado público. Ya no llegas con miedo a casa. Tu hija puede salir a jugar de noche.",
+        "efecto_barras": "+Salud, +TiempoLibre"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Mejoraron servicios en el centro, pero en tu colonia sigue igual. Pagas $400 al mes de vigilancia privada.",
+        "efecto_barras": "-Economia"
+      },
+      "colapso_por_inaccion": {
+        "texto": "Te asaltaron en el camión. Perdiste el celular y $500 que eran para la despensa. Otra vez de ceros.",
+        "efecto_barras": "-Economia, -Salud"
+      }
+    }
+  },
+  {
+    "ods": 1,
+    "tema": "Pobreza y Emergencias",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Lograste entrar al programa de apoyo. Te llegaron $2,400. Pagaste luz y compraste despensa.",
+        "efecto_barras": "+Economia, +Salud"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Llegó el apoyo, pero el banco te cobró $180 de comisión por retirarlo. Te quitan hasta el suspiro.",
+        "efecto_barras": "-Economia"
+      },
+      "colapso_por_inaccion": {
+        "texto": "Te cortaron la luz por deuda. Llevas 4 días sin refrigerador. Se echó a perder la comida.",
+        "efecto_barras": "-Economia, -Salud"
+      }
+    }
+  },
+  {
+    "ods": 4,
+    "tema": "Educación e Infraestructura",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Repararon la escuela. Ya tiene baños limpios y ventanas. Tu hijo ya no se enferma cada semana.",
+        "efecto_barras": "+Salud, +TiempoLibre"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "La escuela tiene tablets, pero piden $800 de cooperación anual. Tuviste que pedirle prestado al patrón.",
+        "efecto_barras": "-Economia"
+      },
+      "colapso_por_inaccion": {
+        "texto": "La escuela sigue en ruinas. Suspendieron clases por goteras. Perdiste 2 días de trabajo cuidándolos.",
+        "efecto_barras": "-Economia, -TiempoLibre"
+      }
+    }
+  },
+  {
+    "ods": 5,
+    "tema": "Género y Violencia",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Instalaron botones de pánico en el metro. Te sientes más segura en el transporte. Ya no tanto miedo.",
+        "efecto_barras": "+Salud, +TiempoLibre"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Hay refugios, pero están llenos. Sigues viviendo con tu agresor. El estrés te tiene al límite.",
+        "efecto_barras": "-Salud, -TiempoLibre"
+      },
+      "colapso_por_inaccion": {
+        "texto": "Ya no soportas el acoso callejero diario. Cambias de ruta y tardas 1 hora más. Llegas agotada.",
+        "efecto_barras": "-TiempoLibre, -Salud"
+      }
+    }
+  },
+  {
+    "ods": 6,
+    "tema": "Agua y Calidad",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Instalaron filtros en la red. El agua ya no sale café. Dejaste de comprar garrafones cada 3 días.",
+        "efecto_barras": "+Economia, +Salud"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "El agua es potable, pero sigues sin confiar. Compras garrafones igual. Son $90 a la semana.",
+        "efecto_barras": "-Economia"
+      },
+      "colapso_por_inaccion": {
+        "texto": "Tus hijos toman agua de la llave porque no hay dinero para garrafones. Otra vez con diarrea.",
+        "efecto_barras": "-Salud, -Economia"
+      }
+    }
+  },
+  {
+    "ods": 10,
+    "tema": "Desigualdad y Empleo",
+    "textos_feedback": {
+      "mejora_directa": {
+        "texto": "Te contrataron formal. Ahora tienes IMSS, aguinaldo y vacaciones. Por fin un respiro económico.",
+        "efecto_barras": "+Economia, +Salud"
+      },
+      "deterioro_por_carta_vida": {
+        "texto": "Hay empleos formales, pero piden experiencia que no tienes. Sigues en el comercio informal sin prestaciones.",
+        "efecto_barras": "-Salud, -TiempoLibre"
+      },
+      "colapso_por_inaccion": {
+        "texto": "Te despidieron sin liquidación. Tienes 53 años. Nadie te contrata. Venderás tamales en la esquina.",
+        "efecto_barras": "-Economia, -Salud"
+      }
+    }
+  }
+]

@@ -1,0 +1,434 @@
+[
+  {
+    "id": "tasa_pobreza",
+    "titulo": "Tasa de pobreza",
+    "ods": 1,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONEVAL_2022"
+  },
+  {
+    "id": "tasa_pobreza_extrema",
+    "titulo": "Pobreza extrema",
+    "ods": 1,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONEVAL_2022"
+  },
+  {
+    "id": "carencia_alimentaria",
+    "titulo": "Carencia alimentaria",
+    "ods": 1,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONEVAL_2022"
+  },
+  {
+    "id": "carencia_salud",
+    "titulo": "Carencia en salud",
+    "ods": 1,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONEVAL_2022"
+  },
+  {
+    "id": "carencia_vivienda",
+    "titulo": "Carencia de vivienda",
+    "ods": 1,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONEVAL_2022"
+  },
+  {
+    "id": "carencia_servicios",
+    "titulo": "Carencia de servicios básicos",
+    "ods": 1,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONEVAL_2022"
+  },
+  {
+    "id": "indice_marginacion",
+    "titulo": "Índice de marginación",
+    "ods": 1,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONAPO_2020"
+  },
+  {
+    "id": "rezago_educativo",
+    "titulo": "Rezago educativo",
+    "ods": 4,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONEVAL_2022"
+  },
+  {
+    "id": "abandono_secundaria",
+    "titulo": "Abandono escolar",
+    "ods": 4,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "SEP_2023"
+  },
+  {
+    "id": "matricula_educacion_basica",
+    "titulo": "Matrícula educación básica",
+    "ods": 4,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "SEP_SIGED_2023"
+  },
+  {
+    "id": "eficiencia_terminal_primaria",
+    "titulo": "Eficiencia terminal primaria",
+    "ods": 4,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "SEP_2023"
+  },
+  {
+    "id": "absorcion_media_superior",
+    "titulo": "Absorción media superior",
+    "ods": 4,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "SEP_2023"
+  },
+  {
+    "id": "escolaridad_promedio",
+    "titulo": "Escolaridad promedio",
+    "ods": 4,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "INEGI_2020"
+  },
+  {
+    "id": "docentes_por_alumno",
+    "titulo": "Docentes por alumno",
+    "ods": 4,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "MEJOREDU_2023"
+  },
+  {
+    "id": "fecundidad_adolescente",
+    "titulo": "Embarazo adolescente",
+    "ods": 5,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONAPO_2022"
+  },
+  {
+    "id": "paridad_cargos",
+    "titulo": "Paridad en cargos públicos",
+    "ods": 5,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "INEGI_2020"
+  },
+  {
+    "id": "carga_trabajo_domestico",
+    "titulo": "Carga de trabajo doméstico",
+    "ods": 5,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "INEGI_ENUT_2019"
+  },
+  {
+    "id": "violencia_mujeres_vida",
+    "titulo": "Violencia contra mujeres (vida)",
+    "ods": 5,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "INEGI_ENDIREH_2021"
+  },
+  {
+    "id": "brecha_salarial_genero",
+    "titulo": "Brecha salarial de género",
+    "ods": 5,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "INEGI_ENOE_2023"
+  },
+  {
+    "id": "feminicidio_tasa",
+    "titulo": "Tasa de feminicidio",
+    "ods": 5,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "SESNSP_2023"
+  },
+  {
+    "id": "participacion_laboral_femenina",
+    "titulo": "Participación laboral femenina",
+    "ods": 5,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "INEGI_ENOE_2023"
+  },
+  {
+    "id": "acceso_agua_diaria",
+    "titulo": "Acceso a agua diaria",
+    "ods": 6,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONEVAL_2022"
+  },
+  {
+    "id": "acceso_drenaje",
+    "titulo": "Acceso a drenaje",
+    "ods": 6,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "INEGI_CENSO_2020"
+  },
+  {
+    "id": "estres_hidrico",
+    "titulo": "Estrés hídrico por cuenca",
+    "ods": 6,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONAGUA_SINA_2022"
+  },
+  {
+    "id": "agua_potable_red_publica",
+    "titulo": "Agua potable por red pública",
+    "ods": 6,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "INEGI_CENSO_2020"
+  },
+  {
+    "id": "tratamiento_aguas_residuales",
+    "titulo": "Tratamiento de aguas residuales",
+    "ods": 6,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONAGUA_SIH_2022"
+  },
+  {
+    "id": "disponibilidad_agua_percapita",
+    "titulo": "Disponibilidad agua per cápita",
+    "ods": 6,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONAGUA_SINA_2022"
+  },
+  {
+    "id": "pozos_sobreexplotados",
+    "titulo": "Acuíferos sobreexplotados",
+    "ods": 6,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONAGUA_SINA_2022"
+  },
+  {
+    "id": "coeficiente_gini",
+    "titulo": "Coeficiente Gini",
+    "ods": 10,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONEVAL_2022"
+  },
+  {
+    "id": "bottom40_ingreso_participacion",
+    "titulo": "Participación ingreso Bottom 40",
+    "ods": 10,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "INEGI_ENIGH_2022"
+  },
+  {
+    "id": "polarizacion_territorial",
+    "titulo": "Polarización territorial",
+    "ods": 10,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONEVAL_COHESION_2020"
+  },
+  {
+    "id": "movilidad_social_relativa",
+    "titulo": "Movilidad social relativa",
+    "ods": 10,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CEEY_2019"
+  },
+  {
+    "id": "brecha_urbano_rural_ingreso",
+    "titulo": "Brecha urbano-rural de ingreso",
+    "ods": 10,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "INEGI_ENIGH_2022"
+  },
+  {
+    "id": "cohesion_social_indice",
+    "titulo": "Índice de cohesión social",
+    "ods": 10,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "CONEVAL_COHESION_2020"
+  },
+  {
+    "id": "concentracion_ingreso_top10",
+    "titulo": "Concentración de ingreso Top 10%",
+    "ods": 10,
+    "dureza": "base",
+    "valor": "—",
+    "fuente": "INEGI_ENIGH_2022"
+  },
+  {
+    "id": "gini_bm_comparativo",
+    "titulo": "Gini comparativo Banco Mundial",
+    "ods": 1,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "BANCO_MUNDIAL_2022"
+  },
+  {
+    "id": "pip_tasa_pobreza_global",
+    "titulo": "Tasa de pobreza global PIP",
+    "ods": 1,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "BM_PIP_2022"
+  },
+  {
+    "id": "bottom40_lac_ingreso",
+    "titulo": "Bottom 40 en América Latina",
+    "ods": 1,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "BANCO_MUNDIAL_LAC_2022"
+  },
+  {
+    "id": "pisa_score_matematicas",
+    "titulo": "PISA: puntaje en matemáticas",
+    "ods": 4,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "OCDE_PISA_2022"
+  },
+  {
+    "id": "oecd_escolaridad_promedio_paises",
+    "titulo": "Escolaridad promedio OCDE",
+    "ods": 4,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "OCDE_EAG_2023"
+  },
+  {
+    "id": "unesco_alfabetizacion_adultos",
+    "titulo": "Alfabetización adultos UNESCO",
+    "ods": 4,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "UNESCO_2022"
+  },
+  {
+    "id": "oecd_brecha_salarial_paises",
+    "titulo": "Brecha salarial OCDE comparada",
+    "ods": 5,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "OCDE_2023"
+  },
+  {
+    "id": "onu_violencia_genero_global",
+    "titulo": "Violencia de género global ONU",
+    "ods": 5,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "ONU_WOMEN_2022"
+  },
+  {
+    "id": "brechas_lac_pnud_genero",
+    "titulo": "Índice de género LAC PNUD",
+    "ods": 5,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "PNUD_LAC_2022"
+  },
+  {
+    "id": "unwater_acceso_agua_global",
+    "titulo": "Acceso a agua potable global",
+    "ods": 6,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "UN_WATER_2022"
+  },
+  {
+    "id": "oecd_tratamiento_agua_paises",
+    "titulo": "Tratamiento agua residual OCDE",
+    "ods": 6,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "OCDE_ENV_2022"
+  },
+  {
+    "id": "who_agua_potable_segura",
+    "titulo": "Agua potable segura WHO",
+    "ods": 6,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "WHO_2022"
+  },
+  {
+    "id": "oecd_gini_paises_miembros",
+    "titulo": "Gini países miembros OCDE",
+    "ods": 10,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "OCDE_2023"
+  },
+  {
+    "id": "bm_desigualdad_oportunidades",
+    "titulo": "Desigualdad de oportunidades BM",
+    "ods": 10,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "BANCO_MUNDIAL_2022"
+  },
+  {
+    "id": "lac_equity_index",
+    "titulo": "Índice de equidad LAC",
+    "ods": 10,
+    "dureza": "comparativo",
+    "valor": "—",
+    "fuente": "CEPAL_2022"
+  },
+  {
+    "id": "irte_score",
+    "titulo": "IRTE — Índice de Riesgo de Trayectoria",
+    "ods": 1,
+    "dureza": "derivado",
+    "valor": "—",
+    "fuente": "TLAHTOA_IRTE_2022"
+  },
+  {
+    "id": "ips_score",
+    "titulo": "IPS — Índice de Progreso Social",
+    "ods": 1,
+    "dureza": "derivado",
+    "valor": "—",
+    "fuente": "MEXICOCOMOVAMOS_IPS_2022"
+  },
+  {
+    "id": "score_vulnerabilidad",
+    "titulo": "Score de Vulnerabilidad Territorial",
+    "ods": 1,
+    "dureza": "derivado",
+    "valor": "—",
+    "fuente": "TLAHTOA_DERIVED_2022"
+  },
+  {
+    "id": "bottom40_mx_derivado",
+    "titulo": "Bottom 40 México — Índice compuesto",
+    "ods": 1,
+    "dureza": "derivado",
+    "valor": "—",
+    "fuente": "TLAHTOA_BM_DERIVED_2022"
+  }
+]

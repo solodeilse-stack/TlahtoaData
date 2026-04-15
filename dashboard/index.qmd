@@ -14,14 +14,6 @@ execute:
   warning: false
 aliases:
   - /index.html
-resources:
-  - assets/chica.png
-  - assets/chico.png
-  - assets/fondo.png
-  - assets/Bebe.png
-  - assets/Ninez.png
-  - assets/Escuela.png
-  - assets/Trabajo.png
 ---
 
 <!--
@@ -41,15 +33,15 @@ resources:
 
 ```{=html}
 <div style="text-align:center; margin: 2rem 0;">
-  <a href="loteria.html" 
-     style="display:inline-block; background:#B8432A; color:#EBE4D1; 
+  <a href="juego/index.html"
+     style="display:inline-block; background:#B8432A; color:#EBE4D1;
             font-family:'Abril Fatface',serif; font-size:1.4rem;
             padding:1rem 2.5rem; border-radius:8px; text-decoration:none;
             border:3px solid #141414; box-shadow:4px 4px 0 #141414;">
-    🎴 Jugar Lotería de la Vida
+    🎴 Jugar Loteria de la Vida
   </a>
   <p style="margin-top:1rem; color:#666; font-size:.9rem;">
-    Selecciona un estado y recorre una trayectoria de vida con datos reales.
+    Elige un personaje, un estado y recorre una trayectoria de vida con datos reales.
   </p>
 </div>
 ```
