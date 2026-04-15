@@ -29,17 +29,17 @@ resources:
 
 ```{ojs}
 //| echo: false
-datos = FileAttachment("../datos/raw/state_panel.json").json()
+datos = FileAttachment("../data/processed/state_panel.json").json()
 ```
 
 ```{ojs}
 //| echo: false
-scenariosData = FileAttachment("../datos/raw/scenario_templates.json").json()
+scenariosData = FileAttachment("../data/processed/scenario_templates.json").json()
 ```
 
 ```{ojs}
 //| echo: false
-irteCSV = FileAttachment("../datos/raw/irte_por_estado.csv").csv({typed: true})
+irteCSV = FileAttachment("../data/processed/irte_por_estado.csv").csv({typed: true})
 ```
 
 ```{ojs}
@@ -667,7 +667,7 @@ import unicodedata
 import pandas as pd
 import plotly.express as px
 
-with open("../datos/raw/state_panel.json", encoding="utf-8") as f:
+with open("../data/processed/state_panel.json", encoding="utf-8") as f:
     panel = json.load(f)
 
 with open("mexico.geojson", encoding="utf-8") as f:

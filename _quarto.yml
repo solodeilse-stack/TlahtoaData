@@ -15,7 +15,6 @@ project:
 website:
   title: "Tlahtoa Data"
   description: "Observatorio Narrativo de Trayectorias de Desigualdad en México"
-  favicon: dashboard/assets/favicon.ico
   navbar:
     left:
       - href: dashboard/index.qmd
