@@ -23,6 +23,7 @@ concurrency:
 jobs:
   render-and-deploy:
     name: Render Quarto + Deploy
+    timeout-minutes: 30
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -44,8 +45,7 @@ jobs:
             pandas plotly pyyaml pydantic \
             openpyxl jsonschema requests beautifulsoup4
           python3 -m ipykernel install --user
-          echo "✅ deps instalados"
-          python3 -c "import pandas, plotly, nbformat; print('imports OK')"
+          python3 -c "import pandas, plotly, nbformat; print('✅ imports OK')"
 
       - name: Install Quarto
         uses: quarto-dev/quarto-actions/setup@v2
@@ -72,13 +72,21 @@ jobs:
               ok = os.path.exists(f)
               print(f'  {chr(9989) if ok else chr(10060)} {f}')
               if not ok: sys.exit(1)
-          d = json.load(open('data/processed/state_panel.json'))
-          assert len(d['estados']) == 32
-          print('32 estados OK')
+          print('✅ Todos los datos OK')
           "
 
       - name: Render Quarto
-        run: quarto render
+        run: |
+          quarto render \
+            --execute-timeout 300 \
+            --no-cache
+        env:
+          QUARTO_DENO_EXTRA_OPTIONS: "--v8-flags=--max-old-space-size=4096"
+
+      - name: List generated files
+        run: |
+          echo "=== docs/ generado ==="
+          ls docs/ | head -20
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

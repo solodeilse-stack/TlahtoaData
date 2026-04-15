@@ -42,6 +42,11 @@ format:
       text: |
         <meta name="description" content="Observatorio de trayectorias de desigualdad estructural en México">
 
+execute:
+  freeze: false
+  timeout: 300
+
+
 # ── Render strategy ───────────────────────────────────────────────────────────
 # Primary (team with Quarto installed):
 #   quarto render
